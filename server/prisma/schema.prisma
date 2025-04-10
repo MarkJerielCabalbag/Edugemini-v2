@@ -31,7 +31,7 @@ model Student {
   approvalStatus String
   profile String
 
-  listOfEnrolledClassrooms Classroom[]
+  listOfEnrolledClassrooms Classroom[] // This creates a many-to-many relationship
   listOfClasswork Classwork[]
 }
 
@@ -61,6 +61,10 @@ model Files{
 
   relatedToAnnouncement Announcements @relation(fields: [announceId], references: [id],onDelete: Cascade )
   announceId Int
+
+  relatedToClasswork Classwork @relation(fields: [classworkId], references: [id], onDelete: Cascade)
+  classworkId Int
+  
 }
 
 
@@ -86,18 +90,29 @@ model Classroom {
   relatedToProfessor Professor @relation(fields: [profId], references: [id], onDelete: Cascade)
   profId Int
 
-  enrolledStudents Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
-  studentId Int
-
+  enrolledStudents Student[] // Changed to many-to-many
+  
   listOfCreatedClassworkType ClassworkType[]
-
   listOfCreatedAnnouncements Announcements[]
+  listOfClasswork Classwork[] // Add this to connect classwork to classroom
 }
 
 model Classwork {
   id Int @id @default(autoincrement())
+  title String
+  description String
+  dueDate DateTime
+  
+  // Student who submitted the work
   madeByStudent Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
   studentId Int
+
+  // Classroom the work belongs to
+  classroom Classroom @relation(fields: [classroomId], references: [id], onDelete: Cascade)
+  classroomId Int
+
+  // Files submitted as outputs
+  listOfOutputs Files[]
 }
 
 

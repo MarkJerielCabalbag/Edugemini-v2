@@ -1,0 +1,113 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+model User {
+  id       Int    @id @default(autoincrement())
+  email    String @unique
+  username String
+  password String
+}
+
+model Student {
+  id             Int    @id @default(autoincrement())
+  firstname      String
+  middlename     String
+  lastname       String
+  gender         String
+  approvalStatus String
+  profile        String
+
+  listOfEnrolledClassrooms Classroom[] // This creates a many-to-many relationship
+  listOfClasswork          Classwork[]
+}
+
+model Professor {
+  id       Int    @id @default(autoincrement())
+  fullname String
+  profile  String
+
+  listOfCreatedClassrooms Classroom[]
+}
+
+model ClassworkType {
+  id            Int    @id @default(autoincrement())
+  classworkType String
+
+  relatedToClassroom Classroom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId             Int
+}
+
+model Files {
+  id       Int    @id @default(autoincrement())
+  filename String
+  path     String
+  mimeType String
+  size     Int
+
+  relatedToAnnouncement Announcements @relation(fields: [announceId], references: [id], onDelete: Cascade)
+  announceId            Int
+
+  relatedToClasswork Classwork @relation(fields: [classworkId], references: [id], onDelete: Cascade)
+  classworkId        Int
+}
+
+model Announcements {
+  id          Int     @id @default(autoincrement())
+  title       String
+  description String
+  listOfFiles Files[]
+
+  relatedToClassroom Classroom @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId             Int
+}
+
+model Classroom {
+  id                  Int    @id @default(autoincrement())
+  classname           String
+  subject             String
+  section             String
+  room                String
+  classCode           String @default(cuid())
+  adminApprovalStatus String
+
+  relatedToProfessor Professor @relation(fields: [profId], references: [id], onDelete: Cascade)
+  profId             Int
+
+  enrolledStudents Student[] // Changed to many-to-many
+
+  listOfCreatedClassworkType ClassworkType[]
+  listOfCreatedAnnouncements Announcements[]
+  listOfClasswork            Classwork[] // Add this to connect classwork to classroom
+}
+
+model Classwork {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  dueDate     DateTime
+
+  // Student who submitted the work
+  madeByStudent Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  studentId     Int
+
+  // Classroom the work belongs to
+  classroom   Classroom @relation(fields: [classroomId], references: [id], onDelete: Cascade)
+  classroomId Int
+
+  // Files submitted as outputs
+  listOfOutputs Files[]
+}
