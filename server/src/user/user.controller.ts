@@ -14,31 +14,36 @@ import { Prisma, User } from 'generated/prisma';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  create(@Body() createUserDto: Prisma.UserCreateInput): Promise<User> {
-    return this.userService.create(createUserDto);
+  @Post('signUp')
+  signUp(@Body() createUserDto: Prisma.UserCreateInput): Promise<User> {
+    return this.userService.signUp(createUserDto);
   }
 
-  @Get()
-  findAll() {
-    return this.userService.findAll();
+  @Post('signIn')
+  signIn(@Body() userDto: Partial<User>): Promise<void> {
+    return this.userService.signIn(userDto);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
-  }
+  // @Get()
+  // findAll() {
+  //   return this.userService.findAll();
+  // }
 
-  @Patch(':id')
-  update(
-    @Param('id') id: string,
-    @Body() updateUserDto: Prisma.UserUpdateInput,
-  ) {
-    return this.userService.update(+id, updateUserDto);
-  }
+  // @Get(':id')
+  // findOne(@Param('id') id: string) {
+  //   return this.userService.findOne(+id);
+  // }
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
-  }
+  // @Patch(':id')
+  // update(
+  //   @Param('id') id: string,
+  //   @Body() updateUserDto: Prisma.UserUpdateInput,
+  // ) {
+  //   return this.userService.update(+id, updateUserDto);
+  // }
+
+  // @Delete(':id')
+  // remove(@Param('id') id: string) {
+  //   return this.userService.remove(+id);
+  // }
 }
