@@ -34,6 +34,16 @@ model Classroom {
   status      ClassroomStatus    @default(PENDING)
   relatedToUser User @relation(fields: [userId], references: [id])
   userId      Int
+
+  listOfAnnouncements Announcement[]
+}
+
+model Announcement {
+  id                  Int         @id      @default(autoincrement())
+  title               String
+  description         String?
+  relatedToClassroom  Classroom   @relation(fields: [roomId], references: [id])
+  roomId              Int
 }
 
 enum ClassroomStatus {

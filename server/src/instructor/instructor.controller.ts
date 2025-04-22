@@ -23,10 +23,15 @@ export class InstructorController {
     return this.instructorService.createClassroom(createClassroomDto, +id);
   }
 
-  // @Get()
-  // findAll() {
-  //   return this.instructorService.findAll();
-  // }
+  //@DESC   Create Announcement related to classroom
+  //@ROUTE  instructor/createAnnouncement/:roomId
+
+  @Post('createAnnouncement/:roomId')
+  createAnnouncement(
+    @Param('roomId', ParseIntPipe) roomId: number,
+  ): Promise<void> {
+    return this.instructorService.createAnnouncement(roomId);
+  }
 
   // @Get(':id')
   // findOne(@Param('id') id: string) {

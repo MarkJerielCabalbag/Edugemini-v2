@@ -65,9 +65,7 @@ export class InstructorService {
     );
   }
 
-  // findAll() {
-  //   return `This action returns all instructor`;
-  // }
+  async createAnnouncement(roomId: number) {}
 
   // findOne(id: number) {
   //   return `This action returns a #${id} instructor`;

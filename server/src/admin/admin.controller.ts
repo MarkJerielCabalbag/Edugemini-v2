@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { AdminService } from './admin.service';
 import { Prisma } from 'generated/prisma';
@@ -14,10 +15,15 @@ import { Prisma } from 'generated/prisma';
 export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
-  // @Post()
-  // approveClassroom(@Body() approvedClassroomDto: Prisma.ClassroomUpdateInput) {
-  //   return this.adminService.approveClassroom(approvedClassroomDto);
-  // }
+  @Post('approvedClassroom/:id')
+  approveClassroom(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.adminService.approveClassroom(+id);
+  }
+
+  @Post('declinedClassroom/:id')
+  declinedClassroom(@Param('id', ParseIntPipe) id: number): Promise<void> {
+    return this.adminService.declinedClassroom(+id);
+  }
 
   // @Get()
   // findAll() {
