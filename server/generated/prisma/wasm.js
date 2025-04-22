@@ -124,6 +124,17 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password'
 };
 
+exports.Prisma.ClassroomScalarFieldEnum = {
+  id: 'id',
+  classname: 'classname',
+  section: 'section',
+  subject: 'subject',
+  room: 'room',
+  classcode: 'classcode',
+  status: 'status',
+  userId: 'userId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -138,10 +149,15 @@ exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
 };
-
+exports.ClassroomStatus = exports.$Enums.ClassroomStatus = {
+  PENDING: 'PENDING',
+  DECLINED: 'DECLINED',
+  APPROVED: 'APPROVED'
+};
 
 exports.Prisma.ModelName = {
-  User: 'User'
+  User: 'User',
+  Classroom: 'Classroom'
 };
 
 /**

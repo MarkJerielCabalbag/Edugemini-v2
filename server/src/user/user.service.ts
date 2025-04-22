@@ -1,10 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { IsEmail } from 'class-validator';
 import { Prisma, User } from 'generated/prisma';
 import { DatabaseService } from 'src/database/database.service';
 import * as bcrypt from 'bcrypt';
-import { ExceptionsHandler } from '@nestjs/core/exceptions/exceptions-handler';
-import { stat } from 'fs';
+
 @Injectable()
 export class UserService {
   constructor(private readonly databaseService: DatabaseService) {}
@@ -106,20 +104,4 @@ export class UserService {
       );
     }
   }
-
-  // async findAll() {
-  //   return `This action returns all user`;
-  // }
-
-  // async findOne(id: number) {
-  //   return `This action returns a #${id} user`;
-  // }
-
-  // async update(id: number, updateUserDto: Prisma.UserUpdateInput) {
-  //   return `This action updates a #${id} user`;
-  // }
-
-  // async remove(id: number) {
-  //   return `This action removes a #${id} user`;
-  // }
 }

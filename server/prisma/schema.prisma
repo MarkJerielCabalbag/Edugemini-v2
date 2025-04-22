@@ -20,4 +20,24 @@ model User {
   username    String    
   email       String
   password    String?
+
+  listOfCreatedClassroom Classroom[]
+}
+
+model Classroom {
+  id          Int       @id      @default(autoincrement())
+  classname   String
+  section     String
+  subject     String
+  room        String
+  classcode   String?
+  status      ClassroomStatus    @default(PENDING)
+  relatedToUser User @relation(fields: [userId], references: [id])
+  userId      Int
+}
+
+enum ClassroomStatus {
+  PENDING
+  DECLINED
+  APPROVED
 }
