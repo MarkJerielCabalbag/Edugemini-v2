@@ -1,5 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { Prisma } from 'generated/prisma';
+import { error } from 'console';
+import { Announcement, Prisma } from 'generated/prisma';
 import { DatabaseService } from 'src/database/database.service';
 import * as uuid from 'uuid';
 @Injectable()
@@ -65,7 +66,41 @@ export class InstructorService {
     );
   }
 
-  async createAnnouncement(roomId: number) {}
+  async createAnnouncement(
+    roomId: number,
+    files: Express.Multer.File,
+    announcementDto: Partial<Announcement>,
+  ) {
+    if (!announcementDto.title) {
+      throw new HttpException(
+        {
+          error: 'Please fill the title',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const isAnnoucementExist =
+      await this.databaseService.announcement.findFirst({
+        where: {
+          title: announcementDto.title,
+          relatedToClassroom: {
+            id: roomId,
+          },
+        },
+      });
+
+    if (isAnnoucementExist) {
+      throw new HttpException(
+        {
+          error: `The title ${announcementDto.title} is already exist`,
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    console.log(files);
+  }
 
   // findOne(id: number) {
   //   return `This action returns a #${id} instructor`;

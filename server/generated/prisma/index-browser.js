@@ -142,6 +142,14 @@ exports.Prisma.AnnouncementScalarFieldEnum = {
   roomId: 'roomId'
 };
 
+exports.Prisma.FilesScalarFieldEnum = {
+  id: 'id',
+  filename: 'filename',
+  mimetype: 'mimetype',
+  fileSize: 'fileSize',
+  announceId: 'announceId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -165,7 +173,8 @@ exports.ClassroomStatus = exports.$Enums.ClassroomStatus = {
 exports.Prisma.ModelName = {
   User: 'User',
   Classroom: 'Classroom',
-  Announcement: 'Announcement'
+  Announcement: 'Announcement',
+  Files: 'Files'
 };
 
 /**
