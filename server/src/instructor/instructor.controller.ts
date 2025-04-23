@@ -5,16 +5,16 @@ import {
   Param,
   ParseIntPipe,
   UseInterceptors,
-  UploadedFiles,
+  UploadedFile,
 } from '@nestjs/common';
 import { InstructorService } from './instructor.service';
 import { Announcement, Prisma } from 'generated/prisma';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage, Multer } from 'multer';
-import { Request, Response } from 'express';
+import { diskStorage } from 'multer';
 import { DatabaseService } from 'src/database/database.service';
-import { join } from 'path';
-import { existsSync, mkdirSync } from 'fs';
+import { FileInterceptor } from '@nestjs/platform-express';
+import { mkdirSync } from 'fs';
+import { DynamicMulterInterceptor } from 'src/shared/interceptor/dynamic-multer.interceptor';
+
 @Controller('instructor')
 export class InstructorController {
   constructor(
@@ -33,40 +33,32 @@ export class InstructorController {
   //@DESC   Create Announcement related to classroom
   //@ROUTE  instructor/createAnnouncement/:roomId
 
-  @Post('createAnnouncement/:roomId')
+  @Post('createAnnouncement/:roomId/:title')
   @UseInterceptors(
-    FileInterceptor('file', {
-      storage: diskStorage({
-        destination: (req, file, cb) => {
-          const roomId = req.params.roomId;
+    DynamicMulterInterceptor(async (req, prisma) => {
+      const roomId = Number(req.params.roomId);
+      const title = req.params.title;
+      const classroom = await prisma.classroom.findUnique({
+        where: { id: roomId },
+      });
+      if (!classroom) throw new Error('Classroom not found');
 
-          const uploadPath = join(
-            process.cwd(),
-            'uploads',
-            `classroom_${roomId}`,
-          );
+      console.log(title);
 
-          if (!existsSync(uploadPath)) {
-            mkdirSync(uploadPath, { recursive: true });
-          }
-
-          cb(null, uploadPath);
-        },
-        filename: (req, file, cb) => {
-          cb(null, `${Date.now()}-${file.originalname}`);
-        },
-      }),
+      return `uploads/${classroom.classname}/announcements/${title}`;
     }),
   )
-  createAnnouncement(
+  async createAnnouncement(
     @Param('roomId', ParseIntPipe) roomId: number,
-    @UploadedFiles() files: Express.Multer.File,
+    @Param('title') title: string,
+    @UploadedFile() file: Express.Multer.File,
     @Body() announcementDto: Partial<Announcement>,
   ): Promise<void> {
     return this.instructorService.createAnnouncement(
       +roomId,
-      files,
+      file,
       announcementDto,
+      title,
     );
   }
 
