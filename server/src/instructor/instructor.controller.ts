@@ -6,11 +6,12 @@ import {
   ParseIntPipe,
   UseInterceptors,
   UploadedFile,
+  UploadedFiles,
 } from '@nestjs/common';
 import { InstructorService } from './instructor.service';
 import { Activity, Announcement, Prisma } from 'generated/prisma';
 import { DatabaseService } from 'src/database/database.service';
-import { DynamicMulterInterceptor } from 'src/shared/interceptor/dynamic-multer.interceptor';
+import { DynamicMulterInterceptorFactory } from 'src/shared/interceptor/dynamic-multer.interceptor';
 
 @Controller('instructor')
 export class InstructorController {
@@ -33,15 +34,15 @@ export class InstructorController {
   //@ROUTE  instructor/createAnnouncement/:roomId/:title
   @Post('createAnnouncement/:roomId/:title')
   @UseInterceptors(
-    DynamicMulterInterceptor(async (req, prisma) => {
+    DynamicMulterInterceptorFactory('files', true, async (req, prisma) => {
       const roomId = Number(req.params.roomId);
       const title = req.params.title;
+
       const classroom = await prisma.classroom.findUnique({
         where: { id: roomId },
       });
-      if (!classroom) throw new Error('Classroom not found');
 
-      console.log(title);
+      if (!classroom) throw new Error('Classroom not found');
 
       return `uploads/${classroom.classname}/announcements/${title}`;
     }),
@@ -49,12 +50,13 @@ export class InstructorController {
   async createAnnouncement(
     @Param('roomId', ParseIntPipe) roomId: number,
     @Param('title') title: string,
-    @UploadedFile() file: Express.Multer.File,
+    @UploadedFiles() files: Express.Multer.File[],
     @Body() announcementDto: Partial<Announcement>,
   ): Promise<void> {
+    console.log(files);
     return this.instructorService.createAnnouncement(
       +roomId,
-      file,
+      files,
       announcementDto,
       title,
     );
@@ -72,14 +74,79 @@ export class InstructorController {
   //@DESC   Create Activity that is related to classroom
   //@ROUTE  instructor/createActivity/:roomId/title
   @Post('createActivity/:roomId/:title')
+  @UseInterceptors(
+    DynamicMulterInterceptorFactory('file', false, async (req, prisma) => {
+      const { roomId, title } = req.params;
+
+      const classroom = await prisma.classroom.findUnique({
+        where: { id: Number(roomId) },
+      });
+
+      if (!classroom) throw new Error('Classroom not found');
+
+      return `uploads/${classroom.classname}/activities/${title}/instruction`;
+    }),
+  )
   async createActivity(
     @Param('roomId', ParseIntPipe) roomId: number,
     @Param('title') title: string,
+    @UploadedFile() file: Express.Multer.File,
     @Body() activityDto: Partial<Activity>,
   ): Promise<void> {
-    return this.instructorService.createActivity(+roomId, title, activityDto);
+    return this.instructorService.createActivity(
+      +roomId,
+      title,
+      activityDto,
+      file,
+    );
   }
 
+  //@DESC   Update Activity that is related to both classroom and its own id
+  //@ROUTE  instructor/updateActivity/:roomId/:activityId
+  @Post('updateActivity/:roomId/:activityId')
+  @UseInterceptors(
+    DynamicMulterInterceptorFactory('file', false, async (req, prisma) => {
+      const { roomId, activityId } = req.params;
+
+      const classroom = await prisma.classroom.findUnique({
+        where: { id: Number(roomId) },
+      });
+
+      const activity = await prisma.activity.findUnique({
+        where: { id: Number(activityId) },
+      });
+
+      const file = await prisma.files.findFirst({
+        where: {
+          relatedToActivity: {
+            id: Number(activityId),
+          },
+        },
+      });
+      console.log('activity', activity);
+      console.log('file', file);
+
+      if (!classroom) throw new Error('Classroom not found');
+
+      return `uploads/${classroom.classname}/activities/${activity?.title}/instruction`;
+    }),
+  )
+  async updateActivity(
+    @Param('roomId', ParseIntPipe) roomId: number,
+    @Param('activityId', ParseIntPipe) activityId: number,
+    @UploadedFile() file: Express.Multer.File,
+    @Body() activityDto: Partial<Activity>,
+    @Body('oldFilePath') oldFilePath: string,
+  ) {
+    console.log(file.destination);
+    return this.instructorService.updateActivity(
+      roomId,
+      activityId,
+      file,
+      activityDto,
+      oldFilePath,
+    );
+  }
   // @Patch(':id')
   // update(
   //   @Param('id') id: string,

@@ -1,50 +1,43 @@
-// src/shared/interceptors/dynamic-multer.interceptor.ts
-import {
-  NestInterceptor,
-  ExecutionContext,
-  CallHandler,
-  Injectable,
-  mixin,
-} from '@nestjs/common';
-import { Observable } from 'rxjs';
-import * as multer from 'multer';
-import { mkdirSync, existsSync } from 'fs';
-import { DatabaseService } from 'src/database/database.service';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
+import { Type, Injectable, mixin } from '@nestjs/common';
+import { diskStorage } from 'multer';
 
-export function DynamicMulterInterceptor(
-  buildPath: (req: any, prisma: DatabaseService) => Promise<string>,
-): any {
+import { existsSync, mkdirSync } from 'fs';
+import { MulterOptions } from '@nestjs/platform-express/multer/interfaces/multer-options.interface';
+import { PrismaClient } from 'generated/prisma';
+
+type StoragePathCallback = (req: any, prisma: PrismaClient) => Promise<string>;
+
+export function DynamicMulterInterceptorFactory(
+  fieldName: string,
+  isMultiple = false,
+  getPath: StoragePathCallback,
+): Type<any> {
   @Injectable()
-  class MixinMulterInterceptor implements NestInterceptor {
-    constructor(private readonly prisma: DatabaseService) {}
+  class MixinMulterInterceptor {
+    private readonly prisma = new PrismaClient();
 
-    async intercept(
-      context: ExecutionContext,
-      next: CallHandler,
-    ): Promise<Observable<any>> {
+    async intercept(context: any, next: any) {
       const req = context.switchToHttp().getRequest();
+      const destination = await getPath(req, this.prisma);
 
-      const uploadPath = await buildPath(req, this.prisma);
-
-      if (!existsSync(uploadPath)) {
-        mkdirSync(uploadPath, { recursive: true });
+      if (!existsSync(destination)) {
+        mkdirSync(destination, { recursive: true });
       }
 
-      const storage = multer.diskStorage({
-        destination: (_req, _file, cb) => cb(null, uploadPath),
-        filename: (_req, file, cb) => cb(null, file.originalname),
-      });
+      const multerOptions: MulterOptions = {
+        storage: diskStorage({
+          destination,
+          filename: (_req, file, cb) => cb(null, file.originalname),
+        }),
+      };
 
-      const upload = multer({ storage }).single('file');
+      const Interceptor = isMultiple
+        ? FilesInterceptor(fieldName, undefined, multerOptions)
+        : FileInterceptor(fieldName, multerOptions);
 
-      await new Promise((resolve, reject) => {
-        upload(req, req.res, (err: any) => {
-          if (err) reject(err);
-          else resolve(true);
-        });
-      });
-
-      return next.handle();
+      const instance = new Interceptor();
+      return instance.intercept(context, next);
     }
   }
 

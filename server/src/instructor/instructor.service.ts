@@ -1,8 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { Announcement, Prisma } from 'generated/prisma';
+import { Activity, Announcement, Prisma } from 'generated/prisma';
 import { DatabaseService } from 'src/database/database.service';
-import { rm } from 'fs';
-import path from 'path';
+import { existsSync, renameSync, rm, unlink } from 'fs';
 
 @Injectable()
 export class InstructorService {
@@ -74,7 +73,7 @@ export class InstructorService {
   //@ROUTE  instructor/createAnnouncement/:roomId/:title
   async createAnnouncement(
     roomId: number,
-    file: Express.Multer.File,
+    files: Express.Multer.File[],
     announcementDto: Partial<Announcement>,
     title: string,
   ) {
@@ -118,21 +117,24 @@ export class InstructorService {
       },
     });
 
-    console.log(file);
+    console.log(files);
 
-    if (file) {
-      await this.databaseService.files.create({
-        data: {
-          filename: file.originalname,
-          mimetype: file.mimetype,
-          fileSize: file.size,
-          destination: file.destination,
-          relatedToAnnouncement: {
-            connect: {
-              id: newAnnouncement.id,
+    if (files) {
+      files.forEach(async (file) => {
+        const mimetype = file.originalname.split('.').pop();
+        return await this.databaseService.files.create({
+          data: {
+            filename: file.originalname,
+            mimetype: mimetype ?? '',
+            fileSize: file.size,
+            destination: file.destination,
+            relatedToAnnouncement: {
+              connect: {
+                id: newAnnouncement.id,
+              },
             },
           },
-        },
+        });
       });
     }
 
@@ -204,21 +206,183 @@ export class InstructorService {
   async createActivity(
     roomId: number,
     title: string,
-    activityDto: Partial<Announcement>,
+    activityDto: Partial<Activity>,
+    file: Express.Multer.File,
   ): Promise<void> {
-    if (!roomId) {
+    if (!title || !activityDto.date || !activityDto.time) {
       throw new HttpException(
-        { error: 'the id does not exist' },
+        {
+          error: 'Please fill all fields',
+        },
         HttpStatus.BAD_REQUEST,
       );
     }
 
-    if (!title) {
+    if (!file) {
       throw new HttpException(
-        { error: 'The title does not exist' },
+        {
+          error: 'Please upload an instruction file',
+        },
         HttpStatus.BAD_REQUEST,
       );
     }
+
+    if (!roomId) {
+      throw new HttpException(
+        {
+          error: 'The id does not exist',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const isActivityExist = await this.databaseService.activity.findFirst({
+      where: {
+        title: title,
+        relatedToClassroom: {
+          id: roomId,
+        },
+      },
+    });
+
+    if (isActivityExist?.title === title) {
+      throw new HttpException(
+        {
+          error: 'Activity title already exist',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    //activity details
+    const newActivity = await this.databaseService.activity.create({
+      data: {
+        title,
+        date: activityDto.date,
+        time: activityDto.time,
+        instruction: activityDto.instruction,
+        relatedToClassroom: {
+          connect: {
+            id: roomId,
+          },
+        },
+      },
+    });
+
+    //activity file details
+    await this.databaseService.files.create({
+      data: {
+        filename: file.originalname,
+        mimetype: file.mimetype,
+        fileSize: file.size,
+        destination: file.destination,
+        relatedToActivity: {
+          connect: {
+            id: newActivity.id,
+          },
+        },
+      },
+    });
+
+    throw new HttpException(
+      {
+        message: `The new activity: ${newActivity?.title} successfully created`,
+      },
+      HttpStatus.CREATED,
+    );
+  }
+
+  //@DESC   Update Activity that is related to both classroom and its own id
+  //@ROUTE  instructor/updateActivity/:roomId/:activityId
+  async updateActivity(
+    roomId: number,
+    activityId: number,
+    file: Express.Multer.File,
+    activityDto: Partial<Activity>,
+    oldFilePath: string,
+  ) {
+    if (!roomId || !activityId) {
+      throw new HttpException(
+        {
+          error: 'Both roomId and activityId are required',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (!file) {
+      throw new HttpException(
+        {
+          error: 'Please upload an instruction file',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const isActivityExist = await this.databaseService.activity.findFirst({
+      where: {
+        id: activityId,
+      },
+    });
+
+    const isFileExist = await this.databaseService.files.findFirst({
+      where: {
+        relatedToActivity: {
+          id: activityId,
+        },
+      },
+    });
+
+    if (isFileExist?.destination) {
+      unlink(`${isFileExist?.destination}/${isFileExist?.filename}`, (err) => {
+        if (err) throw err;
+        console.log(`${isFileExist?.destination} is deleted`);
+      });
+    }
+    const isClassroomExist = await this.databaseService.activity.findFirst({
+      where: {
+        id: roomId,
+      },
+    });
+
+    //activity details
+    await this.databaseService.activity.update({
+      data: {
+        title: activityDto.title,
+        date: activityDto.date,
+        time: activityDto.time,
+        instruction: activityDto.instruction,
+        relatedToClassroom: {
+          connect: {
+            id: roomId,
+          },
+        },
+      },
+      where: {
+        id: activityId,
+      },
+    });
+
+    //activity file details
+    await this.databaseService.files.update({
+      where: {
+        id: isFileExist?.id,
+      },
+
+      data: {
+        filename: file.originalname,
+        mimetype: file.mimetype,
+        fileSize: file.size,
+        destination: file.destination,
+      },
+    });
+
+    throw new HttpException(
+      {
+        message: 'Activity updated',
+      },
+      HttpStatus.OK,
+    );
   }
 
   // remove(id: number) {
