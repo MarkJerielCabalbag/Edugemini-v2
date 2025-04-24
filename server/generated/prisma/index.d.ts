@@ -4650,6 +4650,7 @@ export namespace Prisma {
     filename: string | null
     mimetype: string | null
     fileSize: number | null
+    destination: string | null
     announceId: number | null
   }
 
@@ -4658,6 +4659,7 @@ export namespace Prisma {
     filename: string | null
     mimetype: string | null
     fileSize: number | null
+    destination: string | null
     announceId: number | null
   }
 
@@ -4666,6 +4668,7 @@ export namespace Prisma {
     filename: number
     mimetype: number
     fileSize: number
+    destination: number
     announceId: number
     _all: number
   }
@@ -4688,6 +4691,7 @@ export namespace Prisma {
     filename?: true
     mimetype?: true
     fileSize?: true
+    destination?: true
     announceId?: true
   }
 
@@ -4696,6 +4700,7 @@ export namespace Prisma {
     filename?: true
     mimetype?: true
     fileSize?: true
+    destination?: true
     announceId?: true
   }
 
@@ -4704,6 +4709,7 @@ export namespace Prisma {
     filename?: true
     mimetype?: true
     fileSize?: true
+    destination?: true
     announceId?: true
     _all?: true
   }
@@ -4799,6 +4805,7 @@ export namespace Prisma {
     filename: string
     mimetype: string
     fileSize: number
+    destination: string
     announceId: number
     _count: FilesCountAggregateOutputType | null
     _avg: FilesAvgAggregateOutputType | null
@@ -4826,6 +4833,7 @@ export namespace Prisma {
     filename?: boolean
     mimetype?: boolean
     fileSize?: boolean
+    destination?: boolean
     announceId?: boolean
     relatedToAnnouncement?: boolean | AnnouncementDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["files"]>
@@ -4835,6 +4843,7 @@ export namespace Prisma {
     filename?: boolean
     mimetype?: boolean
     fileSize?: boolean
+    destination?: boolean
     announceId?: boolean
     relatedToAnnouncement?: boolean | AnnouncementDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["files"]>
@@ -4844,6 +4853,7 @@ export namespace Prisma {
     filename?: boolean
     mimetype?: boolean
     fileSize?: boolean
+    destination?: boolean
     announceId?: boolean
     relatedToAnnouncement?: boolean | AnnouncementDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["files"]>
@@ -4853,10 +4863,11 @@ export namespace Prisma {
     filename?: boolean
     mimetype?: boolean
     fileSize?: boolean
+    destination?: boolean
     announceId?: boolean
   }
 
-  export type FilesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "filename" | "mimetype" | "fileSize" | "announceId", ExtArgs["result"]["files"]>
+  export type FilesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "filename" | "mimetype" | "fileSize" | "destination" | "announceId", ExtArgs["result"]["files"]>
   export type FilesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     relatedToAnnouncement?: boolean | AnnouncementDefaultArgs<ExtArgs>
   }
@@ -4877,6 +4888,7 @@ export namespace Prisma {
       filename: string
       mimetype: string
       fileSize: number
+      destination: string
       announceId: number
     }, ExtArgs["result"]["files"]>
     composites: {}
@@ -5306,6 +5318,7 @@ export namespace Prisma {
     readonly filename: FieldRef<"Files", 'String'>
     readonly mimetype: FieldRef<"Files", 'String'>
     readonly fileSize: FieldRef<"Files", 'Int'>
+    readonly destination: FieldRef<"Files", 'String'>
     readonly announceId: FieldRef<"Files", 'Int'>
   }
     
@@ -5774,6 +5787,7 @@ export namespace Prisma {
     filename: 'filename',
     mimetype: 'mimetype',
     fileSize: 'fileSize',
+    destination: 'destination',
     announceId: 'announceId'
   };
 
@@ -6058,6 +6072,7 @@ export namespace Prisma {
     filename?: StringFilter<"Files"> | string
     mimetype?: StringFilter<"Files"> | string
     fileSize?: IntFilter<"Files"> | number
+    destination?: StringFilter<"Files"> | string
     announceId?: IntFilter<"Files"> | number
     relatedToAnnouncement?: XOR<AnnouncementScalarRelationFilter, AnnouncementWhereInput>
   }
@@ -6067,6 +6082,7 @@ export namespace Prisma {
     filename?: SortOrder
     mimetype?: SortOrder
     fileSize?: SortOrder
+    destination?: SortOrder
     announceId?: SortOrder
     relatedToAnnouncement?: AnnouncementOrderByWithRelationInput
   }
@@ -6079,6 +6095,7 @@ export namespace Prisma {
     filename?: StringFilter<"Files"> | string
     mimetype?: StringFilter<"Files"> | string
     fileSize?: IntFilter<"Files"> | number
+    destination?: StringFilter<"Files"> | string
     announceId?: IntFilter<"Files"> | number
     relatedToAnnouncement?: XOR<AnnouncementScalarRelationFilter, AnnouncementWhereInput>
   }, "id">
@@ -6088,6 +6105,7 @@ export namespace Prisma {
     filename?: SortOrder
     mimetype?: SortOrder
     fileSize?: SortOrder
+    destination?: SortOrder
     announceId?: SortOrder
     _count?: FilesCountOrderByAggregateInput
     _avg?: FilesAvgOrderByAggregateInput
@@ -6104,6 +6122,7 @@ export namespace Prisma {
     filename?: StringWithAggregatesFilter<"Files"> | string
     mimetype?: StringWithAggregatesFilter<"Files"> | string
     fileSize?: IntWithAggregatesFilter<"Files"> | number
+    destination?: StringWithAggregatesFilter<"Files"> | string
     announceId?: IntWithAggregatesFilter<"Files"> | number
   }
 
@@ -6287,6 +6306,7 @@ export namespace Prisma {
     filename: string
     mimetype: string
     fileSize: number
+    destination: string
     relatedToAnnouncement: AnnouncementCreateNestedOneWithoutListOfFilesInput
   }
 
@@ -6295,6 +6315,7 @@ export namespace Prisma {
     filename: string
     mimetype: string
     fileSize: number
+    destination: string
     announceId: number
   }
 
@@ -6302,6 +6323,7 @@ export namespace Prisma {
     filename?: StringFieldUpdateOperationsInput | string
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
+    destination?: StringFieldUpdateOperationsInput | string
     relatedToAnnouncement?: AnnouncementUpdateOneRequiredWithoutListOfFilesNestedInput
   }
 
@@ -6310,6 +6332,7 @@ export namespace Prisma {
     filename?: StringFieldUpdateOperationsInput | string
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
+    destination?: StringFieldUpdateOperationsInput | string
     announceId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -6318,6 +6341,7 @@ export namespace Prisma {
     filename: string
     mimetype: string
     fileSize: number
+    destination: string
     announceId: number
   }
 
@@ -6325,6 +6349,7 @@ export namespace Prisma {
     filename?: StringFieldUpdateOperationsInput | string
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
+    destination?: StringFieldUpdateOperationsInput | string
   }
 
   export type FilesUncheckedUpdateManyInput = {
@@ -6332,6 +6357,7 @@ export namespace Prisma {
     filename?: StringFieldUpdateOperationsInput | string
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
+    destination?: StringFieldUpdateOperationsInput | string
     announceId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -6603,6 +6629,7 @@ export namespace Prisma {
     filename?: SortOrder
     mimetype?: SortOrder
     fileSize?: SortOrder
+    destination?: SortOrder
     announceId?: SortOrder
   }
 
@@ -6617,6 +6644,7 @@ export namespace Prisma {
     filename?: SortOrder
     mimetype?: SortOrder
     fileSize?: SortOrder
+    destination?: SortOrder
     announceId?: SortOrder
   }
 
@@ -6625,6 +6653,7 @@ export namespace Prisma {
     filename?: SortOrder
     mimetype?: SortOrder
     fileSize?: SortOrder
+    destination?: SortOrder
     announceId?: SortOrder
   }
 
@@ -7132,6 +7161,7 @@ export namespace Prisma {
     filename: string
     mimetype: string
     fileSize: number
+    destination: string
   }
 
   export type FilesUncheckedCreateWithoutRelatedToAnnouncementInput = {
@@ -7139,6 +7169,7 @@ export namespace Prisma {
     filename: string
     mimetype: string
     fileSize: number
+    destination: string
   }
 
   export type FilesCreateOrConnectWithoutRelatedToAnnouncementInput = {
@@ -7207,6 +7238,7 @@ export namespace Prisma {
     filename?: StringFilter<"Files"> | string
     mimetype?: StringFilter<"Files"> | string
     fileSize?: IntFilter<"Files"> | number
+    destination?: StringFilter<"Files"> | string
     announceId?: IntFilter<"Files"> | number
   }
 
@@ -7323,12 +7355,14 @@ export namespace Prisma {
     filename: string
     mimetype: string
     fileSize: number
+    destination: string
   }
 
   export type FilesUpdateWithoutRelatedToAnnouncementInput = {
     filename?: StringFieldUpdateOperationsInput | string
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
+    destination?: StringFieldUpdateOperationsInput | string
   }
 
   export type FilesUncheckedUpdateWithoutRelatedToAnnouncementInput = {
@@ -7336,6 +7370,7 @@ export namespace Prisma {
     filename?: StringFieldUpdateOperationsInput | string
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
+    destination?: StringFieldUpdateOperationsInput | string
   }
 
   export type FilesUncheckedUpdateManyWithoutRelatedToAnnouncementInput = {
@@ -7343,6 +7378,7 @@ export namespace Prisma {
     filename?: StringFieldUpdateOperationsInput | string
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
+    destination?: StringFieldUpdateOperationsInput | string
   }
 
 

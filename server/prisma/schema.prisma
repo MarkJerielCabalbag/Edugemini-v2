@@ -59,6 +59,7 @@ model Files {
   filename              String        
   mimetype              String
   fileSize              Int
-  relatedToAnnouncement Announcement               @relation(fields: [announceId], references: [id])
+  destination           String
+  relatedToAnnouncement Announcement               @relation(fields: [announceId], references: [id], onDelete: Cascade)
   announceId            Int
 }

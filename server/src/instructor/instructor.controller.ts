@@ -62,10 +62,12 @@ export class InstructorController {
     );
   }
 
-  // @Get(':id')
-  // findOne(@Param('id') id: string) {
-  //   return this.instructorService.findOne(+id);
-  // }
+  @Post('deleteAnnouncement/:announceId')
+  async deleteAnnouncement(
+    @Param('announceId', ParseIntPipe) announceId: number,
+  ): Promise<void> {
+    return this.instructorService.deleteAnnouncement(announceId);
+  }
 
   // @Patch(':id')
   // update(

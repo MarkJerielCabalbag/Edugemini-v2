@@ -147,6 +147,7 @@ exports.Prisma.FilesScalarFieldEnum = {
   filename: 'filename',
   mimetype: 'mimetype',
   fileSize: 'fileSize',
+  destination: 'destination',
   announceId: 'announceId'
 };
 

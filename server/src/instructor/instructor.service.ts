@@ -1,9 +1,9 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import { error } from 'console';
 import { Announcement, Prisma } from 'generated/prisma';
 import { DatabaseService } from 'src/database/database.service';
+import { rm } from 'fs';
+import path from 'path';
 
-import * as uuid from 'uuid';
 @Injectable()
 export class InstructorService {
   constructor(private readonly databaseService: DatabaseService) {}
@@ -74,6 +74,15 @@ export class InstructorService {
     announcementDto: Partial<Announcement>,
     title: string,
   ) {
+    if (!title) {
+      throw new HttpException(
+        {
+          error: 'Please fill atleast the title',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
     const isAnnoucementExist =
       await this.databaseService.announcement.findFirst({
         where: {
@@ -105,6 +114,24 @@ export class InstructorService {
       },
     });
 
+    console.log(file);
+
+    if (file) {
+      await this.databaseService.files.create({
+        data: {
+          filename: file.originalname,
+          mimetype: file.mimetype,
+          fileSize: file.size,
+          destination: file.destination,
+          relatedToAnnouncement: {
+            connect: {
+              id: newAnnouncement.id,
+            },
+          },
+        },
+      });
+    }
+
     throw new HttpException(
       {
         message: `The new announcement title: ${newAnnouncement.title} successfully created`,
@@ -113,10 +140,58 @@ export class InstructorService {
     );
   }
 
-  // findOne(id: number) {
-  //   return `This action returns a #${id} instructor`;
-  // }
+  async deleteAnnouncement(announceId: number): Promise<void> {
+    if (!announceId) {
+      throw new HttpException(
+        {
+          error: 'The id does not exist',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
 
+    const isAnnouncementExist =
+      await this.databaseService.announcement.findFirst({
+        where: {
+          id: announceId,
+        },
+      });
+
+    if (!isAnnouncementExist) {
+      throw new HttpException(
+        {
+          error: 'The announcement does not exist',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const fileToDelete = await this.databaseService.files.findFirst({
+      where: {
+        relatedToAnnouncement: {
+          id: isAnnouncementExist.id,
+        },
+      },
+    });
+
+    if (fileToDelete?.destination) {
+      rm(fileToDelete?.destination, { recursive: true, force: true }, (err) => {
+        if (err) throw err;
+        console.log(`${fileToDelete?.destination} is deleted`);
+      });
+    }
+
+    await this.databaseService.announcement.delete({
+      where: { id: announceId },
+    });
+
+    throw new HttpException(
+      {
+        message: 'Announcement Deleted Successfully',
+      },
+      HttpStatus.ACCEPTED,
+    );
+  }
   // update(id: number, updateInstructorDto: UpdateInstructorDto) {
   //   return `This action updates a #${id} instructor`;
   // }
