@@ -8,6 +8,8 @@ import path from 'path';
 export class InstructorService {
   constructor(private readonly databaseService: DatabaseService) {}
 
+  //@DESC   Create Classroom related to user
+  //@ROUTE  instructor/instructor/createClassroom/:roomId
   async createClassroom(
     createClassroomDto: Prisma.ClassroomCreateInput,
 
@@ -68,6 +70,8 @@ export class InstructorService {
     );
   }
 
+  //@DESC   Create Announcement related to classroom
+  //@ROUTE  instructor/createAnnouncement/:roomId/:title
   async createAnnouncement(
     roomId: number,
     file: Express.Multer.File,
@@ -140,6 +144,8 @@ export class InstructorService {
     );
   }
 
+  //@DESC   Delete Announcement by id
+  //@ROUTE  instructor/deleteAnnouncement/:announceId
   async deleteAnnouncement(announceId: number): Promise<void> {
     if (!announceId) {
       throw new HttpException(
@@ -192,9 +198,28 @@ export class InstructorService {
       HttpStatus.ACCEPTED,
     );
   }
-  // update(id: number, updateInstructorDto: UpdateInstructorDto) {
-  //   return `This action updates a #${id} instructor`;
-  // }
+
+  //@DESC   Create Activity that is related to classroom
+  //@ROUTE  instructor/createActivity/:roomId/title
+  async createActivity(
+    roomId: number,
+    title: string,
+    activityDto: Partial<Announcement>,
+  ): Promise<void> {
+    if (!roomId) {
+      throw new HttpException(
+        { error: 'the id does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (!title) {
+      throw new HttpException(
+        { error: 'The title does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
 
   // remove(id: number) {
   //   return `This action removes a #${id} instructor`;

@@ -8,11 +8,8 @@ import {
   UploadedFile,
 } from '@nestjs/common';
 import { InstructorService } from './instructor.service';
-import { Announcement, Prisma } from 'generated/prisma';
-import { diskStorage } from 'multer';
+import { Activity, Announcement, Prisma } from 'generated/prisma';
 import { DatabaseService } from 'src/database/database.service';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { mkdirSync } from 'fs';
 import { DynamicMulterInterceptor } from 'src/shared/interceptor/dynamic-multer.interceptor';
 
 @Controller('instructor')
@@ -22,6 +19,8 @@ export class InstructorController {
     private readonly databaseService: DatabaseService,
   ) {}
 
+  //@DESC   Create Classroom related to user
+  //@ROUTE  instructor/instructor/createClassroom/:roomId
   @Post('createClassroom/:id')
   createClassroom(
     @Body() createClassroomDto: Prisma.ClassroomCreateInput,
@@ -31,8 +30,7 @@ export class InstructorController {
   }
 
   //@DESC   Create Announcement related to classroom
-  //@ROUTE  instructor/createAnnouncement/:roomId
-
+  //@ROUTE  instructor/createAnnouncement/:roomId/:title
   @Post('createAnnouncement/:roomId/:title')
   @UseInterceptors(
     DynamicMulterInterceptor(async (req, prisma) => {
@@ -62,11 +60,24 @@ export class InstructorController {
     );
   }
 
+  //@DESC   Delete Announcement by id
+  //@ROUTE  instructor/deleteAnnouncement/:announceId
   @Post('deleteAnnouncement/:announceId')
   async deleteAnnouncement(
     @Param('announceId', ParseIntPipe) announceId: number,
   ): Promise<void> {
     return this.instructorService.deleteAnnouncement(announceId);
+  }
+
+  //@DESC   Create Activity that is related to classroom
+  //@ROUTE  instructor/createActivity/:roomId/title
+  @Post('createActivity/:roomId/:title')
+  async createActivity(
+    @Param('roomId', ParseIntPipe) roomId: number,
+    @Param('title') title: string,
+    @Body() activityDto: Partial<Activity>,
+  ): Promise<void> {
+    return this.instructorService.createActivity(+roomId, title, activityDto);
   }
 
   // @Patch(':id')

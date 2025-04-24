@@ -24,6 +24,11 @@ export type User = $Result.DefaultSelection<Prisma.$UserPayload>
  */
 export type Classroom = $Result.DefaultSelection<Prisma.$ClassroomPayload>
 /**
+ * Model Activity
+ * 
+ */
+export type Activity = $Result.DefaultSelection<Prisma.$ActivityPayload>
+/**
  * Model Announcement
  * 
  */
@@ -196,6 +201,16 @@ export class PrismaClient<
     * ```
     */
   get classroom(): Prisma.ClassroomDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.activity`: Exposes CRUD operations for the **Activity** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Activities
+    * const activities = await prisma.activity.findMany()
+    * ```
+    */
+  get activity(): Prisma.ActivityDelegate<ExtArgs, ClientOptions>;
 
   /**
    * `prisma.announcement`: Exposes CRUD operations for the **Announcement** model.
@@ -658,6 +673,7 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Classroom: 'Classroom',
+    Activity: 'Activity',
     Announcement: 'Announcement',
     Files: 'Files'
   };
@@ -678,7 +694,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "classroom" | "announcement" | "files"
+      modelProps: "user" | "classroom" | "activity" | "announcement" | "files"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -827,6 +843,80 @@ export namespace Prisma {
           count: {
             args: Prisma.ClassroomCountArgs<ExtArgs>
             result: $Utils.Optional<ClassroomCountAggregateOutputType> | number
+          }
+        }
+      }
+      Activity: {
+        payload: Prisma.$ActivityPayload<ExtArgs>
+        fields: Prisma.ActivityFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ActivityFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ActivityFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload>
+          }
+          findFirst: {
+            args: Prisma.ActivityFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ActivityFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload>
+          }
+          findMany: {
+            args: Prisma.ActivityFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload>[]
+          }
+          create: {
+            args: Prisma.ActivityCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload>
+          }
+          createMany: {
+            args: Prisma.ActivityCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ActivityCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload>[]
+          }
+          delete: {
+            args: Prisma.ActivityDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload>
+          }
+          update: {
+            args: Prisma.ActivityUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload>
+          }
+          deleteMany: {
+            args: Prisma.ActivityDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ActivityUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ActivityUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload>[]
+          }
+          upsert: {
+            args: Prisma.ActivityUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ActivityPayload>
+          }
+          aggregate: {
+            args: Prisma.ActivityAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateActivity>
+          }
+          groupBy: {
+            args: Prisma.ActivityGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ActivityGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ActivityCountArgs<ExtArgs>
+            result: $Utils.Optional<ActivityCountAggregateOutputType> | number
           }
         }
       }
@@ -1064,6 +1154,7 @@ export namespace Prisma {
   export type GlobalOmitConfig = {
     user?: UserOmit
     classroom?: ClassroomOmit
+    activity?: ActivityOmit
     announcement?: AnnouncementOmit
     files?: FilesOmit
   }
@@ -1192,10 +1283,12 @@ export namespace Prisma {
 
   export type ClassroomCountOutputType = {
     listOfAnnouncements: number
+    listOfActivity: number
   }
 
   export type ClassroomCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     listOfAnnouncements?: boolean | ClassroomCountOutputTypeCountListOfAnnouncementsArgs
+    listOfActivity?: boolean | ClassroomCountOutputTypeCountListOfActivityArgs
   }
 
   // Custom InputTypes
@@ -1214,6 +1307,44 @@ export namespace Prisma {
    */
   export type ClassroomCountOutputTypeCountListOfAnnouncementsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: AnnouncementWhereInput
+  }
+
+  /**
+   * ClassroomCountOutputType without action
+   */
+  export type ClassroomCountOutputTypeCountListOfActivityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivityWhereInput
+  }
+
+
+  /**
+   * Count Type ActivityCountOutputType
+   */
+
+  export type ActivityCountOutputType = {
+    criteria: number
+  }
+
+  export type ActivityCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    criteria?: boolean | ActivityCountOutputTypeCountCriteriaArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ActivityCountOutputType without action
+   */
+  export type ActivityCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActivityCountOutputType
+     */
+    select?: ActivityCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ActivityCountOutputType without action
+   */
+  export type ActivityCountOutputTypeCountCriteriaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FilesWhereInput
   }
 
 
@@ -2571,6 +2702,7 @@ export namespace Prisma {
     userId?: boolean
     relatedToUser?: boolean | UserDefaultArgs<ExtArgs>
     listOfAnnouncements?: boolean | Classroom$listOfAnnouncementsArgs<ExtArgs>
+    listOfActivity?: boolean | Classroom$listOfActivityArgs<ExtArgs>
     _count?: boolean | ClassroomCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["classroom"]>
 
@@ -2613,6 +2745,7 @@ export namespace Prisma {
   export type ClassroomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     relatedToUser?: boolean | UserDefaultArgs<ExtArgs>
     listOfAnnouncements?: boolean | Classroom$listOfAnnouncementsArgs<ExtArgs>
+    listOfActivity?: boolean | Classroom$listOfActivityArgs<ExtArgs>
     _count?: boolean | ClassroomCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ClassroomIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2627,6 +2760,7 @@ export namespace Prisma {
     objects: {
       relatedToUser: Prisma.$UserPayload<ExtArgs>
       listOfAnnouncements: Prisma.$AnnouncementPayload<ExtArgs>[]
+      listOfActivity: Prisma.$ActivityPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -3033,6 +3167,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     relatedToUser<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     listOfAnnouncements<T extends Classroom$listOfAnnouncementsArgs<ExtArgs> = {}>(args?: Subset<T, Classroom$listOfAnnouncementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    listOfActivity<T extends Classroom$listOfActivityArgs<ExtArgs> = {}>(args?: Subset<T, Classroom$listOfActivityArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3490,6 +3625,30 @@ export namespace Prisma {
   }
 
   /**
+   * Classroom.listOfActivity
+   */
+  export type Classroom$listOfActivityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Activity
+     */
+    omit?: ActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    where?: ActivityWhereInput
+    orderBy?: ActivityOrderByWithRelationInput | ActivityOrderByWithRelationInput[]
+    cursor?: ActivityWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ActivityScalarFieldEnum | ActivityScalarFieldEnum[]
+  }
+
+  /**
    * Classroom without action
    */
   export type ClassroomDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3505,6 +3664,1145 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ClassroomInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Activity
+   */
+
+  export type AggregateActivity = {
+    _count: ActivityCountAggregateOutputType | null
+    _avg: ActivityAvgAggregateOutputType | null
+    _sum: ActivitySumAggregateOutputType | null
+    _min: ActivityMinAggregateOutputType | null
+    _max: ActivityMaxAggregateOutputType | null
+  }
+
+  export type ActivityAvgAggregateOutputType = {
+    id: number | null
+    roomId: number | null
+  }
+
+  export type ActivitySumAggregateOutputType = {
+    id: number | null
+    roomId: number | null
+  }
+
+  export type ActivityMinAggregateOutputType = {
+    id: number | null
+    title: string | null
+    date: string | null
+    time: string | null
+    instruction: string | null
+    roomId: number | null
+  }
+
+  export type ActivityMaxAggregateOutputType = {
+    id: number | null
+    title: string | null
+    date: string | null
+    time: string | null
+    instruction: string | null
+    roomId: number | null
+  }
+
+  export type ActivityCountAggregateOutputType = {
+    id: number
+    title: number
+    date: number
+    time: number
+    instruction: number
+    roomId: number
+    _all: number
+  }
+
+
+  export type ActivityAvgAggregateInputType = {
+    id?: true
+    roomId?: true
+  }
+
+  export type ActivitySumAggregateInputType = {
+    id?: true
+    roomId?: true
+  }
+
+  export type ActivityMinAggregateInputType = {
+    id?: true
+    title?: true
+    date?: true
+    time?: true
+    instruction?: true
+    roomId?: true
+  }
+
+  export type ActivityMaxAggregateInputType = {
+    id?: true
+    title?: true
+    date?: true
+    time?: true
+    instruction?: true
+    roomId?: true
+  }
+
+  export type ActivityCountAggregateInputType = {
+    id?: true
+    title?: true
+    date?: true
+    time?: true
+    instruction?: true
+    roomId?: true
+    _all?: true
+  }
+
+  export type ActivityAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Activity to aggregate.
+     */
+    where?: ActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Activities to fetch.
+     */
+    orderBy?: ActivityOrderByWithRelationInput | ActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Activities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Activities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Activities
+    **/
+    _count?: true | ActivityCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ActivityAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ActivitySumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ActivityMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ActivityMaxAggregateInputType
+  }
+
+  export type GetActivityAggregateType<T extends ActivityAggregateArgs> = {
+        [P in keyof T & keyof AggregateActivity]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateActivity[P]>
+      : GetScalarType<T[P], AggregateActivity[P]>
+  }
+
+
+
+
+  export type ActivityGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ActivityWhereInput
+    orderBy?: ActivityOrderByWithAggregationInput | ActivityOrderByWithAggregationInput[]
+    by: ActivityScalarFieldEnum[] | ActivityScalarFieldEnum
+    having?: ActivityScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ActivityCountAggregateInputType | true
+    _avg?: ActivityAvgAggregateInputType
+    _sum?: ActivitySumAggregateInputType
+    _min?: ActivityMinAggregateInputType
+    _max?: ActivityMaxAggregateInputType
+  }
+
+  export type ActivityGroupByOutputType = {
+    id: number
+    title: string
+    date: string
+    time: string
+    instruction: string | null
+    roomId: number
+    _count: ActivityCountAggregateOutputType | null
+    _avg: ActivityAvgAggregateOutputType | null
+    _sum: ActivitySumAggregateOutputType | null
+    _min: ActivityMinAggregateOutputType | null
+    _max: ActivityMaxAggregateOutputType | null
+  }
+
+  type GetActivityGroupByPayload<T extends ActivityGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ActivityGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ActivityGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ActivityGroupByOutputType[P]>
+            : GetScalarType<T[P], ActivityGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ActivitySelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    date?: boolean
+    time?: boolean
+    instruction?: boolean
+    roomId?: boolean
+    criteria?: boolean | Activity$criteriaArgs<ExtArgs>
+    relatedToClassroom?: boolean | ClassroomDefaultArgs<ExtArgs>
+    _count?: boolean | ActivityCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["activity"]>
+
+  export type ActivitySelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    date?: boolean
+    time?: boolean
+    instruction?: boolean
+    roomId?: boolean
+    relatedToClassroom?: boolean | ClassroomDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["activity"]>
+
+  export type ActivitySelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    title?: boolean
+    date?: boolean
+    time?: boolean
+    instruction?: boolean
+    roomId?: boolean
+    relatedToClassroom?: boolean | ClassroomDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["activity"]>
+
+  export type ActivitySelectScalar = {
+    id?: boolean
+    title?: boolean
+    date?: boolean
+    time?: boolean
+    instruction?: boolean
+    roomId?: boolean
+  }
+
+  export type ActivityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "date" | "time" | "instruction" | "roomId", ExtArgs["result"]["activity"]>
+  export type ActivityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    criteria?: boolean | Activity$criteriaArgs<ExtArgs>
+    relatedToClassroom?: boolean | ClassroomDefaultArgs<ExtArgs>
+    _count?: boolean | ActivityCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ActivityIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    relatedToClassroom?: boolean | ClassroomDefaultArgs<ExtArgs>
+  }
+  export type ActivityIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    relatedToClassroom?: boolean | ClassroomDefaultArgs<ExtArgs>
+  }
+
+  export type $ActivityPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Activity"
+    objects: {
+      criteria: Prisma.$FilesPayload<ExtArgs>[]
+      relatedToClassroom: Prisma.$ClassroomPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      title: string
+      date: string
+      time: string
+      instruction: string | null
+      roomId: number
+    }, ExtArgs["result"]["activity"]>
+    composites: {}
+  }
+
+  type ActivityGetPayload<S extends boolean | null | undefined | ActivityDefaultArgs> = $Result.GetResult<Prisma.$ActivityPayload, S>
+
+  type ActivityCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ActivityFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ActivityCountAggregateInputType | true
+    }
+
+  export interface ActivityDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Activity'], meta: { name: 'Activity' } }
+    /**
+     * Find zero or one Activity that matches the filter.
+     * @param {ActivityFindUniqueArgs} args - Arguments to find a Activity
+     * @example
+     * // Get one Activity
+     * const activity = await prisma.activity.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ActivityFindUniqueArgs>(args: SelectSubset<T, ActivityFindUniqueArgs<ExtArgs>>): Prisma__ActivityClient<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Activity that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ActivityFindUniqueOrThrowArgs} args - Arguments to find a Activity
+     * @example
+     * // Get one Activity
+     * const activity = await prisma.activity.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ActivityFindUniqueOrThrowArgs>(args: SelectSubset<T, ActivityFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ActivityClient<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Activity that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityFindFirstArgs} args - Arguments to find a Activity
+     * @example
+     * // Get one Activity
+     * const activity = await prisma.activity.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ActivityFindFirstArgs>(args?: SelectSubset<T, ActivityFindFirstArgs<ExtArgs>>): Prisma__ActivityClient<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Activity that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityFindFirstOrThrowArgs} args - Arguments to find a Activity
+     * @example
+     * // Get one Activity
+     * const activity = await prisma.activity.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ActivityFindFirstOrThrowArgs>(args?: SelectSubset<T, ActivityFindFirstOrThrowArgs<ExtArgs>>): Prisma__ActivityClient<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Activities that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Activities
+     * const activities = await prisma.activity.findMany()
+     * 
+     * // Get first 10 Activities
+     * const activities = await prisma.activity.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const activityWithIdOnly = await prisma.activity.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ActivityFindManyArgs>(args?: SelectSubset<T, ActivityFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Activity.
+     * @param {ActivityCreateArgs} args - Arguments to create a Activity.
+     * @example
+     * // Create one Activity
+     * const Activity = await prisma.activity.create({
+     *   data: {
+     *     // ... data to create a Activity
+     *   }
+     * })
+     * 
+     */
+    create<T extends ActivityCreateArgs>(args: SelectSubset<T, ActivityCreateArgs<ExtArgs>>): Prisma__ActivityClient<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Activities.
+     * @param {ActivityCreateManyArgs} args - Arguments to create many Activities.
+     * @example
+     * // Create many Activities
+     * const activity = await prisma.activity.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ActivityCreateManyArgs>(args?: SelectSubset<T, ActivityCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Activities and returns the data saved in the database.
+     * @param {ActivityCreateManyAndReturnArgs} args - Arguments to create many Activities.
+     * @example
+     * // Create many Activities
+     * const activity = await prisma.activity.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Activities and only return the `id`
+     * const activityWithIdOnly = await prisma.activity.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ActivityCreateManyAndReturnArgs>(args?: SelectSubset<T, ActivityCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Activity.
+     * @param {ActivityDeleteArgs} args - Arguments to delete one Activity.
+     * @example
+     * // Delete one Activity
+     * const Activity = await prisma.activity.delete({
+     *   where: {
+     *     // ... filter to delete one Activity
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ActivityDeleteArgs>(args: SelectSubset<T, ActivityDeleteArgs<ExtArgs>>): Prisma__ActivityClient<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Activity.
+     * @param {ActivityUpdateArgs} args - Arguments to update one Activity.
+     * @example
+     * // Update one Activity
+     * const activity = await prisma.activity.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ActivityUpdateArgs>(args: SelectSubset<T, ActivityUpdateArgs<ExtArgs>>): Prisma__ActivityClient<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Activities.
+     * @param {ActivityDeleteManyArgs} args - Arguments to filter Activities to delete.
+     * @example
+     * // Delete a few Activities
+     * const { count } = await prisma.activity.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ActivityDeleteManyArgs>(args?: SelectSubset<T, ActivityDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Activities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Activities
+     * const activity = await prisma.activity.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ActivityUpdateManyArgs>(args: SelectSubset<T, ActivityUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Activities and returns the data updated in the database.
+     * @param {ActivityUpdateManyAndReturnArgs} args - Arguments to update many Activities.
+     * @example
+     * // Update many Activities
+     * const activity = await prisma.activity.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Activities and only return the `id`
+     * const activityWithIdOnly = await prisma.activity.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ActivityUpdateManyAndReturnArgs>(args: SelectSubset<T, ActivityUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Activity.
+     * @param {ActivityUpsertArgs} args - Arguments to update or create a Activity.
+     * @example
+     * // Update or create a Activity
+     * const activity = await prisma.activity.upsert({
+     *   create: {
+     *     // ... data to create a Activity
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Activity we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ActivityUpsertArgs>(args: SelectSubset<T, ActivityUpsertArgs<ExtArgs>>): Prisma__ActivityClient<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Activities.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityCountArgs} args - Arguments to filter Activities to count.
+     * @example
+     * // Count the number of Activities
+     * const count = await prisma.activity.count({
+     *   where: {
+     *     // ... the filter for the Activities we want to count
+     *   }
+     * })
+    **/
+    count<T extends ActivityCountArgs>(
+      args?: Subset<T, ActivityCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ActivityCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Activity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ActivityAggregateArgs>(args: Subset<T, ActivityAggregateArgs>): Prisma.PrismaPromise<GetActivityAggregateType<T>>
+
+    /**
+     * Group by Activity.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ActivityGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ActivityGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ActivityGroupByArgs['orderBy'] }
+        : { orderBy?: ActivityGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ActivityGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetActivityGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Activity model
+   */
+  readonly fields: ActivityFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Activity.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ActivityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    criteria<T extends Activity$criteriaArgs<ExtArgs> = {}>(args?: Subset<T, Activity$criteriaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    relatedToClassroom<T extends ClassroomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClassroomDefaultArgs<ExtArgs>>): Prisma__ClassroomClient<$Result.GetResult<Prisma.$ClassroomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Activity model
+   */
+  interface ActivityFieldRefs {
+    readonly id: FieldRef<"Activity", 'Int'>
+    readonly title: FieldRef<"Activity", 'String'>
+    readonly date: FieldRef<"Activity", 'String'>
+    readonly time: FieldRef<"Activity", 'String'>
+    readonly instruction: FieldRef<"Activity", 'String'>
+    readonly roomId: FieldRef<"Activity", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Activity findUnique
+   */
+  export type ActivityFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Activity
+     */
+    omit?: ActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which Activity to fetch.
+     */
+    where: ActivityWhereUniqueInput
+  }
+
+  /**
+   * Activity findUniqueOrThrow
+   */
+  export type ActivityFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Activity
+     */
+    omit?: ActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which Activity to fetch.
+     */
+    where: ActivityWhereUniqueInput
+  }
+
+  /**
+   * Activity findFirst
+   */
+  export type ActivityFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Activity
+     */
+    omit?: ActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which Activity to fetch.
+     */
+    where?: ActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Activities to fetch.
+     */
+    orderBy?: ActivityOrderByWithRelationInput | ActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Activities.
+     */
+    cursor?: ActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Activities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Activities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Activities.
+     */
+    distinct?: ActivityScalarFieldEnum | ActivityScalarFieldEnum[]
+  }
+
+  /**
+   * Activity findFirstOrThrow
+   */
+  export type ActivityFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Activity
+     */
+    omit?: ActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which Activity to fetch.
+     */
+    where?: ActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Activities to fetch.
+     */
+    orderBy?: ActivityOrderByWithRelationInput | ActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Activities.
+     */
+    cursor?: ActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Activities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Activities.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Activities.
+     */
+    distinct?: ActivityScalarFieldEnum | ActivityScalarFieldEnum[]
+  }
+
+  /**
+   * Activity findMany
+   */
+  export type ActivityFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Activity
+     */
+    omit?: ActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    /**
+     * Filter, which Activities to fetch.
+     */
+    where?: ActivityWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Activities to fetch.
+     */
+    orderBy?: ActivityOrderByWithRelationInput | ActivityOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Activities.
+     */
+    cursor?: ActivityWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Activities from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Activities.
+     */
+    skip?: number
+    distinct?: ActivityScalarFieldEnum | ActivityScalarFieldEnum[]
+  }
+
+  /**
+   * Activity create
+   */
+  export type ActivityCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Activity
+     */
+    omit?: ActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Activity.
+     */
+    data: XOR<ActivityCreateInput, ActivityUncheckedCreateInput>
+  }
+
+  /**
+   * Activity createMany
+   */
+  export type ActivityCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Activities.
+     */
+    data: ActivityCreateManyInput | ActivityCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Activity createManyAndReturn
+   */
+  export type ActivityCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Activity
+     */
+    omit?: ActivityOmit<ExtArgs> | null
+    /**
+     * The data used to create many Activities.
+     */
+    data: ActivityCreateManyInput | ActivityCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Activity update
+   */
+  export type ActivityUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Activity
+     */
+    omit?: ActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Activity.
+     */
+    data: XOR<ActivityUpdateInput, ActivityUncheckedUpdateInput>
+    /**
+     * Choose, which Activity to update.
+     */
+    where: ActivityWhereUniqueInput
+  }
+
+  /**
+   * Activity updateMany
+   */
+  export type ActivityUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Activities.
+     */
+    data: XOR<ActivityUpdateManyMutationInput, ActivityUncheckedUpdateManyInput>
+    /**
+     * Filter which Activities to update
+     */
+    where?: ActivityWhereInput
+    /**
+     * Limit how many Activities to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Activity updateManyAndReturn
+   */
+  export type ActivityUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Activity
+     */
+    omit?: ActivityOmit<ExtArgs> | null
+    /**
+     * The data used to update Activities.
+     */
+    data: XOR<ActivityUpdateManyMutationInput, ActivityUncheckedUpdateManyInput>
+    /**
+     * Filter which Activities to update
+     */
+    where?: ActivityWhereInput
+    /**
+     * Limit how many Activities to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Activity upsert
+   */
+  export type ActivityUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Activity
+     */
+    omit?: ActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Activity to update in case it exists.
+     */
+    where: ActivityWhereUniqueInput
+    /**
+     * In case the Activity found by the `where` argument doesn't exist, create a new Activity with this data.
+     */
+    create: XOR<ActivityCreateInput, ActivityUncheckedCreateInput>
+    /**
+     * In case the Activity was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ActivityUpdateInput, ActivityUncheckedUpdateInput>
+  }
+
+  /**
+   * Activity delete
+   */
+  export type ActivityDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Activity
+     */
+    omit?: ActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    /**
+     * Filter which Activity to delete.
+     */
+    where: ActivityWhereUniqueInput
+  }
+
+  /**
+   * Activity deleteMany
+   */
+  export type ActivityDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Activities to delete
+     */
+    where?: ActivityWhereInput
+    /**
+     * Limit how many Activities to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Activity.criteria
+   */
+  export type Activity$criteriaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Files
+     */
+    select?: FilesSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Files
+     */
+    omit?: FilesOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FilesInclude<ExtArgs> | null
+    where?: FilesWhereInput
+    orderBy?: FilesOrderByWithRelationInput | FilesOrderByWithRelationInput[]
+    cursor?: FilesWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: FilesScalarFieldEnum | FilesScalarFieldEnum[]
+  }
+
+  /**
+   * Activity without action
+   */
+  export type ActivityDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Activity
+     */
+    omit?: ActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
   }
 
 
@@ -4636,12 +5934,14 @@ export namespace Prisma {
   export type FilesAvgAggregateOutputType = {
     id: number | null
     fileSize: number | null
+    activityId: number | null
     announceId: number | null
   }
 
   export type FilesSumAggregateOutputType = {
     id: number | null
     fileSize: number | null
+    activityId: number | null
     announceId: number | null
   }
 
@@ -4651,6 +5951,7 @@ export namespace Prisma {
     mimetype: string | null
     fileSize: number | null
     destination: string | null
+    activityId: number | null
     announceId: number | null
   }
 
@@ -4660,6 +5961,7 @@ export namespace Prisma {
     mimetype: string | null
     fileSize: number | null
     destination: string | null
+    activityId: number | null
     announceId: number | null
   }
 
@@ -4669,6 +5971,7 @@ export namespace Prisma {
     mimetype: number
     fileSize: number
     destination: number
+    activityId: number
     announceId: number
     _all: number
   }
@@ -4677,12 +5980,14 @@ export namespace Prisma {
   export type FilesAvgAggregateInputType = {
     id?: true
     fileSize?: true
+    activityId?: true
     announceId?: true
   }
 
   export type FilesSumAggregateInputType = {
     id?: true
     fileSize?: true
+    activityId?: true
     announceId?: true
   }
 
@@ -4692,6 +5997,7 @@ export namespace Prisma {
     mimetype?: true
     fileSize?: true
     destination?: true
+    activityId?: true
     announceId?: true
   }
 
@@ -4701,6 +6007,7 @@ export namespace Prisma {
     mimetype?: true
     fileSize?: true
     destination?: true
+    activityId?: true
     announceId?: true
   }
 
@@ -4710,6 +6017,7 @@ export namespace Prisma {
     mimetype?: true
     fileSize?: true
     destination?: true
+    activityId?: true
     announceId?: true
     _all?: true
   }
@@ -4806,7 +6114,8 @@ export namespace Prisma {
     mimetype: string
     fileSize: number
     destination: string
-    announceId: number
+    activityId: number | null
+    announceId: number | null
     _count: FilesCountAggregateOutputType | null
     _avg: FilesAvgAggregateOutputType | null
     _sum: FilesSumAggregateOutputType | null
@@ -4834,8 +6143,10 @@ export namespace Prisma {
     mimetype?: boolean
     fileSize?: boolean
     destination?: boolean
+    activityId?: boolean
     announceId?: boolean
-    relatedToAnnouncement?: boolean | AnnouncementDefaultArgs<ExtArgs>
+    relatedToActivity?: boolean | Files$relatedToActivityArgs<ExtArgs>
+    relatedToAnnouncement?: boolean | Files$relatedToAnnouncementArgs<ExtArgs>
   }, ExtArgs["result"]["files"]>
 
   export type FilesSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4844,8 +6155,10 @@ export namespace Prisma {
     mimetype?: boolean
     fileSize?: boolean
     destination?: boolean
+    activityId?: boolean
     announceId?: boolean
-    relatedToAnnouncement?: boolean | AnnouncementDefaultArgs<ExtArgs>
+    relatedToActivity?: boolean | Files$relatedToActivityArgs<ExtArgs>
+    relatedToAnnouncement?: boolean | Files$relatedToAnnouncementArgs<ExtArgs>
   }, ExtArgs["result"]["files"]>
 
   export type FilesSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4854,8 +6167,10 @@ export namespace Prisma {
     mimetype?: boolean
     fileSize?: boolean
     destination?: boolean
+    activityId?: boolean
     announceId?: boolean
-    relatedToAnnouncement?: boolean | AnnouncementDefaultArgs<ExtArgs>
+    relatedToActivity?: boolean | Files$relatedToActivityArgs<ExtArgs>
+    relatedToAnnouncement?: boolean | Files$relatedToAnnouncementArgs<ExtArgs>
   }, ExtArgs["result"]["files"]>
 
   export type FilesSelectScalar = {
@@ -4864,24 +6179,29 @@ export namespace Prisma {
     mimetype?: boolean
     fileSize?: boolean
     destination?: boolean
+    activityId?: boolean
     announceId?: boolean
   }
 
-  export type FilesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "filename" | "mimetype" | "fileSize" | "destination" | "announceId", ExtArgs["result"]["files"]>
+  export type FilesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "filename" | "mimetype" | "fileSize" | "destination" | "activityId" | "announceId", ExtArgs["result"]["files"]>
   export type FilesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    relatedToAnnouncement?: boolean | AnnouncementDefaultArgs<ExtArgs>
+    relatedToActivity?: boolean | Files$relatedToActivityArgs<ExtArgs>
+    relatedToAnnouncement?: boolean | Files$relatedToAnnouncementArgs<ExtArgs>
   }
   export type FilesIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    relatedToAnnouncement?: boolean | AnnouncementDefaultArgs<ExtArgs>
+    relatedToActivity?: boolean | Files$relatedToActivityArgs<ExtArgs>
+    relatedToAnnouncement?: boolean | Files$relatedToAnnouncementArgs<ExtArgs>
   }
   export type FilesIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    relatedToAnnouncement?: boolean | AnnouncementDefaultArgs<ExtArgs>
+    relatedToActivity?: boolean | Files$relatedToActivityArgs<ExtArgs>
+    relatedToAnnouncement?: boolean | Files$relatedToAnnouncementArgs<ExtArgs>
   }
 
   export type $FilesPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Files"
     objects: {
-      relatedToAnnouncement: Prisma.$AnnouncementPayload<ExtArgs>
+      relatedToActivity: Prisma.$ActivityPayload<ExtArgs> | null
+      relatedToAnnouncement: Prisma.$AnnouncementPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -4889,7 +6209,8 @@ export namespace Prisma {
       mimetype: string
       fileSize: number
       destination: string
-      announceId: number
+      activityId: number | null
+      announceId: number | null
     }, ExtArgs["result"]["files"]>
     composites: {}
   }
@@ -5284,7 +6605,8 @@ export namespace Prisma {
    */
   export interface Prisma__FilesClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
-    relatedToAnnouncement<T extends AnnouncementDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AnnouncementDefaultArgs<ExtArgs>>): Prisma__AnnouncementClient<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    relatedToActivity<T extends Files$relatedToActivityArgs<ExtArgs> = {}>(args?: Subset<T, Files$relatedToActivityArgs<ExtArgs>>): Prisma__ActivityClient<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    relatedToAnnouncement<T extends Files$relatedToAnnouncementArgs<ExtArgs> = {}>(args?: Subset<T, Files$relatedToAnnouncementArgs<ExtArgs>>): Prisma__AnnouncementClient<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5319,6 +6641,7 @@ export namespace Prisma {
     readonly mimetype: FieldRef<"Files", 'String'>
     readonly fileSize: FieldRef<"Files", 'Int'>
     readonly destination: FieldRef<"Files", 'String'>
+    readonly activityId: FieldRef<"Files", 'Int'>
     readonly announceId: FieldRef<"Files", 'Int'>
   }
     
@@ -5716,6 +7039,44 @@ export namespace Prisma {
   }
 
   /**
+   * Files.relatedToActivity
+   */
+  export type Files$relatedToActivityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Activity
+     */
+    omit?: ActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    where?: ActivityWhereInput
+  }
+
+  /**
+   * Files.relatedToAnnouncement
+   */
+  export type Files$relatedToAnnouncementArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Announcement
+     */
+    select?: AnnouncementSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Announcement
+     */
+    omit?: AnnouncementOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AnnouncementInclude<ExtArgs> | null
+    where?: AnnouncementWhereInput
+  }
+
+  /**
    * Files without action
    */
   export type FilesDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5772,6 +7133,18 @@ export namespace Prisma {
   export type ClassroomScalarFieldEnum = (typeof ClassroomScalarFieldEnum)[keyof typeof ClassroomScalarFieldEnum]
 
 
+  export const ActivityScalarFieldEnum: {
+    id: 'id',
+    title: 'title',
+    date: 'date',
+    time: 'time',
+    instruction: 'instruction',
+    roomId: 'roomId'
+  };
+
+  export type ActivityScalarFieldEnum = (typeof ActivityScalarFieldEnum)[keyof typeof ActivityScalarFieldEnum]
+
+
   export const AnnouncementScalarFieldEnum: {
     id: 'id',
     title: 'title',
@@ -5788,6 +7161,7 @@ export namespace Prisma {
     mimetype: 'mimetype',
     fileSize: 'fileSize',
     destination: 'destination',
+    activityId: 'activityId',
     announceId: 'announceId'
   };
 
@@ -5948,6 +7322,7 @@ export namespace Prisma {
     userId?: IntFilter<"Classroom"> | number
     relatedToUser?: XOR<UserScalarRelationFilter, UserWhereInput>
     listOfAnnouncements?: AnnouncementListRelationFilter
+    listOfActivity?: ActivityListRelationFilter
   }
 
   export type ClassroomOrderByWithRelationInput = {
@@ -5961,6 +7336,7 @@ export namespace Prisma {
     userId?: SortOrder
     relatedToUser?: UserOrderByWithRelationInput
     listOfAnnouncements?: AnnouncementOrderByRelationAggregateInput
+    listOfActivity?: ActivityOrderByRelationAggregateInput
   }
 
   export type ClassroomWhereUniqueInput = Prisma.AtLeast<{
@@ -5977,6 +7353,7 @@ export namespace Prisma {
     userId?: IntFilter<"Classroom"> | number
     relatedToUser?: XOR<UserScalarRelationFilter, UserWhereInput>
     listOfAnnouncements?: AnnouncementListRelationFilter
+    listOfActivity?: ActivityListRelationFilter
   }, "id">
 
   export type ClassroomOrderByWithAggregationInput = {
@@ -6007,6 +7384,71 @@ export namespace Prisma {
     classcode?: StringNullableWithAggregatesFilter<"Classroom"> | string | null
     status?: EnumClassroomStatusWithAggregatesFilter<"Classroom"> | $Enums.ClassroomStatus
     userId?: IntWithAggregatesFilter<"Classroom"> | number
+  }
+
+  export type ActivityWhereInput = {
+    AND?: ActivityWhereInput | ActivityWhereInput[]
+    OR?: ActivityWhereInput[]
+    NOT?: ActivityWhereInput | ActivityWhereInput[]
+    id?: IntFilter<"Activity"> | number
+    title?: StringFilter<"Activity"> | string
+    date?: StringFilter<"Activity"> | string
+    time?: StringFilter<"Activity"> | string
+    instruction?: StringNullableFilter<"Activity"> | string | null
+    roomId?: IntFilter<"Activity"> | number
+    criteria?: FilesListRelationFilter
+    relatedToClassroom?: XOR<ClassroomScalarRelationFilter, ClassroomWhereInput>
+  }
+
+  export type ActivityOrderByWithRelationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    date?: SortOrder
+    time?: SortOrder
+    instruction?: SortOrderInput | SortOrder
+    roomId?: SortOrder
+    criteria?: FilesOrderByRelationAggregateInput
+    relatedToClassroom?: ClassroomOrderByWithRelationInput
+  }
+
+  export type ActivityWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: ActivityWhereInput | ActivityWhereInput[]
+    OR?: ActivityWhereInput[]
+    NOT?: ActivityWhereInput | ActivityWhereInput[]
+    title?: StringFilter<"Activity"> | string
+    date?: StringFilter<"Activity"> | string
+    time?: StringFilter<"Activity"> | string
+    instruction?: StringNullableFilter<"Activity"> | string | null
+    roomId?: IntFilter<"Activity"> | number
+    criteria?: FilesListRelationFilter
+    relatedToClassroom?: XOR<ClassroomScalarRelationFilter, ClassroomWhereInput>
+  }, "id">
+
+  export type ActivityOrderByWithAggregationInput = {
+    id?: SortOrder
+    title?: SortOrder
+    date?: SortOrder
+    time?: SortOrder
+    instruction?: SortOrderInput | SortOrder
+    roomId?: SortOrder
+    _count?: ActivityCountOrderByAggregateInput
+    _avg?: ActivityAvgOrderByAggregateInput
+    _max?: ActivityMaxOrderByAggregateInput
+    _min?: ActivityMinOrderByAggregateInput
+    _sum?: ActivitySumOrderByAggregateInput
+  }
+
+  export type ActivityScalarWhereWithAggregatesInput = {
+    AND?: ActivityScalarWhereWithAggregatesInput | ActivityScalarWhereWithAggregatesInput[]
+    OR?: ActivityScalarWhereWithAggregatesInput[]
+    NOT?: ActivityScalarWhereWithAggregatesInput | ActivityScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Activity"> | number
+    title?: StringWithAggregatesFilter<"Activity"> | string
+    date?: StringWithAggregatesFilter<"Activity"> | string
+    time?: StringWithAggregatesFilter<"Activity"> | string
+    instruction?: StringNullableWithAggregatesFilter<"Activity"> | string | null
+    roomId?: IntWithAggregatesFilter<"Activity"> | number
   }
 
   export type AnnouncementWhereInput = {
@@ -6073,8 +7515,10 @@ export namespace Prisma {
     mimetype?: StringFilter<"Files"> | string
     fileSize?: IntFilter<"Files"> | number
     destination?: StringFilter<"Files"> | string
-    announceId?: IntFilter<"Files"> | number
-    relatedToAnnouncement?: XOR<AnnouncementScalarRelationFilter, AnnouncementWhereInput>
+    activityId?: IntNullableFilter<"Files"> | number | null
+    announceId?: IntNullableFilter<"Files"> | number | null
+    relatedToActivity?: XOR<ActivityNullableScalarRelationFilter, ActivityWhereInput> | null
+    relatedToAnnouncement?: XOR<AnnouncementNullableScalarRelationFilter, AnnouncementWhereInput> | null
   }
 
   export type FilesOrderByWithRelationInput = {
@@ -6083,7 +7527,9 @@ export namespace Prisma {
     mimetype?: SortOrder
     fileSize?: SortOrder
     destination?: SortOrder
-    announceId?: SortOrder
+    activityId?: SortOrderInput | SortOrder
+    announceId?: SortOrderInput | SortOrder
+    relatedToActivity?: ActivityOrderByWithRelationInput
     relatedToAnnouncement?: AnnouncementOrderByWithRelationInput
   }
 
@@ -6096,8 +7542,10 @@ export namespace Prisma {
     mimetype?: StringFilter<"Files"> | string
     fileSize?: IntFilter<"Files"> | number
     destination?: StringFilter<"Files"> | string
-    announceId?: IntFilter<"Files"> | number
-    relatedToAnnouncement?: XOR<AnnouncementScalarRelationFilter, AnnouncementWhereInput>
+    activityId?: IntNullableFilter<"Files"> | number | null
+    announceId?: IntNullableFilter<"Files"> | number | null
+    relatedToActivity?: XOR<ActivityNullableScalarRelationFilter, ActivityWhereInput> | null
+    relatedToAnnouncement?: XOR<AnnouncementNullableScalarRelationFilter, AnnouncementWhereInput> | null
   }, "id">
 
   export type FilesOrderByWithAggregationInput = {
@@ -6106,7 +7554,8 @@ export namespace Prisma {
     mimetype?: SortOrder
     fileSize?: SortOrder
     destination?: SortOrder
-    announceId?: SortOrder
+    activityId?: SortOrderInput | SortOrder
+    announceId?: SortOrderInput | SortOrder
     _count?: FilesCountOrderByAggregateInput
     _avg?: FilesAvgOrderByAggregateInput
     _max?: FilesMaxOrderByAggregateInput
@@ -6123,7 +7572,8 @@ export namespace Prisma {
     mimetype?: StringWithAggregatesFilter<"Files"> | string
     fileSize?: IntWithAggregatesFilter<"Files"> | number
     destination?: StringWithAggregatesFilter<"Files"> | string
-    announceId?: IntWithAggregatesFilter<"Files"> | number
+    activityId?: IntNullableWithAggregatesFilter<"Files"> | number | null
+    announceId?: IntNullableWithAggregatesFilter<"Files"> | number | null
   }
 
   export type UserCreateInput = {
@@ -6185,6 +7635,7 @@ export namespace Prisma {
     status?: $Enums.ClassroomStatus
     relatedToUser: UserCreateNestedOneWithoutListOfCreatedClassroomInput
     listOfAnnouncements?: AnnouncementCreateNestedManyWithoutRelatedToClassroomInput
+    listOfActivity?: ActivityCreateNestedManyWithoutRelatedToClassroomInput
   }
 
   export type ClassroomUncheckedCreateInput = {
@@ -6197,6 +7648,7 @@ export namespace Prisma {
     status?: $Enums.ClassroomStatus
     userId: number
     listOfAnnouncements?: AnnouncementUncheckedCreateNestedManyWithoutRelatedToClassroomInput
+    listOfActivity?: ActivityUncheckedCreateNestedManyWithoutRelatedToClassroomInput
   }
 
   export type ClassroomUpdateInput = {
@@ -6208,6 +7660,7 @@ export namespace Prisma {
     status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
     relatedToUser?: UserUpdateOneRequiredWithoutListOfCreatedClassroomNestedInput
     listOfAnnouncements?: AnnouncementUpdateManyWithoutRelatedToClassroomNestedInput
+    listOfActivity?: ActivityUpdateManyWithoutRelatedToClassroomNestedInput
   }
 
   export type ClassroomUncheckedUpdateInput = {
@@ -6220,6 +7673,7 @@ export namespace Prisma {
     status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
     userId?: IntFieldUpdateOperationsInput | number
     listOfAnnouncements?: AnnouncementUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
+    listOfActivity?: ActivityUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
   }
 
   export type ClassroomCreateManyInput = {
@@ -6251,6 +7705,69 @@ export namespace Prisma {
     classcode?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
     userId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type ActivityCreateInput = {
+    title: string
+    date: string
+    time: string
+    instruction?: string | null
+    criteria?: FilesCreateNestedManyWithoutRelatedToActivityInput
+    relatedToClassroom: ClassroomCreateNestedOneWithoutListOfActivityInput
+  }
+
+  export type ActivityUncheckedCreateInput = {
+    id?: number
+    title: string
+    date: string
+    time: string
+    instruction?: string | null
+    roomId: number
+    criteria?: FilesUncheckedCreateNestedManyWithoutRelatedToActivityInput
+  }
+
+  export type ActivityUpdateInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    time?: StringFieldUpdateOperationsInput | string
+    instruction?: NullableStringFieldUpdateOperationsInput | string | null
+    criteria?: FilesUpdateManyWithoutRelatedToActivityNestedInput
+    relatedToClassroom?: ClassroomUpdateOneRequiredWithoutListOfActivityNestedInput
+  }
+
+  export type ActivityUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    time?: StringFieldUpdateOperationsInput | string
+    instruction?: NullableStringFieldUpdateOperationsInput | string | null
+    roomId?: IntFieldUpdateOperationsInput | number
+    criteria?: FilesUncheckedUpdateManyWithoutRelatedToActivityNestedInput
+  }
+
+  export type ActivityCreateManyInput = {
+    id?: number
+    title: string
+    date: string
+    time: string
+    instruction?: string | null
+    roomId: number
+  }
+
+  export type ActivityUpdateManyMutationInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    time?: StringFieldUpdateOperationsInput | string
+    instruction?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ActivityUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    time?: StringFieldUpdateOperationsInput | string
+    instruction?: NullableStringFieldUpdateOperationsInput | string | null
+    roomId?: IntFieldUpdateOperationsInput | number
   }
 
   export type AnnouncementCreateInput = {
@@ -6307,7 +7824,8 @@ export namespace Prisma {
     mimetype: string
     fileSize: number
     destination: string
-    relatedToAnnouncement: AnnouncementCreateNestedOneWithoutListOfFilesInput
+    relatedToActivity?: ActivityCreateNestedOneWithoutCriteriaInput
+    relatedToAnnouncement?: AnnouncementCreateNestedOneWithoutListOfFilesInput
   }
 
   export type FilesUncheckedCreateInput = {
@@ -6316,7 +7834,8 @@ export namespace Prisma {
     mimetype: string
     fileSize: number
     destination: string
-    announceId: number
+    activityId?: number | null
+    announceId?: number | null
   }
 
   export type FilesUpdateInput = {
@@ -6324,7 +7843,8 @@ export namespace Prisma {
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
     destination?: StringFieldUpdateOperationsInput | string
-    relatedToAnnouncement?: AnnouncementUpdateOneRequiredWithoutListOfFilesNestedInput
+    relatedToActivity?: ActivityUpdateOneWithoutCriteriaNestedInput
+    relatedToAnnouncement?: AnnouncementUpdateOneWithoutListOfFilesNestedInput
   }
 
   export type FilesUncheckedUpdateInput = {
@@ -6333,7 +7853,8 @@ export namespace Prisma {
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
     destination?: StringFieldUpdateOperationsInput | string
-    announceId?: IntFieldUpdateOperationsInput | number
+    activityId?: NullableIntFieldUpdateOperationsInput | number | null
+    announceId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type FilesCreateManyInput = {
@@ -6342,7 +7863,8 @@ export namespace Prisma {
     mimetype: string
     fileSize: number
     destination: string
-    announceId: number
+    activityId?: number | null
+    announceId?: number | null
   }
 
   export type FilesUpdateManyMutationInput = {
@@ -6358,7 +7880,8 @@ export namespace Prisma {
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
     destination?: StringFieldUpdateOperationsInput | string
-    announceId?: IntFieldUpdateOperationsInput | number
+    activityId?: NullableIntFieldUpdateOperationsInput | number | null
+    announceId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -6516,7 +8039,17 @@ export namespace Prisma {
     none?: AnnouncementWhereInput
   }
 
+  export type ActivityListRelationFilter = {
+    every?: ActivityWhereInput
+    some?: ActivityWhereInput
+    none?: ActivityWhereInput
+  }
+
   export type AnnouncementOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type ActivityOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -6573,19 +8106,56 @@ export namespace Prisma {
     _max?: NestedEnumClassroomStatusFilter<$PrismaModel>
   }
 
-  export type ClassroomScalarRelationFilter = {
-    is?: ClassroomWhereInput
-    isNot?: ClassroomWhereInput
-  }
-
   export type FilesListRelationFilter = {
     every?: FilesWhereInput
     some?: FilesWhereInput
     none?: FilesWhereInput
   }
 
+  export type ClassroomScalarRelationFilter = {
+    is?: ClassroomWhereInput
+    isNot?: ClassroomWhereInput
+  }
+
   export type FilesOrderByRelationAggregateInput = {
     _count?: SortOrder
+  }
+
+  export type ActivityCountOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    date?: SortOrder
+    time?: SortOrder
+    instruction?: SortOrder
+    roomId?: SortOrder
+  }
+
+  export type ActivityAvgOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
+  }
+
+  export type ActivityMaxOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    date?: SortOrder
+    time?: SortOrder
+    instruction?: SortOrder
+    roomId?: SortOrder
+  }
+
+  export type ActivityMinOrderByAggregateInput = {
+    id?: SortOrder
+    title?: SortOrder
+    date?: SortOrder
+    time?: SortOrder
+    instruction?: SortOrder
+    roomId?: SortOrder
+  }
+
+  export type ActivitySumOrderByAggregateInput = {
+    id?: SortOrder
+    roomId?: SortOrder
   }
 
   export type AnnouncementCountOrderByAggregateInput = {
@@ -6619,9 +8189,25 @@ export namespace Prisma {
     roomId?: SortOrder
   }
 
-  export type AnnouncementScalarRelationFilter = {
-    is?: AnnouncementWhereInput
-    isNot?: AnnouncementWhereInput
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type ActivityNullableScalarRelationFilter = {
+    is?: ActivityWhereInput | null
+    isNot?: ActivityWhereInput | null
+  }
+
+  export type AnnouncementNullableScalarRelationFilter = {
+    is?: AnnouncementWhereInput | null
+    isNot?: AnnouncementWhereInput | null
   }
 
   export type FilesCountOrderByAggregateInput = {
@@ -6630,12 +8216,14 @@ export namespace Prisma {
     mimetype?: SortOrder
     fileSize?: SortOrder
     destination?: SortOrder
+    activityId?: SortOrder
     announceId?: SortOrder
   }
 
   export type FilesAvgOrderByAggregateInput = {
     id?: SortOrder
     fileSize?: SortOrder
+    activityId?: SortOrder
     announceId?: SortOrder
   }
 
@@ -6645,6 +8233,7 @@ export namespace Prisma {
     mimetype?: SortOrder
     fileSize?: SortOrder
     destination?: SortOrder
+    activityId?: SortOrder
     announceId?: SortOrder
   }
 
@@ -6654,13 +8243,31 @@ export namespace Prisma {
     mimetype?: SortOrder
     fileSize?: SortOrder
     destination?: SortOrder
+    activityId?: SortOrder
     announceId?: SortOrder
   }
 
   export type FilesSumOrderByAggregateInput = {
     id?: SortOrder
     fileSize?: SortOrder
+    activityId?: SortOrder
     announceId?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
   }
 
   export type ClassroomCreateNestedManyWithoutRelatedToUserInput = {
@@ -6734,11 +8341,25 @@ export namespace Prisma {
     connect?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
   }
 
+  export type ActivityCreateNestedManyWithoutRelatedToClassroomInput = {
+    create?: XOR<ActivityCreateWithoutRelatedToClassroomInput, ActivityUncheckedCreateWithoutRelatedToClassroomInput> | ActivityCreateWithoutRelatedToClassroomInput[] | ActivityUncheckedCreateWithoutRelatedToClassroomInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutRelatedToClassroomInput | ActivityCreateOrConnectWithoutRelatedToClassroomInput[]
+    createMany?: ActivityCreateManyRelatedToClassroomInputEnvelope
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+  }
+
   export type AnnouncementUncheckedCreateNestedManyWithoutRelatedToClassroomInput = {
     create?: XOR<AnnouncementCreateWithoutRelatedToClassroomInput, AnnouncementUncheckedCreateWithoutRelatedToClassroomInput> | AnnouncementCreateWithoutRelatedToClassroomInput[] | AnnouncementUncheckedCreateWithoutRelatedToClassroomInput[]
     connectOrCreate?: AnnouncementCreateOrConnectWithoutRelatedToClassroomInput | AnnouncementCreateOrConnectWithoutRelatedToClassroomInput[]
     createMany?: AnnouncementCreateManyRelatedToClassroomInputEnvelope
     connect?: AnnouncementWhereUniqueInput | AnnouncementWhereUniqueInput[]
+  }
+
+  export type ActivityUncheckedCreateNestedManyWithoutRelatedToClassroomInput = {
+    create?: XOR<ActivityCreateWithoutRelatedToClassroomInput, ActivityUncheckedCreateWithoutRelatedToClassroomInput> | ActivityCreateWithoutRelatedToClassroomInput[] | ActivityUncheckedCreateWithoutRelatedToClassroomInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutRelatedToClassroomInput | ActivityCreateOrConnectWithoutRelatedToClassroomInput[]
+    createMany?: ActivityCreateManyRelatedToClassroomInputEnvelope
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
   }
 
   export type EnumClassroomStatusFieldUpdateOperationsInput = {
@@ -6767,6 +8388,20 @@ export namespace Prisma {
     deleteMany?: AnnouncementScalarWhereInput | AnnouncementScalarWhereInput[]
   }
 
+  export type ActivityUpdateManyWithoutRelatedToClassroomNestedInput = {
+    create?: XOR<ActivityCreateWithoutRelatedToClassroomInput, ActivityUncheckedCreateWithoutRelatedToClassroomInput> | ActivityCreateWithoutRelatedToClassroomInput[] | ActivityUncheckedCreateWithoutRelatedToClassroomInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutRelatedToClassroomInput | ActivityCreateOrConnectWithoutRelatedToClassroomInput[]
+    upsert?: ActivityUpsertWithWhereUniqueWithoutRelatedToClassroomInput | ActivityUpsertWithWhereUniqueWithoutRelatedToClassroomInput[]
+    createMany?: ActivityCreateManyRelatedToClassroomInputEnvelope
+    set?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    disconnect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    delete?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    update?: ActivityUpdateWithWhereUniqueWithoutRelatedToClassroomInput | ActivityUpdateWithWhereUniqueWithoutRelatedToClassroomInput[]
+    updateMany?: ActivityUpdateManyWithWhereWithoutRelatedToClassroomInput | ActivityUpdateManyWithWhereWithoutRelatedToClassroomInput[]
+    deleteMany?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
+  }
+
   export type AnnouncementUncheckedUpdateManyWithoutRelatedToClassroomNestedInput = {
     create?: XOR<AnnouncementCreateWithoutRelatedToClassroomInput, AnnouncementUncheckedCreateWithoutRelatedToClassroomInput> | AnnouncementCreateWithoutRelatedToClassroomInput[] | AnnouncementUncheckedCreateWithoutRelatedToClassroomInput[]
     connectOrCreate?: AnnouncementCreateOrConnectWithoutRelatedToClassroomInput | AnnouncementCreateOrConnectWithoutRelatedToClassroomInput[]
@@ -6779,6 +8414,76 @@ export namespace Prisma {
     update?: AnnouncementUpdateWithWhereUniqueWithoutRelatedToClassroomInput | AnnouncementUpdateWithWhereUniqueWithoutRelatedToClassroomInput[]
     updateMany?: AnnouncementUpdateManyWithWhereWithoutRelatedToClassroomInput | AnnouncementUpdateManyWithWhereWithoutRelatedToClassroomInput[]
     deleteMany?: AnnouncementScalarWhereInput | AnnouncementScalarWhereInput[]
+  }
+
+  export type ActivityUncheckedUpdateManyWithoutRelatedToClassroomNestedInput = {
+    create?: XOR<ActivityCreateWithoutRelatedToClassroomInput, ActivityUncheckedCreateWithoutRelatedToClassroomInput> | ActivityCreateWithoutRelatedToClassroomInput[] | ActivityUncheckedCreateWithoutRelatedToClassroomInput[]
+    connectOrCreate?: ActivityCreateOrConnectWithoutRelatedToClassroomInput | ActivityCreateOrConnectWithoutRelatedToClassroomInput[]
+    upsert?: ActivityUpsertWithWhereUniqueWithoutRelatedToClassroomInput | ActivityUpsertWithWhereUniqueWithoutRelatedToClassroomInput[]
+    createMany?: ActivityCreateManyRelatedToClassroomInputEnvelope
+    set?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    disconnect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    delete?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    connect?: ActivityWhereUniqueInput | ActivityWhereUniqueInput[]
+    update?: ActivityUpdateWithWhereUniqueWithoutRelatedToClassroomInput | ActivityUpdateWithWhereUniqueWithoutRelatedToClassroomInput[]
+    updateMany?: ActivityUpdateManyWithWhereWithoutRelatedToClassroomInput | ActivityUpdateManyWithWhereWithoutRelatedToClassroomInput[]
+    deleteMany?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
+  }
+
+  export type FilesCreateNestedManyWithoutRelatedToActivityInput = {
+    create?: XOR<FilesCreateWithoutRelatedToActivityInput, FilesUncheckedCreateWithoutRelatedToActivityInput> | FilesCreateWithoutRelatedToActivityInput[] | FilesUncheckedCreateWithoutRelatedToActivityInput[]
+    connectOrCreate?: FilesCreateOrConnectWithoutRelatedToActivityInput | FilesCreateOrConnectWithoutRelatedToActivityInput[]
+    createMany?: FilesCreateManyRelatedToActivityInputEnvelope
+    connect?: FilesWhereUniqueInput | FilesWhereUniqueInput[]
+  }
+
+  export type ClassroomCreateNestedOneWithoutListOfActivityInput = {
+    create?: XOR<ClassroomCreateWithoutListOfActivityInput, ClassroomUncheckedCreateWithoutListOfActivityInput>
+    connectOrCreate?: ClassroomCreateOrConnectWithoutListOfActivityInput
+    connect?: ClassroomWhereUniqueInput
+  }
+
+  export type FilesUncheckedCreateNestedManyWithoutRelatedToActivityInput = {
+    create?: XOR<FilesCreateWithoutRelatedToActivityInput, FilesUncheckedCreateWithoutRelatedToActivityInput> | FilesCreateWithoutRelatedToActivityInput[] | FilesUncheckedCreateWithoutRelatedToActivityInput[]
+    connectOrCreate?: FilesCreateOrConnectWithoutRelatedToActivityInput | FilesCreateOrConnectWithoutRelatedToActivityInput[]
+    createMany?: FilesCreateManyRelatedToActivityInputEnvelope
+    connect?: FilesWhereUniqueInput | FilesWhereUniqueInput[]
+  }
+
+  export type FilesUpdateManyWithoutRelatedToActivityNestedInput = {
+    create?: XOR<FilesCreateWithoutRelatedToActivityInput, FilesUncheckedCreateWithoutRelatedToActivityInput> | FilesCreateWithoutRelatedToActivityInput[] | FilesUncheckedCreateWithoutRelatedToActivityInput[]
+    connectOrCreate?: FilesCreateOrConnectWithoutRelatedToActivityInput | FilesCreateOrConnectWithoutRelatedToActivityInput[]
+    upsert?: FilesUpsertWithWhereUniqueWithoutRelatedToActivityInput | FilesUpsertWithWhereUniqueWithoutRelatedToActivityInput[]
+    createMany?: FilesCreateManyRelatedToActivityInputEnvelope
+    set?: FilesWhereUniqueInput | FilesWhereUniqueInput[]
+    disconnect?: FilesWhereUniqueInput | FilesWhereUniqueInput[]
+    delete?: FilesWhereUniqueInput | FilesWhereUniqueInput[]
+    connect?: FilesWhereUniqueInput | FilesWhereUniqueInput[]
+    update?: FilesUpdateWithWhereUniqueWithoutRelatedToActivityInput | FilesUpdateWithWhereUniqueWithoutRelatedToActivityInput[]
+    updateMany?: FilesUpdateManyWithWhereWithoutRelatedToActivityInput | FilesUpdateManyWithWhereWithoutRelatedToActivityInput[]
+    deleteMany?: FilesScalarWhereInput | FilesScalarWhereInput[]
+  }
+
+  export type ClassroomUpdateOneRequiredWithoutListOfActivityNestedInput = {
+    create?: XOR<ClassroomCreateWithoutListOfActivityInput, ClassroomUncheckedCreateWithoutListOfActivityInput>
+    connectOrCreate?: ClassroomCreateOrConnectWithoutListOfActivityInput
+    upsert?: ClassroomUpsertWithoutListOfActivityInput
+    connect?: ClassroomWhereUniqueInput
+    update?: XOR<XOR<ClassroomUpdateToOneWithWhereWithoutListOfActivityInput, ClassroomUpdateWithoutListOfActivityInput>, ClassroomUncheckedUpdateWithoutListOfActivityInput>
+  }
+
+  export type FilesUncheckedUpdateManyWithoutRelatedToActivityNestedInput = {
+    create?: XOR<FilesCreateWithoutRelatedToActivityInput, FilesUncheckedCreateWithoutRelatedToActivityInput> | FilesCreateWithoutRelatedToActivityInput[] | FilesUncheckedCreateWithoutRelatedToActivityInput[]
+    connectOrCreate?: FilesCreateOrConnectWithoutRelatedToActivityInput | FilesCreateOrConnectWithoutRelatedToActivityInput[]
+    upsert?: FilesUpsertWithWhereUniqueWithoutRelatedToActivityInput | FilesUpsertWithWhereUniqueWithoutRelatedToActivityInput[]
+    createMany?: FilesCreateManyRelatedToActivityInputEnvelope
+    set?: FilesWhereUniqueInput | FilesWhereUniqueInput[]
+    disconnect?: FilesWhereUniqueInput | FilesWhereUniqueInput[]
+    delete?: FilesWhereUniqueInput | FilesWhereUniqueInput[]
+    connect?: FilesWhereUniqueInput | FilesWhereUniqueInput[]
+    update?: FilesUpdateWithWhereUniqueWithoutRelatedToActivityInput | FilesUpdateWithWhereUniqueWithoutRelatedToActivityInput[]
+    updateMany?: FilesUpdateManyWithWhereWithoutRelatedToActivityInput | FilesUpdateManyWithWhereWithoutRelatedToActivityInput[]
+    deleteMany?: FilesScalarWhereInput | FilesScalarWhereInput[]
   }
 
   export type ClassroomCreateNestedOneWithoutListOfAnnouncementsInput = {
@@ -6837,18 +8542,44 @@ export namespace Prisma {
     deleteMany?: FilesScalarWhereInput | FilesScalarWhereInput[]
   }
 
+  export type ActivityCreateNestedOneWithoutCriteriaInput = {
+    create?: XOR<ActivityCreateWithoutCriteriaInput, ActivityUncheckedCreateWithoutCriteriaInput>
+    connectOrCreate?: ActivityCreateOrConnectWithoutCriteriaInput
+    connect?: ActivityWhereUniqueInput
+  }
+
   export type AnnouncementCreateNestedOneWithoutListOfFilesInput = {
     create?: XOR<AnnouncementCreateWithoutListOfFilesInput, AnnouncementUncheckedCreateWithoutListOfFilesInput>
     connectOrCreate?: AnnouncementCreateOrConnectWithoutListOfFilesInput
     connect?: AnnouncementWhereUniqueInput
   }
 
-  export type AnnouncementUpdateOneRequiredWithoutListOfFilesNestedInput = {
+  export type ActivityUpdateOneWithoutCriteriaNestedInput = {
+    create?: XOR<ActivityCreateWithoutCriteriaInput, ActivityUncheckedCreateWithoutCriteriaInput>
+    connectOrCreate?: ActivityCreateOrConnectWithoutCriteriaInput
+    upsert?: ActivityUpsertWithoutCriteriaInput
+    disconnect?: ActivityWhereInput | boolean
+    delete?: ActivityWhereInput | boolean
+    connect?: ActivityWhereUniqueInput
+    update?: XOR<XOR<ActivityUpdateToOneWithWhereWithoutCriteriaInput, ActivityUpdateWithoutCriteriaInput>, ActivityUncheckedUpdateWithoutCriteriaInput>
+  }
+
+  export type AnnouncementUpdateOneWithoutListOfFilesNestedInput = {
     create?: XOR<AnnouncementCreateWithoutListOfFilesInput, AnnouncementUncheckedCreateWithoutListOfFilesInput>
     connectOrCreate?: AnnouncementCreateOrConnectWithoutListOfFilesInput
     upsert?: AnnouncementUpsertWithoutListOfFilesInput
+    disconnect?: AnnouncementWhereInput | boolean
+    delete?: AnnouncementWhereInput | boolean
     connect?: AnnouncementWhereUniqueInput
     update?: XOR<XOR<AnnouncementUpdateToOneWithWhereWithoutListOfFilesInput, AnnouncementUpdateWithoutListOfFilesInput>, AnnouncementUncheckedUpdateWithoutListOfFilesInput>
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -6979,6 +8710,33 @@ export namespace Prisma {
     _max?: NestedEnumClassroomStatusFilter<$PrismaModel>
   }
 
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
   export type ClassroomCreateWithoutRelatedToUserInput = {
     classname: string
     section: string
@@ -6987,6 +8745,7 @@ export namespace Prisma {
     classcode?: string | null
     status?: $Enums.ClassroomStatus
     listOfAnnouncements?: AnnouncementCreateNestedManyWithoutRelatedToClassroomInput
+    listOfActivity?: ActivityCreateNestedManyWithoutRelatedToClassroomInput
   }
 
   export type ClassroomUncheckedCreateWithoutRelatedToUserInput = {
@@ -6998,6 +8757,7 @@ export namespace Prisma {
     classcode?: string | null
     status?: $Enums.ClassroomStatus
     listOfAnnouncements?: AnnouncementUncheckedCreateNestedManyWithoutRelatedToClassroomInput
+    listOfActivity?: ActivityUncheckedCreateNestedManyWithoutRelatedToClassroomInput
   }
 
   export type ClassroomCreateOrConnectWithoutRelatedToUserInput = {
@@ -7081,6 +8841,33 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type ActivityCreateWithoutRelatedToClassroomInput = {
+    title: string
+    date: string
+    time: string
+    instruction?: string | null
+    criteria?: FilesCreateNestedManyWithoutRelatedToActivityInput
+  }
+
+  export type ActivityUncheckedCreateWithoutRelatedToClassroomInput = {
+    id?: number
+    title: string
+    date: string
+    time: string
+    instruction?: string | null
+    criteria?: FilesUncheckedCreateNestedManyWithoutRelatedToActivityInput
+  }
+
+  export type ActivityCreateOrConnectWithoutRelatedToClassroomInput = {
+    where: ActivityWhereUniqueInput
+    create: XOR<ActivityCreateWithoutRelatedToClassroomInput, ActivityUncheckedCreateWithoutRelatedToClassroomInput>
+  }
+
+  export type ActivityCreateManyRelatedToClassroomInputEnvelope = {
+    data: ActivityCreateManyRelatedToClassroomInput | ActivityCreateManyRelatedToClassroomInput[]
+    skipDuplicates?: boolean
+  }
+
   export type UserUpsertWithoutListOfCreatedClassroomInput = {
     update: XOR<UserUpdateWithoutListOfCreatedClassroomInput, UserUncheckedUpdateWithoutListOfCreatedClassroomInput>
     create: XOR<UserCreateWithoutListOfCreatedClassroomInput, UserUncheckedCreateWithoutListOfCreatedClassroomInput>
@@ -7131,6 +8918,152 @@ export namespace Prisma {
     roomId?: IntFilter<"Announcement"> | number
   }
 
+  export type ActivityUpsertWithWhereUniqueWithoutRelatedToClassroomInput = {
+    where: ActivityWhereUniqueInput
+    update: XOR<ActivityUpdateWithoutRelatedToClassroomInput, ActivityUncheckedUpdateWithoutRelatedToClassroomInput>
+    create: XOR<ActivityCreateWithoutRelatedToClassroomInput, ActivityUncheckedCreateWithoutRelatedToClassroomInput>
+  }
+
+  export type ActivityUpdateWithWhereUniqueWithoutRelatedToClassroomInput = {
+    where: ActivityWhereUniqueInput
+    data: XOR<ActivityUpdateWithoutRelatedToClassroomInput, ActivityUncheckedUpdateWithoutRelatedToClassroomInput>
+  }
+
+  export type ActivityUpdateManyWithWhereWithoutRelatedToClassroomInput = {
+    where: ActivityScalarWhereInput
+    data: XOR<ActivityUpdateManyMutationInput, ActivityUncheckedUpdateManyWithoutRelatedToClassroomInput>
+  }
+
+  export type ActivityScalarWhereInput = {
+    AND?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
+    OR?: ActivityScalarWhereInput[]
+    NOT?: ActivityScalarWhereInput | ActivityScalarWhereInput[]
+    id?: IntFilter<"Activity"> | number
+    title?: StringFilter<"Activity"> | string
+    date?: StringFilter<"Activity"> | string
+    time?: StringFilter<"Activity"> | string
+    instruction?: StringNullableFilter<"Activity"> | string | null
+    roomId?: IntFilter<"Activity"> | number
+  }
+
+  export type FilesCreateWithoutRelatedToActivityInput = {
+    filename: string
+    mimetype: string
+    fileSize: number
+    destination: string
+    relatedToAnnouncement?: AnnouncementCreateNestedOneWithoutListOfFilesInput
+  }
+
+  export type FilesUncheckedCreateWithoutRelatedToActivityInput = {
+    id?: number
+    filename: string
+    mimetype: string
+    fileSize: number
+    destination: string
+    announceId?: number | null
+  }
+
+  export type FilesCreateOrConnectWithoutRelatedToActivityInput = {
+    where: FilesWhereUniqueInput
+    create: XOR<FilesCreateWithoutRelatedToActivityInput, FilesUncheckedCreateWithoutRelatedToActivityInput>
+  }
+
+  export type FilesCreateManyRelatedToActivityInputEnvelope = {
+    data: FilesCreateManyRelatedToActivityInput | FilesCreateManyRelatedToActivityInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ClassroomCreateWithoutListOfActivityInput = {
+    classname: string
+    section: string
+    subject: string
+    room: string
+    classcode?: string | null
+    status?: $Enums.ClassroomStatus
+    relatedToUser: UserCreateNestedOneWithoutListOfCreatedClassroomInput
+    listOfAnnouncements?: AnnouncementCreateNestedManyWithoutRelatedToClassroomInput
+  }
+
+  export type ClassroomUncheckedCreateWithoutListOfActivityInput = {
+    id?: number
+    classname: string
+    section: string
+    subject: string
+    room: string
+    classcode?: string | null
+    status?: $Enums.ClassroomStatus
+    userId: number
+    listOfAnnouncements?: AnnouncementUncheckedCreateNestedManyWithoutRelatedToClassroomInput
+  }
+
+  export type ClassroomCreateOrConnectWithoutListOfActivityInput = {
+    where: ClassroomWhereUniqueInput
+    create: XOR<ClassroomCreateWithoutListOfActivityInput, ClassroomUncheckedCreateWithoutListOfActivityInput>
+  }
+
+  export type FilesUpsertWithWhereUniqueWithoutRelatedToActivityInput = {
+    where: FilesWhereUniqueInput
+    update: XOR<FilesUpdateWithoutRelatedToActivityInput, FilesUncheckedUpdateWithoutRelatedToActivityInput>
+    create: XOR<FilesCreateWithoutRelatedToActivityInput, FilesUncheckedCreateWithoutRelatedToActivityInput>
+  }
+
+  export type FilesUpdateWithWhereUniqueWithoutRelatedToActivityInput = {
+    where: FilesWhereUniqueInput
+    data: XOR<FilesUpdateWithoutRelatedToActivityInput, FilesUncheckedUpdateWithoutRelatedToActivityInput>
+  }
+
+  export type FilesUpdateManyWithWhereWithoutRelatedToActivityInput = {
+    where: FilesScalarWhereInput
+    data: XOR<FilesUpdateManyMutationInput, FilesUncheckedUpdateManyWithoutRelatedToActivityInput>
+  }
+
+  export type FilesScalarWhereInput = {
+    AND?: FilesScalarWhereInput | FilesScalarWhereInput[]
+    OR?: FilesScalarWhereInput[]
+    NOT?: FilesScalarWhereInput | FilesScalarWhereInput[]
+    id?: IntFilter<"Files"> | number
+    filename?: StringFilter<"Files"> | string
+    mimetype?: StringFilter<"Files"> | string
+    fileSize?: IntFilter<"Files"> | number
+    destination?: StringFilter<"Files"> | string
+    activityId?: IntNullableFilter<"Files"> | number | null
+    announceId?: IntNullableFilter<"Files"> | number | null
+  }
+
+  export type ClassroomUpsertWithoutListOfActivityInput = {
+    update: XOR<ClassroomUpdateWithoutListOfActivityInput, ClassroomUncheckedUpdateWithoutListOfActivityInput>
+    create: XOR<ClassroomCreateWithoutListOfActivityInput, ClassroomUncheckedCreateWithoutListOfActivityInput>
+    where?: ClassroomWhereInput
+  }
+
+  export type ClassroomUpdateToOneWithWhereWithoutListOfActivityInput = {
+    where?: ClassroomWhereInput
+    data: XOR<ClassroomUpdateWithoutListOfActivityInput, ClassroomUncheckedUpdateWithoutListOfActivityInput>
+  }
+
+  export type ClassroomUpdateWithoutListOfActivityInput = {
+    classname?: StringFieldUpdateOperationsInput | string
+    section?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    room?: StringFieldUpdateOperationsInput | string
+    classcode?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
+    relatedToUser?: UserUpdateOneRequiredWithoutListOfCreatedClassroomNestedInput
+    listOfAnnouncements?: AnnouncementUpdateManyWithoutRelatedToClassroomNestedInput
+  }
+
+  export type ClassroomUncheckedUpdateWithoutListOfActivityInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    classname?: StringFieldUpdateOperationsInput | string
+    section?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    room?: StringFieldUpdateOperationsInput | string
+    classcode?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
+    userId?: IntFieldUpdateOperationsInput | number
+    listOfAnnouncements?: AnnouncementUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
+  }
+
   export type ClassroomCreateWithoutListOfAnnouncementsInput = {
     classname: string
     section: string
@@ -7139,6 +9072,7 @@ export namespace Prisma {
     classcode?: string | null
     status?: $Enums.ClassroomStatus
     relatedToUser: UserCreateNestedOneWithoutListOfCreatedClassroomInput
+    listOfActivity?: ActivityCreateNestedManyWithoutRelatedToClassroomInput
   }
 
   export type ClassroomUncheckedCreateWithoutListOfAnnouncementsInput = {
@@ -7150,6 +9084,7 @@ export namespace Prisma {
     classcode?: string | null
     status?: $Enums.ClassroomStatus
     userId: number
+    listOfActivity?: ActivityUncheckedCreateNestedManyWithoutRelatedToClassroomInput
   }
 
   export type ClassroomCreateOrConnectWithoutListOfAnnouncementsInput = {
@@ -7162,6 +9097,7 @@ export namespace Prisma {
     mimetype: string
     fileSize: number
     destination: string
+    relatedToActivity?: ActivityCreateNestedOneWithoutCriteriaInput
   }
 
   export type FilesUncheckedCreateWithoutRelatedToAnnouncementInput = {
@@ -7170,6 +9106,7 @@ export namespace Prisma {
     mimetype: string
     fileSize: number
     destination: string
+    activityId?: number | null
   }
 
   export type FilesCreateOrConnectWithoutRelatedToAnnouncementInput = {
@@ -7201,6 +9138,7 @@ export namespace Prisma {
     classcode?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
     relatedToUser?: UserUpdateOneRequiredWithoutListOfCreatedClassroomNestedInput
+    listOfActivity?: ActivityUpdateManyWithoutRelatedToClassroomNestedInput
   }
 
   export type ClassroomUncheckedUpdateWithoutListOfAnnouncementsInput = {
@@ -7212,6 +9150,7 @@ export namespace Prisma {
     classcode?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
     userId?: IntFieldUpdateOperationsInput | number
+    listOfActivity?: ActivityUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
   }
 
   export type FilesUpsertWithWhereUniqueWithoutRelatedToAnnouncementInput = {
@@ -7230,16 +9169,26 @@ export namespace Prisma {
     data: XOR<FilesUpdateManyMutationInput, FilesUncheckedUpdateManyWithoutRelatedToAnnouncementInput>
   }
 
-  export type FilesScalarWhereInput = {
-    AND?: FilesScalarWhereInput | FilesScalarWhereInput[]
-    OR?: FilesScalarWhereInput[]
-    NOT?: FilesScalarWhereInput | FilesScalarWhereInput[]
-    id?: IntFilter<"Files"> | number
-    filename?: StringFilter<"Files"> | string
-    mimetype?: StringFilter<"Files"> | string
-    fileSize?: IntFilter<"Files"> | number
-    destination?: StringFilter<"Files"> | string
-    announceId?: IntFilter<"Files"> | number
+  export type ActivityCreateWithoutCriteriaInput = {
+    title: string
+    date: string
+    time: string
+    instruction?: string | null
+    relatedToClassroom: ClassroomCreateNestedOneWithoutListOfActivityInput
+  }
+
+  export type ActivityUncheckedCreateWithoutCriteriaInput = {
+    id?: number
+    title: string
+    date: string
+    time: string
+    instruction?: string | null
+    roomId: number
+  }
+
+  export type ActivityCreateOrConnectWithoutCriteriaInput = {
+    where: ActivityWhereUniqueInput
+    create: XOR<ActivityCreateWithoutCriteriaInput, ActivityUncheckedCreateWithoutCriteriaInput>
   }
 
   export type AnnouncementCreateWithoutListOfFilesInput = {
@@ -7258,6 +9207,34 @@ export namespace Prisma {
   export type AnnouncementCreateOrConnectWithoutListOfFilesInput = {
     where: AnnouncementWhereUniqueInput
     create: XOR<AnnouncementCreateWithoutListOfFilesInput, AnnouncementUncheckedCreateWithoutListOfFilesInput>
+  }
+
+  export type ActivityUpsertWithoutCriteriaInput = {
+    update: XOR<ActivityUpdateWithoutCriteriaInput, ActivityUncheckedUpdateWithoutCriteriaInput>
+    create: XOR<ActivityCreateWithoutCriteriaInput, ActivityUncheckedCreateWithoutCriteriaInput>
+    where?: ActivityWhereInput
+  }
+
+  export type ActivityUpdateToOneWithWhereWithoutCriteriaInput = {
+    where?: ActivityWhereInput
+    data: XOR<ActivityUpdateWithoutCriteriaInput, ActivityUncheckedUpdateWithoutCriteriaInput>
+  }
+
+  export type ActivityUpdateWithoutCriteriaInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    time?: StringFieldUpdateOperationsInput | string
+    instruction?: NullableStringFieldUpdateOperationsInput | string | null
+    relatedToClassroom?: ClassroomUpdateOneRequiredWithoutListOfActivityNestedInput
+  }
+
+  export type ActivityUncheckedUpdateWithoutCriteriaInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    time?: StringFieldUpdateOperationsInput | string
+    instruction?: NullableStringFieldUpdateOperationsInput | string | null
+    roomId?: IntFieldUpdateOperationsInput | number
   }
 
   export type AnnouncementUpsertWithoutListOfFilesInput = {
@@ -7302,6 +9279,7 @@ export namespace Prisma {
     classcode?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
     listOfAnnouncements?: AnnouncementUpdateManyWithoutRelatedToClassroomNestedInput
+    listOfActivity?: ActivityUpdateManyWithoutRelatedToClassroomNestedInput
   }
 
   export type ClassroomUncheckedUpdateWithoutRelatedToUserInput = {
@@ -7313,6 +9291,7 @@ export namespace Prisma {
     classcode?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
     listOfAnnouncements?: AnnouncementUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
+    listOfActivity?: ActivityUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
   }
 
   export type ClassroomUncheckedUpdateManyWithoutRelatedToUserInput = {
@@ -7329,6 +9308,14 @@ export namespace Prisma {
     id?: number
     title: string
     description?: string | null
+  }
+
+  export type ActivityCreateManyRelatedToClassroomInput = {
+    id?: number
+    title: string
+    date: string
+    time: string
+    instruction?: string | null
   }
 
   export type AnnouncementUpdateWithoutRelatedToClassroomInput = {
@@ -7350,12 +9337,73 @@ export namespace Prisma {
     description?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
+  export type ActivityUpdateWithoutRelatedToClassroomInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    time?: StringFieldUpdateOperationsInput | string
+    instruction?: NullableStringFieldUpdateOperationsInput | string | null
+    criteria?: FilesUpdateManyWithoutRelatedToActivityNestedInput
+  }
+
+  export type ActivityUncheckedUpdateWithoutRelatedToClassroomInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    time?: StringFieldUpdateOperationsInput | string
+    instruction?: NullableStringFieldUpdateOperationsInput | string | null
+    criteria?: FilesUncheckedUpdateManyWithoutRelatedToActivityNestedInput
+  }
+
+  export type ActivityUncheckedUpdateManyWithoutRelatedToClassroomInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    time?: StringFieldUpdateOperationsInput | string
+    instruction?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type FilesCreateManyRelatedToActivityInput = {
+    id?: number
+    filename: string
+    mimetype: string
+    fileSize: number
+    destination: string
+    announceId?: number | null
+  }
+
+  export type FilesUpdateWithoutRelatedToActivityInput = {
+    filename?: StringFieldUpdateOperationsInput | string
+    mimetype?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    destination?: StringFieldUpdateOperationsInput | string
+    relatedToAnnouncement?: AnnouncementUpdateOneWithoutListOfFilesNestedInput
+  }
+
+  export type FilesUncheckedUpdateWithoutRelatedToActivityInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    filename?: StringFieldUpdateOperationsInput | string
+    mimetype?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    destination?: StringFieldUpdateOperationsInput | string
+    announceId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type FilesUncheckedUpdateManyWithoutRelatedToActivityInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    filename?: StringFieldUpdateOperationsInput | string
+    mimetype?: StringFieldUpdateOperationsInput | string
+    fileSize?: IntFieldUpdateOperationsInput | number
+    destination?: StringFieldUpdateOperationsInput | string
+    announceId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
   export type FilesCreateManyRelatedToAnnouncementInput = {
     id?: number
     filename: string
     mimetype: string
     fileSize: number
     destination: string
+    activityId?: number | null
   }
 
   export type FilesUpdateWithoutRelatedToAnnouncementInput = {
@@ -7363,6 +9411,7 @@ export namespace Prisma {
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
     destination?: StringFieldUpdateOperationsInput | string
+    relatedToActivity?: ActivityUpdateOneWithoutCriteriaNestedInput
   }
 
   export type FilesUncheckedUpdateWithoutRelatedToAnnouncementInput = {
@@ -7371,6 +9420,7 @@ export namespace Prisma {
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
     destination?: StringFieldUpdateOperationsInput | string
+    activityId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type FilesUncheckedUpdateManyWithoutRelatedToAnnouncementInput = {
@@ -7379,6 +9429,7 @@ export namespace Prisma {
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
     destination?: StringFieldUpdateOperationsInput | string
+    activityId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
 

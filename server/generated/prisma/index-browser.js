@@ -135,6 +135,15 @@ exports.Prisma.ClassroomScalarFieldEnum = {
   userId: 'userId'
 };
 
+exports.Prisma.ActivityScalarFieldEnum = {
+  id: 'id',
+  title: 'title',
+  date: 'date',
+  time: 'time',
+  instruction: 'instruction',
+  roomId: 'roomId'
+};
+
 exports.Prisma.AnnouncementScalarFieldEnum = {
   id: 'id',
   title: 'title',
@@ -148,6 +157,7 @@ exports.Prisma.FilesScalarFieldEnum = {
   mimetype: 'mimetype',
   fileSize: 'fileSize',
   destination: 'destination',
+  activityId: 'activityId',
   announceId: 'announceId'
 };
 
@@ -174,6 +184,7 @@ exports.ClassroomStatus = exports.$Enums.ClassroomStatus = {
 exports.Prisma.ModelName = {
   User: 'User',
   Classroom: 'Classroom',
+  Activity: 'Activity',
   Announcement: 'Announcement',
   Files: 'Files'
 };

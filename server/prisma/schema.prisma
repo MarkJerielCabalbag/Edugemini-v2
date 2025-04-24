@@ -36,6 +36,20 @@ model Classroom {
   userId            Int
 
   listOfAnnouncements Announcement[]
+  listOfActivity      Activity[]
+}
+
+model Activity {
+  id                  Int         @id      @default(autoincrement())
+  title               String
+  date                String
+  time                String
+  instruction         String?
+
+  criteria            Files[]
+
+  relatedToClassroom  Classroom           @relation(fields: [roomId], references: [id], onDelete: Cascade)
+  roomId              Int
 }
 
 model Announcement {
@@ -44,7 +58,6 @@ model Announcement {
   description         String?
   relatedToClassroom  Classroom            @relation(fields: [roomId], references: [id])
   roomId              Int
-
   listOfFiles         Files[]
 }
 
@@ -60,6 +73,10 @@ model Files {
   mimetype              String
   fileSize              Int
   destination           String
-  relatedToAnnouncement Announcement               @relation(fields: [announceId], references: [id], onDelete: Cascade)
-  announceId            Int
+
+  relatedToActivity     Activity?                   @relation(fields: [activityId], references: [id], onDelete: Cascade)
+  activityId            Int?
+
+  relatedToAnnouncement Announcement?               @relation(fields: [announceId], references: [id], onDelete: Cascade)
+  announceId            Int?
 }
