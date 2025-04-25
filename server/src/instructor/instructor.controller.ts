@@ -7,11 +7,15 @@ import {
   UseInterceptors,
   UploadedFile,
   UploadedFiles,
+  HttpException,
+  HttpStatus,
+  Req,
 } from '@nestjs/common';
 import { InstructorService } from './instructor.service';
 import { Activity, Announcement, Prisma } from 'generated/prisma';
 import { DatabaseService } from 'src/database/database.service';
 import { DynamicMulterInterceptorFactory } from 'src/shared/interceptor/dynamic-multer.interceptor';
+import { mkdir, mkdirSync, rm, rmSync, unlinkSync } from 'fs';
 
 @Controller('instructor')
 export class InstructorController {
@@ -108,25 +112,23 @@ export class InstructorController {
     DynamicMulterInterceptorFactory('file', false, async (req, prisma) => {
       const { roomId, activityId } = req.params;
 
-      const classroom = await prisma.classroom.findUnique({
+      const classroom = await prisma.classroom.findFirst({
         where: { id: Number(roomId) },
       });
 
-      const activity = await prisma.activity.findUnique({
+      const activity = await prisma.activity.findFirst({
         where: { id: Number(activityId) },
       });
 
-      const file = await prisma.files.findFirst({
-        where: {
-          relatedToActivity: {
-            id: Number(activityId),
-          },
-        },
-      });
-      console.log('activity', activity);
-      console.log('file', file);
-
       if (!classroom) throw new Error('Classroom not found');
+
+      console.log('Classroom:', classroom);
+      console.log('Activity:', activity);
+      console.log('Activity Title:', activity?.title);
+
+      console.log(
+        `uploads/${classroom.classname}/activities/${activity?.title}/instruction`,
+      );
 
       return `uploads/${classroom.classname}/activities/${activity?.title}/instruction`;
     }),
@@ -137,15 +139,56 @@ export class InstructorController {
     @UploadedFile() file: Express.Multer.File,
     @Body() activityDto: Partial<Activity>,
     @Body('oldFilePath') oldFilePath: string,
+    @Req() req: any,
   ) {
-    console.log(file.destination);
-    return this.instructorService.updateActivity(
-      roomId,
-      activityId,
-      file,
-      activityDto,
-      oldFilePath,
-    );
+    const existingFile = await this.databaseService.files.findFirst({
+      where: {
+        relatedToActivity: {
+          id: activityId,
+        },
+      },
+    });
+
+    // 🧹 Remove old folder before saving new one
+    if (existingFile?.folderPath) {
+      try {
+        rmSync(existingFile.folderPath, { recursive: true, force: true });
+        console.log('Deleted old folder:', existingFile.folderPath);
+      } catch (err) {
+        console.warn('Failed to delete old folder:', err.message);
+      }
+    }
+
+    // Proceed with updating
+    const activity = await this.databaseService.activity.update({
+      data: {
+        title: activityDto.title,
+        instruction: activityDto.instruction,
+        time: activityDto.time,
+        date: activityDto.date,
+        relatedToClassroom: {
+          connect: { id: roomId },
+        },
+      },
+      where: { id: activityId },
+    });
+
+    const classroom = await this.databaseService.classroom.findFirst({
+      where: { id: roomId },
+    });
+
+    await this.databaseService.files.update({
+      where: { id: existingFile?.id },
+      data: {
+        filename: file.originalname,
+        mimetype: file.mimetype,
+        fileSize: file.size,
+        folderPath: req.uploadDestination, // ✅ path from interceptor
+        filePath: `${file.destination}/${file.originalname}`,
+      },
+    });
+
+    throw new HttpException({ message: 'Activity updated' }, HttpStatus.OK);
   }
   // @Patch(':id')
   // update(

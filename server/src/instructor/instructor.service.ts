@@ -127,7 +127,8 @@ export class InstructorService {
             filename: file.originalname,
             mimetype: mimetype ?? '',
             fileSize: file.size,
-            destination: file.destination,
+            folderPath: file.destination,
+            filePath: `${file.destination}/${file.originalname}`,
             relatedToAnnouncement: {
               connect: {
                 id: newAnnouncement.id,
@@ -182,10 +183,10 @@ export class InstructorService {
       },
     });
 
-    if (fileToDelete?.destination) {
-      rm(fileToDelete?.destination, { recursive: true, force: true }, (err) => {
+    if (fileToDelete?.folderPath) {
+      rm(fileToDelete?.folderPath, { recursive: true, force: true }, (err) => {
         if (err) throw err;
-        console.log(`${fileToDelete?.destination} is deleted`);
+        console.log(`${fileToDelete?.folderPath} is deleted`);
       });
     }
 
@@ -245,6 +246,12 @@ export class InstructorService {
       },
     });
 
+    const isClassroomExist = await this.databaseService.classroom.findFirst({
+      where: {
+        id: roomId,
+      },
+    });
+
     if (isActivityExist?.title === title) {
       throw new HttpException(
         {
@@ -275,7 +282,8 @@ export class InstructorService {
         filename: file.originalname,
         mimetype: file.mimetype,
         fileSize: file.size,
-        destination: file.destination,
+        folderPath: `uploads/${isClassroomExist?.classname}/activities/${newActivity?.title}`,
+        filePath: `${file.destination}/${file.originalname}`,
         relatedToActivity: {
           connect: {
             id: newActivity.id,
@@ -333,22 +341,16 @@ export class InstructorService {
       },
     });
 
-    if (isFileExist?.destination) {
-      unlink(`${isFileExist?.destination}/${isFileExist?.filename}`, (err) => {
-        if (err) throw err;
-        console.log(`${isFileExist?.destination} is deleted`);
-      });
-    }
-    const isClassroomExist = await this.databaseService.activity.findFirst({
+    const isClassroomExist = await this.databaseService.classroom.findFirst({
       where: {
         id: roomId,
       },
     });
 
     //activity details
-    await this.databaseService.activity.update({
+    const activityUpdated = await this.databaseService.activity.update({
       data: {
-        title: activityDto.title,
+        title: activityDto.title ? activityDto.title : isActivityExist?.title,
         date: activityDto.date,
         time: activityDto.time,
         instruction: activityDto.instruction,
@@ -373,7 +375,8 @@ export class InstructorService {
         filename: file.originalname,
         mimetype: file.mimetype,
         fileSize: file.size,
-        destination: file.destination,
+        folderPath: `uploads/${isClassroomExist?.classname}/activities/${activityUpdated?.title}`,
+        filePath: `${file.destination}/${file.originalname}`,
       },
     });
 

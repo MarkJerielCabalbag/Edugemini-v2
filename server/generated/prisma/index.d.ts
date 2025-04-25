@@ -5950,7 +5950,8 @@ export namespace Prisma {
     filename: string | null
     mimetype: string | null
     fileSize: number | null
-    destination: string | null
+    folderPath: string | null
+    filePath: string | null
     activityId: number | null
     announceId: number | null
   }
@@ -5960,7 +5961,8 @@ export namespace Prisma {
     filename: string | null
     mimetype: string | null
     fileSize: number | null
-    destination: string | null
+    folderPath: string | null
+    filePath: string | null
     activityId: number | null
     announceId: number | null
   }
@@ -5970,7 +5972,8 @@ export namespace Prisma {
     filename: number
     mimetype: number
     fileSize: number
-    destination: number
+    folderPath: number
+    filePath: number
     activityId: number
     announceId: number
     _all: number
@@ -5996,7 +5999,8 @@ export namespace Prisma {
     filename?: true
     mimetype?: true
     fileSize?: true
-    destination?: true
+    folderPath?: true
+    filePath?: true
     activityId?: true
     announceId?: true
   }
@@ -6006,7 +6010,8 @@ export namespace Prisma {
     filename?: true
     mimetype?: true
     fileSize?: true
-    destination?: true
+    folderPath?: true
+    filePath?: true
     activityId?: true
     announceId?: true
   }
@@ -6016,7 +6021,8 @@ export namespace Prisma {
     filename?: true
     mimetype?: true
     fileSize?: true
-    destination?: true
+    folderPath?: true
+    filePath?: true
     activityId?: true
     announceId?: true
     _all?: true
@@ -6113,7 +6119,8 @@ export namespace Prisma {
     filename: string
     mimetype: string
     fileSize: number
-    destination: string
+    folderPath: string | null
+    filePath: string | null
     activityId: number | null
     announceId: number | null
     _count: FilesCountAggregateOutputType | null
@@ -6142,7 +6149,8 @@ export namespace Prisma {
     filename?: boolean
     mimetype?: boolean
     fileSize?: boolean
-    destination?: boolean
+    folderPath?: boolean
+    filePath?: boolean
     activityId?: boolean
     announceId?: boolean
     relatedToActivity?: boolean | Files$relatedToActivityArgs<ExtArgs>
@@ -6154,7 +6162,8 @@ export namespace Prisma {
     filename?: boolean
     mimetype?: boolean
     fileSize?: boolean
-    destination?: boolean
+    folderPath?: boolean
+    filePath?: boolean
     activityId?: boolean
     announceId?: boolean
     relatedToActivity?: boolean | Files$relatedToActivityArgs<ExtArgs>
@@ -6166,7 +6175,8 @@ export namespace Prisma {
     filename?: boolean
     mimetype?: boolean
     fileSize?: boolean
-    destination?: boolean
+    folderPath?: boolean
+    filePath?: boolean
     activityId?: boolean
     announceId?: boolean
     relatedToActivity?: boolean | Files$relatedToActivityArgs<ExtArgs>
@@ -6178,12 +6188,13 @@ export namespace Prisma {
     filename?: boolean
     mimetype?: boolean
     fileSize?: boolean
-    destination?: boolean
+    folderPath?: boolean
+    filePath?: boolean
     activityId?: boolean
     announceId?: boolean
   }
 
-  export type FilesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "filename" | "mimetype" | "fileSize" | "destination" | "activityId" | "announceId", ExtArgs["result"]["files"]>
+  export type FilesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "filename" | "mimetype" | "fileSize" | "folderPath" | "filePath" | "activityId" | "announceId", ExtArgs["result"]["files"]>
   export type FilesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     relatedToActivity?: boolean | Files$relatedToActivityArgs<ExtArgs>
     relatedToAnnouncement?: boolean | Files$relatedToAnnouncementArgs<ExtArgs>
@@ -6208,7 +6219,8 @@ export namespace Prisma {
       filename: string
       mimetype: string
       fileSize: number
-      destination: string
+      folderPath: string | null
+      filePath: string | null
       activityId: number | null
       announceId: number | null
     }, ExtArgs["result"]["files"]>
@@ -6640,7 +6652,8 @@ export namespace Prisma {
     readonly filename: FieldRef<"Files", 'String'>
     readonly mimetype: FieldRef<"Files", 'String'>
     readonly fileSize: FieldRef<"Files", 'Int'>
-    readonly destination: FieldRef<"Files", 'String'>
+    readonly folderPath: FieldRef<"Files", 'String'>
+    readonly filePath: FieldRef<"Files", 'String'>
     readonly activityId: FieldRef<"Files", 'Int'>
     readonly announceId: FieldRef<"Files", 'Int'>
   }
@@ -7160,7 +7173,8 @@ export namespace Prisma {
     filename: 'filename',
     mimetype: 'mimetype',
     fileSize: 'fileSize',
-    destination: 'destination',
+    folderPath: 'folderPath',
+    filePath: 'filePath',
     activityId: 'activityId',
     announceId: 'announceId'
   };
@@ -7514,7 +7528,8 @@ export namespace Prisma {
     filename?: StringFilter<"Files"> | string
     mimetype?: StringFilter<"Files"> | string
     fileSize?: IntFilter<"Files"> | number
-    destination?: StringFilter<"Files"> | string
+    folderPath?: StringNullableFilter<"Files"> | string | null
+    filePath?: StringNullableFilter<"Files"> | string | null
     activityId?: IntNullableFilter<"Files"> | number | null
     announceId?: IntNullableFilter<"Files"> | number | null
     relatedToActivity?: XOR<ActivityNullableScalarRelationFilter, ActivityWhereInput> | null
@@ -7526,7 +7541,8 @@ export namespace Prisma {
     filename?: SortOrder
     mimetype?: SortOrder
     fileSize?: SortOrder
-    destination?: SortOrder
+    folderPath?: SortOrderInput | SortOrder
+    filePath?: SortOrderInput | SortOrder
     activityId?: SortOrderInput | SortOrder
     announceId?: SortOrderInput | SortOrder
     relatedToActivity?: ActivityOrderByWithRelationInput
@@ -7541,7 +7557,8 @@ export namespace Prisma {
     filename?: StringFilter<"Files"> | string
     mimetype?: StringFilter<"Files"> | string
     fileSize?: IntFilter<"Files"> | number
-    destination?: StringFilter<"Files"> | string
+    folderPath?: StringNullableFilter<"Files"> | string | null
+    filePath?: StringNullableFilter<"Files"> | string | null
     activityId?: IntNullableFilter<"Files"> | number | null
     announceId?: IntNullableFilter<"Files"> | number | null
     relatedToActivity?: XOR<ActivityNullableScalarRelationFilter, ActivityWhereInput> | null
@@ -7553,7 +7570,8 @@ export namespace Prisma {
     filename?: SortOrder
     mimetype?: SortOrder
     fileSize?: SortOrder
-    destination?: SortOrder
+    folderPath?: SortOrderInput | SortOrder
+    filePath?: SortOrderInput | SortOrder
     activityId?: SortOrderInput | SortOrder
     announceId?: SortOrderInput | SortOrder
     _count?: FilesCountOrderByAggregateInput
@@ -7571,7 +7589,8 @@ export namespace Prisma {
     filename?: StringWithAggregatesFilter<"Files"> | string
     mimetype?: StringWithAggregatesFilter<"Files"> | string
     fileSize?: IntWithAggregatesFilter<"Files"> | number
-    destination?: StringWithAggregatesFilter<"Files"> | string
+    folderPath?: StringNullableWithAggregatesFilter<"Files"> | string | null
+    filePath?: StringNullableWithAggregatesFilter<"Files"> | string | null
     activityId?: IntNullableWithAggregatesFilter<"Files"> | number | null
     announceId?: IntNullableWithAggregatesFilter<"Files"> | number | null
   }
@@ -7823,7 +7842,8 @@ export namespace Prisma {
     filename: string
     mimetype: string
     fileSize: number
-    destination: string
+    folderPath?: string | null
+    filePath?: string | null
     relatedToActivity?: ActivityCreateNestedOneWithoutCriteriaInput
     relatedToAnnouncement?: AnnouncementCreateNestedOneWithoutListOfFilesInput
   }
@@ -7833,7 +7853,8 @@ export namespace Prisma {
     filename: string
     mimetype: string
     fileSize: number
-    destination: string
+    folderPath?: string | null
+    filePath?: string | null
     activityId?: number | null
     announceId?: number | null
   }
@@ -7842,7 +7863,8 @@ export namespace Prisma {
     filename?: StringFieldUpdateOperationsInput | string
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
-    destination?: StringFieldUpdateOperationsInput | string
+    folderPath?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     relatedToActivity?: ActivityUpdateOneWithoutCriteriaNestedInput
     relatedToAnnouncement?: AnnouncementUpdateOneWithoutListOfFilesNestedInput
   }
@@ -7852,7 +7874,8 @@ export namespace Prisma {
     filename?: StringFieldUpdateOperationsInput | string
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
-    destination?: StringFieldUpdateOperationsInput | string
+    folderPath?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     activityId?: NullableIntFieldUpdateOperationsInput | number | null
     announceId?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -7862,7 +7885,8 @@ export namespace Prisma {
     filename: string
     mimetype: string
     fileSize: number
-    destination: string
+    folderPath?: string | null
+    filePath?: string | null
     activityId?: number | null
     announceId?: number | null
   }
@@ -7871,7 +7895,8 @@ export namespace Prisma {
     filename?: StringFieldUpdateOperationsInput | string
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
-    destination?: StringFieldUpdateOperationsInput | string
+    folderPath?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type FilesUncheckedUpdateManyInput = {
@@ -7879,7 +7904,8 @@ export namespace Prisma {
     filename?: StringFieldUpdateOperationsInput | string
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
-    destination?: StringFieldUpdateOperationsInput | string
+    folderPath?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     activityId?: NullableIntFieldUpdateOperationsInput | number | null
     announceId?: NullableIntFieldUpdateOperationsInput | number | null
   }
@@ -8215,7 +8241,8 @@ export namespace Prisma {
     filename?: SortOrder
     mimetype?: SortOrder
     fileSize?: SortOrder
-    destination?: SortOrder
+    folderPath?: SortOrder
+    filePath?: SortOrder
     activityId?: SortOrder
     announceId?: SortOrder
   }
@@ -8232,7 +8259,8 @@ export namespace Prisma {
     filename?: SortOrder
     mimetype?: SortOrder
     fileSize?: SortOrder
-    destination?: SortOrder
+    folderPath?: SortOrder
+    filePath?: SortOrder
     activityId?: SortOrder
     announceId?: SortOrder
   }
@@ -8242,7 +8270,8 @@ export namespace Prisma {
     filename?: SortOrder
     mimetype?: SortOrder
     fileSize?: SortOrder
-    destination?: SortOrder
+    folderPath?: SortOrder
+    filePath?: SortOrder
     activityId?: SortOrder
     announceId?: SortOrder
   }
@@ -8950,7 +8979,8 @@ export namespace Prisma {
     filename: string
     mimetype: string
     fileSize: number
-    destination: string
+    folderPath?: string | null
+    filePath?: string | null
     relatedToAnnouncement?: AnnouncementCreateNestedOneWithoutListOfFilesInput
   }
 
@@ -8959,7 +8989,8 @@ export namespace Prisma {
     filename: string
     mimetype: string
     fileSize: number
-    destination: string
+    folderPath?: string | null
+    filePath?: string | null
     announceId?: number | null
   }
 
@@ -9025,7 +9056,8 @@ export namespace Prisma {
     filename?: StringFilter<"Files"> | string
     mimetype?: StringFilter<"Files"> | string
     fileSize?: IntFilter<"Files"> | number
-    destination?: StringFilter<"Files"> | string
+    folderPath?: StringNullableFilter<"Files"> | string | null
+    filePath?: StringNullableFilter<"Files"> | string | null
     activityId?: IntNullableFilter<"Files"> | number | null
     announceId?: IntNullableFilter<"Files"> | number | null
   }
@@ -9096,7 +9128,8 @@ export namespace Prisma {
     filename: string
     mimetype: string
     fileSize: number
-    destination: string
+    folderPath?: string | null
+    filePath?: string | null
     relatedToActivity?: ActivityCreateNestedOneWithoutCriteriaInput
   }
 
@@ -9105,7 +9138,8 @@ export namespace Prisma {
     filename: string
     mimetype: string
     fileSize: number
-    destination: string
+    folderPath?: string | null
+    filePath?: string | null
     activityId?: number | null
   }
 
@@ -9367,7 +9401,8 @@ export namespace Prisma {
     filename: string
     mimetype: string
     fileSize: number
-    destination: string
+    folderPath?: string | null
+    filePath?: string | null
     announceId?: number | null
   }
 
@@ -9375,7 +9410,8 @@ export namespace Prisma {
     filename?: StringFieldUpdateOperationsInput | string
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
-    destination?: StringFieldUpdateOperationsInput | string
+    folderPath?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     relatedToAnnouncement?: AnnouncementUpdateOneWithoutListOfFilesNestedInput
   }
 
@@ -9384,7 +9420,8 @@ export namespace Prisma {
     filename?: StringFieldUpdateOperationsInput | string
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
-    destination?: StringFieldUpdateOperationsInput | string
+    folderPath?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     announceId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
@@ -9393,7 +9430,8 @@ export namespace Prisma {
     filename?: StringFieldUpdateOperationsInput | string
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
-    destination?: StringFieldUpdateOperationsInput | string
+    folderPath?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     announceId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
@@ -9402,7 +9440,8 @@ export namespace Prisma {
     filename: string
     mimetype: string
     fileSize: number
-    destination: string
+    folderPath?: string | null
+    filePath?: string | null
     activityId?: number | null
   }
 
@@ -9410,7 +9449,8 @@ export namespace Prisma {
     filename?: StringFieldUpdateOperationsInput | string
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
-    destination?: StringFieldUpdateOperationsInput | string
+    folderPath?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     relatedToActivity?: ActivityUpdateOneWithoutCriteriaNestedInput
   }
 
@@ -9419,7 +9459,8 @@ export namespace Prisma {
     filename?: StringFieldUpdateOperationsInput | string
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
-    destination?: StringFieldUpdateOperationsInput | string
+    folderPath?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     activityId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
@@ -9428,7 +9469,8 @@ export namespace Prisma {
     filename?: StringFieldUpdateOperationsInput | string
     mimetype?: StringFieldUpdateOperationsInput | string
     fileSize?: IntFieldUpdateOperationsInput | number
-    destination?: StringFieldUpdateOperationsInput | string
+    folderPath?: NullableStringFieldUpdateOperationsInput | string | null
+    filePath?: NullableStringFieldUpdateOperationsInput | string | null
     activityId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
