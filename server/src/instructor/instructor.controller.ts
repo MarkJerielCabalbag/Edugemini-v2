@@ -15,7 +15,15 @@ import { InstructorService } from './instructor.service';
 import { Activity, Announcement, Prisma } from 'generated/prisma';
 import { DatabaseService } from 'src/database/database.service';
 import { DynamicMulterInterceptorFactory } from 'src/shared/interceptor/dynamic-multer.interceptor';
-import { mkdir, mkdirSync, rm, rmSync, unlinkSync } from 'fs';
+import {
+  exists,
+  existsSync,
+  mkdir,
+  mkdirSync,
+  rm,
+  rmSync,
+  unlinkSync,
+} from 'fs';
 
 @Controller('instructor')
 export class InstructorController {
@@ -138,57 +146,13 @@ export class InstructorController {
     @Param('activityId', ParseIntPipe) activityId: number,
     @UploadedFile() file: Express.Multer.File,
     @Body() activityDto: Partial<Activity>,
-    @Body('oldFilePath') oldFilePath: string,
-    @Req() req: any,
   ) {
-    const existingFile = await this.databaseService.files.findFirst({
-      where: {
-        relatedToActivity: {
-          id: activityId,
-        },
-      },
-    });
-
-    // 🧹 Remove old folder before saving new one
-    if (existingFile?.folderPath) {
-      try {
-        rmSync(existingFile.folderPath, { recursive: true, force: true });
-        console.log('Deleted old folder:', existingFile.folderPath);
-      } catch (err) {
-        console.warn('Failed to delete old folder:', err.message);
-      }
-    }
-
-    // Proceed with updating
-    const activity = await this.databaseService.activity.update({
-      data: {
-        title: activityDto.title,
-        instruction: activityDto.instruction,
-        time: activityDto.time,
-        date: activityDto.date,
-        relatedToClassroom: {
-          connect: { id: roomId },
-        },
-      },
-      where: { id: activityId },
-    });
-
-    const classroom = await this.databaseService.classroom.findFirst({
-      where: { id: roomId },
-    });
-
-    await this.databaseService.files.update({
-      where: { id: existingFile?.id },
-      data: {
-        filename: file.originalname,
-        mimetype: file.mimetype,
-        fileSize: file.size,
-        folderPath: req.uploadDestination, // ✅ path from interceptor
-        filePath: `${file.destination}/${file.originalname}`,
-      },
-    });
-
-    throw new HttpException({ message: 'Activity updated' }, HttpStatus.OK);
+    return this.instructorService.updateActivity(
+      roomId,
+      activityId,
+      file,
+      activityDto,
+    );
   }
   // @Patch(':id')
   // update(

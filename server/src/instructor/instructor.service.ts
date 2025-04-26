@@ -1,7 +1,17 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Activity, Announcement, Prisma } from 'generated/prisma';
 import { DatabaseService } from 'src/database/database.service';
-import { existsSync, renameSync, rm, unlink } from 'fs';
+import {
+  existsSync,
+  mkdirSync,
+  rename,
+  renameSync,
+  rm,
+  rmSync,
+  unlink,
+  unlinkSync,
+} from 'fs';
+import { join } from 'path';
 
 @Injectable()
 export class InstructorService {
@@ -302,90 +312,106 @@ export class InstructorService {
 
   //@DESC   Update Activity that is related to both classroom and its own id
   //@ROUTE  instructor/updateActivity/:roomId/:activityId
+
   async updateActivity(
     roomId: number,
     activityId: number,
     file: Express.Multer.File,
     activityDto: Partial<Activity>,
-    oldFilePath: string,
   ) {
-    if (!roomId || !activityId) {
+    const classroom = await this.databaseService.classroom.findFirst({
+      where: { id: roomId },
+    });
+
+    if (!classroom) {
       throw new HttpException(
-        {
-          error: 'Both roomId and activityId are required',
-        },
+        { error: 'Classroom does not exist' },
         HttpStatus.BAD_REQUEST,
       );
     }
 
-    if (!file) {
-      throw new HttpException(
-        {
-          error: 'Please upload an instruction file',
-        },
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-
-    const isActivityExist = await this.databaseService.activity.findFirst({
+    const activity = await this.databaseService.activity.findFirst({
       where: {
         id: activityId,
+        relatedToClassroom: { id: roomId },
       },
     });
 
-    const isFileExist = await this.databaseService.files.findFirst({
-      where: {
-        relatedToActivity: {
-          id: activityId,
-        },
-      },
+    if (!activity) {
+      throw new HttpException(
+        { error: 'Activity does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const existingFile = await this.databaseService.files.findFirst({
+      where: { relatedToActivity: { id: activityId } },
     });
 
-    const isClassroomExist = await this.databaseService.classroom.findFirst({
-      where: {
-        id: roomId,
-      },
-    });
+    if (!existingFile) {
+      throw new HttpException(
+        { error: 'File path does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
 
-    //activity details
-    const activityUpdated = await this.databaseService.activity.update({
+    const newFolderPath = `uploads/${classroom.classname}/activities/${activityDto.title || activity.title}/instruction`;
+    const newFilePath = `${newFolderPath}/${file?.originalname || existingFile.filename}`;
+
+    // Ensure target folder exists
+    if (!existsSync(newFolderPath)) {
+      mkdirSync(newFolderPath, { recursive: true });
+    }
+
+    if (file && !activityDto.title && existingFile?.folderPath) {
+      try {
+        renameSync(existingFile?.folderPath, newFolderPath);
+      } catch (err) {
+        console.error('File move error:', err);
+        throw new HttpException(
+          { error: 'Failed to move uploaded file' },
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
+    }
+
+    // Delete old folder if it differs from new
+    if (
+      existingFile.folderPath &&
+      existingFile.folderPath !== newFolderPath &&
+      existsSync(existingFile.folderPath)
+    ) {
+      rmSync(`uploads/${classroom?.classname}/activities/${activity?.title}`, {
+        recursive: true,
+        force: true,
+      });
+    }
+
+    // Update activity
+    await this.databaseService.activity.update({
       data: {
-        title: activityDto.title ? activityDto.title : isActivityExist?.title,
+        title: activityDto.title,
         date: activityDto.date,
         time: activityDto.time,
         instruction: activityDto.instruction,
-        relatedToClassroom: {
-          connect: {
-            id: roomId,
-          },
-        },
+        relatedToClassroom: { connect: { id: roomId } },
       },
-      where: {
-        id: activityId,
-      },
+      where: { id: activityId },
     });
 
-    //activity file details
+    // Update file
     await this.databaseService.files.update({
-      where: {
-        id: isFileExist?.id,
-      },
-
+      where: { id: existingFile.id },
       data: {
-        filename: file.originalname,
-        mimetype: file.mimetype,
-        fileSize: file.size,
-        folderPath: `uploads/${isClassroomExist?.classname}/activities/${activityUpdated?.title}`,
-        filePath: `${file.destination}/${file.originalname}`,
+        filename: file?.originalname || existingFile.filename,
+        mimetype: file?.mimetype || existingFile.mimetype,
+        fileSize: file?.size || existingFile.fileSize,
+        folderPath: newFolderPath,
+        filePath: newFilePath,
       },
     });
 
-    throw new HttpException(
-      {
-        message: 'Activity updated',
-      },
-      HttpStatus.OK,
-    );
+    throw new HttpException({ message: 'Updated successfully' }, HttpStatus.OK);
   }
 
   // remove(id: number) {
