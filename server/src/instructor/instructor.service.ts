@@ -1,17 +1,8 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Activity, Announcement, Prisma } from 'generated/prisma';
 import { DatabaseService } from 'src/database/database.service';
-import {
-  existsSync,
-  mkdirSync,
-  rename,
-  renameSync,
-  rm,
-  rmSync,
-  unlink,
-  unlinkSync,
-} from 'fs';
-import { join } from 'path';
+import { existsSync, rm, unlink, unlinkSync } from 'fs';
+import path from 'path';
 
 @Injectable()
 export class InstructorService {
@@ -80,17 +71,27 @@ export class InstructorService {
   }
 
   //@DESC   Create Announcement related to classroom
-  //@ROUTE  instructor/createAnnouncement/:roomId/:title
+  //@ROUTE  instructor/createAnnouncement/:userId/:roomId/:title
   async createAnnouncement(
     roomId: number,
+    userId: number,
+    title: string,
     files: Express.Multer.File[],
     announcementDto: Partial<Announcement>,
-    title: string,
   ) {
-    if (!title) {
+    if (!userId) {
       throw new HttpException(
         {
-          error: 'Please fill atleast the title',
+          error: 'User ID does not exist',
+        },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (!roomId) {
+      throw new HttpException(
+        {
+          error: 'Classroom ID does not exist',
         },
         HttpStatus.BAD_REQUEST,
       );
@@ -126,8 +127,6 @@ export class InstructorService {
         },
       },
     });
-
-    console.log(files);
 
     if (files) {
       files.forEach(async (file) => {
@@ -185,7 +184,7 @@ export class InstructorService {
       );
     }
 
-    const fileToDelete = await this.databaseService.files.findFirst({
+    const filesToDelete = await this.databaseService.files.findMany({
       where: {
         relatedToAnnouncement: {
           id: isAnnouncementExist.id,
@@ -193,13 +192,15 @@ export class InstructorService {
       },
     });
 
-    if (fileToDelete?.folderPath) {
-      rm(fileToDelete?.folderPath, { recursive: true, force: true }, (err) => {
-        if (err) throw err;
-        console.log(`${fileToDelete?.folderPath} is deleted`);
-      });
-    }
-
+    filesToDelete.map(async (file) => {
+      if (file?.filePath) {
+        if (existsSync(file.filePath)) {
+          unlinkSync(file.filePath);
+        } else {
+          console.warn(`File does not exist: ${file.filePath}`);
+        }
+      }
+    });
     await this.databaseService.announcement.delete({
       where: { id: announceId },
     });
@@ -355,45 +356,16 @@ export class InstructorService {
       );
     }
 
-    const newFolderPath = `uploads/${classroom.classname}/activities/${activityDto.title || activity.title}/instruction`;
+    const newFolderPath = `uploads/${classroom.classname}/activities/${activityDto?.title ? activityDto.title : activity?.title}/instruction`;
     const newFilePath = `${newFolderPath}/${file?.originalname || existingFile.filename}`;
-
-    // Ensure target folder exists
-    if (!existsSync(newFolderPath)) {
-      mkdirSync(newFolderPath, { recursive: true });
-    }
-
-    if (file && !activityDto.title && existingFile?.folderPath) {
-      try {
-        renameSync(existingFile?.folderPath, newFolderPath);
-      } catch (err) {
-        console.error('File move error:', err);
-        throw new HttpException(
-          { error: 'Failed to move uploaded file' },
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
-      }
-    }
-
-    // Delete old folder if it differs from new
-    if (
-      existingFile.folderPath &&
-      existingFile.folderPath !== newFolderPath &&
-      existsSync(existingFile.folderPath)
-    ) {
-      rmSync(`uploads/${classroom?.classname}/activities/${activity?.title}`, {
-        recursive: true,
-        force: true,
-      });
-    }
 
     // Update activity
     await this.databaseService.activity.update({
       data: {
-        title: activityDto.title,
-        date: activityDto.date,
-        time: activityDto.time,
-        instruction: activityDto.instruction,
+        title: activityDto?.title || activity.title,
+        date: activityDto?.date || activity.date,
+        time: activityDto?.time || activity.time,
+        instruction: activityDto?.instruction || activity.instruction,
         relatedToClassroom: { connect: { id: roomId } },
       },
       where: { id: activityId },

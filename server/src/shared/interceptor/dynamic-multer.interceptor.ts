@@ -28,7 +28,20 @@ export function DynamicMulterInterceptorFactory(
       const multerOptions: MulterOptions = {
         storage: diskStorage({
           destination,
-          filename: (_req, file, cb) => cb(null, file.originalname),
+          filename: (_req, file, cb) => {
+            // const timestamp = Date.now();
+            // const random = Math.round(Math.random() * 1e9);
+            // const ext = file.originalname.substring(
+            //   file.originalname.lastIndexOf('.'),
+            // );
+            // const base = file.originalname.substring(
+            //   0,
+            //   file.originalname.lastIndexOf('.'),
+            // );
+
+            // const uniqueName = `${random} - ${file.originalname}`;
+            cb(null, file.originalname);
+          },
         }),
       };
 
@@ -37,9 +50,11 @@ export function DynamicMulterInterceptorFactory(
         : FileInterceptor(fieldName, multerOptions);
 
       const instance = new Interceptor();
+
+      req.uploadPath = destination;
+
       return instance.intercept(context, next);
     }
   }
-
   return mixin(MixinMulterInterceptor);
 }
