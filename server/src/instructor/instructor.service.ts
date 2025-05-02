@@ -2,11 +2,14 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Activity, Announcement, Prisma } from 'generated/prisma';
 import { DatabaseService } from 'src/database/database.service';
 import { existsSync, rm, unlink, unlinkSync } from 'fs';
-import path from 'path';
+import { SupabaseClient } from '@supabase/supabase-js';
 
 @Injectable()
 export class InstructorService {
-  constructor(private readonly databaseService: DatabaseService) {}
+  constructor(
+    private readonly databaseService: DatabaseService,
+    private readonly supabase: SupabaseClient,
+  ) {}
 
   //@DESC   Create Classroom related to user
   //@ROUTE  instructor/instructor/createClassroom/:roomId
@@ -74,20 +77,9 @@ export class InstructorService {
   //@ROUTE  instructor/createAnnouncement/:userId/:roomId/:title
   async createAnnouncement(
     roomId: number,
-    userId: number,
-    title: string,
     files: Express.Multer.File[],
     announcementDto: Partial<Announcement>,
   ) {
-    if (!userId) {
-      throw new HttpException(
-        {
-          error: 'User ID does not exist',
-        },
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-
     if (!roomId) {
       throw new HttpException(
         {
@@ -97,10 +89,14 @@ export class InstructorService {
       );
     }
 
+    const isClassroomExist = await this.databaseService.classroom.findFirst({
+      where: { id: roomId },
+    });
+
     const isAnnoucementExist =
       await this.databaseService.announcement.findFirst({
         where: {
-          title: title,
+          title: announcementDto.title,
           relatedToClassroom: {
             id: roomId,
           },
@@ -118,7 +114,7 @@ export class InstructorService {
 
     const newAnnouncement = await this.databaseService.announcement.create({
       data: {
-        title: title,
+        title: announcementDto?.title ?? '',
         description: announcementDto.description,
         relatedToClassroom: {
           connect: {
@@ -131,20 +127,36 @@ export class InstructorService {
     if (files) {
       files.forEach(async (file) => {
         const mimetype = file.originalname.split('.').pop();
-        return await this.databaseService.files.create({
-          data: {
-            filename: file.originalname,
-            mimetype: mimetype ?? '',
-            fileSize: file.size,
-            folderPath: file.destination,
-            filePath: `${file.destination}/${file.originalname}`,
-            relatedToAnnouncement: {
-              connect: {
-                id: newAnnouncement.id,
+        const { data, error } = await this.supabase.storage
+          .from('edugemini')
+          .upload(
+            `classroom/${isClassroomExist?.classname}/announcement/${newAnnouncement.title}/${file.originalname}`,
+            file.buffer,
+          );
+        if (data) {
+          return await this.databaseService.files.create({
+            data: {
+              filename: file.originalname,
+              mimetype: mimetype ?? '',
+              fileSize: file.size,
+              folderPath: `classroom/${isClassroomExist?.classname}/announcement/${newAnnouncement.title}`,
+              filePath: `classroom/${isClassroomExist?.classname}/announcement/${newAnnouncement.title}/${file.originalname}`,
+              relatedToAnnouncement: {
+                connect: {
+                  id: newAnnouncement.id,
+                },
               },
             },
-          },
-        });
+          });
+        } else {
+          console.error('Error uploading file:', error);
+          throw new HttpException(
+            {
+              error: 'Failed to upload file',
+            },
+            HttpStatus.INTERNAL_SERVER_ERROR,
+          );
+        }
       });
     }
 

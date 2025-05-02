@@ -5,16 +5,12 @@ import {
   Param,
   ParseIntPipe,
   UseInterceptors,
-  UploadedFile,
   UploadedFiles,
-  HttpException,
-  HttpStatus,
-  Req,
 } from '@nestjs/common';
 import { InstructorService } from './instructor.service';
 import { Activity, Announcement, Prisma } from 'generated/prisma';
 import { DatabaseService } from 'src/database/database.service';
-import { DynamicMulterInterceptorFactory } from 'src/shared/interceptor/dynamic-multer.interceptor';
+import { FileInterceptor, FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('instructor')
 export class InstructorController {
@@ -35,43 +31,15 @@ export class InstructorController {
 
   //@DESC   Create Announcement related to classroom
   //@ROUTE  instructor/createAnnouncement/:userId/:roomId/:title
-  @Post('createAnnouncement/:userId/:roomId/:title')
-  @UseInterceptors(
-    DynamicMulterInterceptorFactory('files', true, async (req, prisma) => {
-      const { userId, roomId, title } = req.params;
-
-      const user = await prisma.user.findUnique({ where: { id: +userId } });
-      const classroom = await prisma.classroom.findUnique({
-        where: { id: +roomId },
-      });
-
-      const existingAnnouncement = await prisma.announcement.findFirst({
-        where: {
-          roomId: +roomId,
-          title: title,
-        },
-      });
-
-      if (existingAnnouncement) {
-        throw new HttpException(
-          { error: 'Announcement already exists' },
-          HttpStatus.BAD_REQUEST,
-        );
-      }
-      return `uploads/${user?.username}/announcements/${classroom?.classname}`;
-    }),
-  )
+  @Post('createAnnouncement/:roomId')
+  @UseInterceptors(FilesInterceptor('files'))
   async createAnnouncement(
     @Param('roomId', ParseIntPipe) roomId: number,
-    @Param('userId', ParseIntPipe) userId: number,
-    @Param('title') title: string,
     @UploadedFiles() files: Express.Multer.File[],
     @Body() announcementDto: Partial<Announcement>,
   ): Promise<void> {
     return this.instructorService.createAnnouncement(
       +roomId,
-      +userId,
-      title,
       files,
       announcementDto,
     );
