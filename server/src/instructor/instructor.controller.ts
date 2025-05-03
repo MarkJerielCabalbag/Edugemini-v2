@@ -6,6 +6,7 @@ import {
   ParseIntPipe,
   UseInterceptors,
   UploadedFiles,
+  UploadedFile,
 } from '@nestjs/common';
 import { InstructorService } from './instructor.service';
 import { Activity, Announcement, Prisma } from 'generated/prisma';
@@ -54,50 +55,33 @@ export class InstructorController {
     return this.instructorService.deleteAnnouncement(announceId);
   }
 
-  //@DESC   Create Activity that is related to classroom
-  //@ROUTE  instructor/createActivity/:roomId
-  // @Post('createActivity/:roomId/:title')
-  // @UseInterceptors(
-  //   DynamicMulterInterceptorFactory('file', false, async (req) => {
-  //     const { roomId, title } = req.params;
-  //     const uploadpath = await
-  //   }),
-  // )
-  // async createActivity(
-  //   @Param('roomId', ParseIntPipe) roomId: number,
-  //   @Param('title') title: string,
-  //   @UploadedFile() file: Express.Multer.File,
-  //   @Body() activityDto: Partial<Activity>,
-  // ): Promise<void> {
-  //   return this.instructorService.createActivity(
-  //     +roomId,
-  //     title,
-  //     activityDto,
-  //     file,
-  //   );
-  // }
+  // @DESC   Create Activity that is related to classroom
+  // @ROUTE  instructor/createActivity/:roomId
+  @Post('createActivity/:roomId')
+  @UseInterceptors(FileInterceptor('file'))
+  async createActivity(
+    @Param('roomId', ParseIntPipe) roomId: number,
+    @UploadedFile() file: Express.Multer.File,
+    @Body() activityDto: Activity,
+  ): Promise<void> {
+    return this.instructorService.createActivity(+roomId, activityDto, file);
+  }
 
-  //@DESC   Update Activity that is related to both classroom and its own id
-  //@ROUTE  instructor/updateActivity/:roomId/:activityId
-  //   @Post('updateActivity/:roomId/:activityId')
-  //   @UseInterceptors(
-  //     DynamicMulterInterceptorFactory('file', false, async (req, prisma) => {
-  //       const { roomId, activityId } = req.params;
-  //     }),
-  //   )
-  //   async updateActivity(
-  //     @Param('roomId', ParseIntPipe) roomId: number,
-  //     @Param('activityId', ParseIntPipe) activityId: number,
-  //     @UploadedFile() file: Express.Multer.File,
-  //     @Body() activityDto: Partial<Activity>,
-  //     @Req() req: string,
-  //   ) {
-  //     return this.instructorService.updateActivity(
-  //       roomId,
-  //       activityId,
-  //       file,
-  //       activityDto,
-  //     );
-  //   }
-  //
+  // @DESC   Update Activity that is related to both classroom and its own id
+  // @ROUTE  instructor/updateActivity/:roomId/:activityId
+  @Post('updateActivity/:roomId/:activityId')
+  @UseInterceptors(FileInterceptor('file'))
+  async updateActivity(
+    @Param('roomId', ParseIntPipe) roomId: number,
+    @Param('activityId', ParseIntPipe) activityId: number,
+    @UploadedFile() file: Express.Multer.File,
+    @Body() activityDto: Partial<Activity>,
+  ) {
+    return this.instructorService.updateActivity(
+      +roomId,
+      +activityId,
+      file,
+      activityDto,
+    );
+  }
 }

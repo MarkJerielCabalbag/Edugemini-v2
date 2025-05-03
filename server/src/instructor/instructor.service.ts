@@ -112,53 +112,58 @@ export class InstructorService {
       );
     }
 
-    const newAnnouncement = await this.databaseService.announcement.create({
-      data: {
-        title: announcementDto?.title ?? '',
-        description: announcementDto.description,
-        relatedToClassroom: {
-          connect: {
-            id: roomId,
+    const newAnnouncement = await this.databaseService.announcement
+      .create({
+        data: {
+          title: announcementDto?.title ?? '',
+          description: announcementDto.description,
+          relatedToClassroom: {
+            connect: {
+              id: roomId,
+            },
           },
         },
-      },
-    });
+      })
+      .catch((error) => {
+        throw new HttpException(
+          { error: error.message },
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      });
 
-    if (files) {
-      files.forEach(async (file) => {
-        const mimetype = file.originalname.split('.').pop();
-        const { data, error } = await this.supabase.storage
-          .from('edugemini')
-          .upload(
-            `classroom/${isClassroomExist?.classname}/announcement/${newAnnouncement.title}/${file.originalname}`,
-            file.buffer,
-          );
-        if (data) {
-          return await this.databaseService.files.create({
-            data: {
-              filename: file.originalname,
-              mimetype: mimetype ?? '',
-              fileSize: file.size,
-              folderPath: `classroom/${isClassroomExist?.classname}/announcement/${newAnnouncement.title}`,
-              filePath: `classroom/${isClassroomExist?.classname}/announcement/${newAnnouncement.title}/${file.originalname}`,
-              relatedToAnnouncement: {
-                connect: {
-                  id: newAnnouncement.id,
-                },
+    files.forEach(async (file) => {
+      const mimetype = file.originalname.split('.').pop();
+      const { data, error } = await this.supabase.storage
+        .from('edugemini')
+        .upload(
+          `classroom/${isClassroomExist?.classname}/announcement/${newAnnouncement.title}/${file.originalname}`,
+          file.buffer,
+        );
+      if (data) {
+        return await this.databaseService.files.create({
+          data: {
+            filename: file.originalname,
+            mimetype: mimetype ?? '',
+            fileSize: file.size,
+            folderPath: `classroom/${isClassroomExist?.classname}/announcement/${newAnnouncement.title}`,
+            filePath: `classroom/${isClassroomExist?.classname}/announcement/${newAnnouncement.title}/${file.originalname}`,
+            relatedToAnnouncement: {
+              connect: {
+                id: newAnnouncement.id,
               },
             },
-          });
-        } else {
-          console.error('Error uploading file:', error);
-          throw new HttpException(
-            {
-              error: 'Failed to upload file',
-            },
-            HttpStatus.INTERNAL_SERVER_ERROR,
-          );
-        }
-      });
-    }
+          },
+        });
+      } else {
+        console.error('Error uploading file:', error);
+        throw new HttpException(
+          {
+            error: 'Failed to upload file',
+          },
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
+    });
 
     throw new HttpException(
       {
@@ -204,15 +209,28 @@ export class InstructorService {
       },
     });
 
-    filesToDelete.map(async (file) => {
-      if (file?.filePath) {
-        if (existsSync(file.filePath)) {
-          unlinkSync(file.filePath);
-        } else {
-          console.warn(`File does not exist: ${file.filePath}`);
+    // Delete all files from storage first
+    const deletePromises = filesToDelete.map(async (file) => {
+      if (file.filePath) {
+        const { data, error } = await this.supabase.storage
+          .from('edugemini')
+          .remove([file.filePath]);
+
+        if (error) {
+          throw new HttpException(
+            {
+              error: `Failed to delete file: ${file.filename}`,
+            },
+            HttpStatus.INTERNAL_SERVER_ERROR,
+          );
         }
       }
     });
+
+    // Wait for all file deletions to complete
+    await Promise.all(deletePromises);
+
+    // Then delete the announcement and its related files
     await this.databaseService.announcement.delete({
       where: { id: announceId },
     });
@@ -229,19 +247,9 @@ export class InstructorService {
   //@ROUTE  instructor/createActivity/:roomId/title
   async createActivity(
     roomId: number,
-    title: string,
-    activityDto: Partial<Activity>,
+    activityDto: Activity,
     file: Express.Multer.File,
   ): Promise<void> {
-    if (!title || !activityDto.date || !activityDto.time) {
-      throw new HttpException(
-        {
-          error: 'Please fill all fields',
-        },
-        HttpStatus.BAD_REQUEST,
-      );
-    }
-
     if (!file) {
       throw new HttpException(
         {
@@ -262,7 +270,7 @@ export class InstructorService {
 
     const isActivityExist = await this.databaseService.activity.findFirst({
       where: {
-        title: title,
+        title: activityDto.title,
         relatedToClassroom: {
           id: roomId,
         },
@@ -275,7 +283,7 @@ export class InstructorService {
       },
     });
 
-    if (isActivityExist?.title === title) {
+    if (isActivityExist?.title === activityDto.title) {
       throw new HttpException(
         {
           error: 'Activity title already exist',
@@ -287,7 +295,7 @@ export class InstructorService {
     //activity details
     const newActivity = await this.databaseService.activity.create({
       data: {
-        title,
+        title: activityDto.title,
         date: activityDto.date,
         time: activityDto.time,
         instruction: activityDto.instruction,
@@ -299,21 +307,34 @@ export class InstructorService {
       },
     });
 
-    //activity file details
-    await this.databaseService.files.create({
-      data: {
-        filename: file.originalname,
-        mimetype: file.mimetype,
-        fileSize: file.size,
-        folderPath: `uploads/${isClassroomExist?.classname}/activities/${newActivity?.title}`,
-        filePath: `${file.destination}/${file.originalname}`,
-        relatedToActivity: {
-          connect: {
-            id: newActivity.id,
+    const { data, error } = await this.supabase.storage
+      .from('edugemini')
+      .upload(
+        `classroom/${isClassroomExist?.classname}/activity/${newActivity.title}/${file.originalname}`,
+        file.buffer,
+      );
+
+    if (data) {
+      await this.databaseService.files.create({
+        data: {
+          filename: file.originalname,
+          mimetype: file.mimetype,
+          fileSize: file.size,
+          folderPath: `classroom/${isClassroomExist?.classname}/activity/${newActivity.title}`,
+          filePath: `classroom/${isClassroomExist?.classname}/activity/${newActivity.title}/${file.originalname}`,
+          relatedToActivity: {
+            connect: {
+              id: newActivity.id,
+            },
           },
         },
-      },
-    });
+      });
+    } else {
+      throw new HttpException(
+        { error: error.message },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
 
     throw new HttpException(
       {
@@ -357,45 +378,82 @@ export class InstructorService {
       );
     }
 
-    const existingFile = await this.databaseService.files.findFirst({
-      where: { relatedToActivity: { id: activityId } },
+    const listOfActivities = await this.databaseService.activity.findMany({
+      where: {
+        roomId: roomId,
+      },
     });
 
-    if (!existingFile) {
-      throw new HttpException(
-        { error: 'File path does not exist' },
-        HttpStatus.BAD_REQUEST,
-      );
+    //map all activities if the activity title to be updated is already exist
+    listOfActivities.map((activity) => {
+      if (activity.title === activityDto.title) {
+        throw new HttpException(
+          { error: 'Duplicate Title' },
+          HttpStatus.CONFLICT,
+        );
+      }
+    });
+
+    const currentFile = await this.databaseService.files.findFirst({
+      where: {
+        activityId: activityId,
+      },
+    });
+
+    if (file) {
+      if (currentFile?.filePath) {
+        const { data, error } = await this.supabase.storage
+          .from('edugemini')
+          .remove([currentFile?.filePath]);
+        if (error) {
+          throw new HttpException(
+            { error: error.message },
+            HttpStatus.INTERNAL_SERVER_ERROR,
+          );
+        } else {
+          const updatedActivity = await this.databaseService.activity.update({
+            where: { id: activityId },
+            data: {
+              title: activityDto.title,
+              time: activityDto.time,
+              date: activityDto.date,
+              instruction: activityDto.instruction,
+            },
+          });
+          const { data, error } = await this.supabase.storage
+            .from('edugemini')
+            .upload(
+              `classroom/${classroom?.classname}/activity/${updatedActivity.title}/${file.originalname}`,
+              file.buffer,
+            );
+
+          await this.databaseService.files.update({
+            where: {
+              id: currentFile.id,
+            },
+            data: {
+              filename: file.originalname,
+              fileSize: file.size,
+              mimetype: file.mimetype,
+              filePath: `classroom/${classroom?.classname}/activity/${updatedActivity.title}/${file.originalname}`,
+              folderPath: `classroom/${classroom?.classname}/activity/${updatedActivity.title}`,
+            },
+          });
+
+          if (data) {
+            throw new HttpException(
+              { message: 'Successfully Updated' },
+              HttpStatus.ACCEPTED,
+            );
+          } else {
+            throw new HttpException(
+              { error: error.message },
+              HttpStatus.BAD_REQUEST,
+            );
+          }
+        }
+      }
     }
-
-    const newFolderPath = `uploads/${classroom.classname}/activities/${activityDto?.title ? activityDto.title : activity?.title}/instruction`;
-    const newFilePath = `${newFolderPath}/${file?.originalname || existingFile.filename}`;
-
-    // Update activity
-    await this.databaseService.activity.update({
-      data: {
-        title: activityDto?.title || activity.title,
-        date: activityDto?.date || activity.date,
-        time: activityDto?.time || activity.time,
-        instruction: activityDto?.instruction || activity.instruction,
-        relatedToClassroom: { connect: { id: roomId } },
-      },
-      where: { id: activityId },
-    });
-
-    // Update file
-    await this.databaseService.files.update({
-      where: { id: existingFile.id },
-      data: {
-        filename: file?.originalname || existingFile.filename,
-        mimetype: file?.mimetype || existingFile.mimetype,
-        fileSize: file?.size || existingFile.fileSize,
-        folderPath: newFolderPath,
-        filePath: newFilePath,
-      },
-    });
-
-    throw new HttpException({ message: 'Updated successfully' }, HttpStatus.OK);
   }
 
   // remove(id: number) {
