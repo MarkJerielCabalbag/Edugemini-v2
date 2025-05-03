@@ -385,14 +385,14 @@ export class InstructorService {
     });
 
     //map all activities if the activity title to be updated is already exist
-    listOfActivities.map((activity) => {
+    for (let activity of listOfActivities) {
       if (activity.title === activityDto.title) {
         throw new HttpException(
-          { error: 'Duplicate Title' },
-          HttpStatus.CONFLICT,
+          { error: 'Activity title already exist' },
+          HttpStatus.BAD_REQUEST,
         );
       }
-    });
+    }
 
     const currentFile = await this.databaseService.files.findFirst({
       where: {
@@ -456,7 +456,72 @@ export class InstructorService {
     }
   }
 
-  // remove(id: number) {
-  //   return `This action removes a #${id} instructor`;
-  // }
+  // @DESC   Remove Activity that is related to both classroom and its own id
+  // @ROUTE  instructor/removeActivity/:roomId/:activityId
+  async removeActivity(roomId: number, activityId: number) {
+    if (!roomId || !activityId) {
+      throw new HttpException(
+        { error: 'Id does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const classroom = await this.databaseService.classroom.findFirst({
+      where: {
+        id: roomId,
+      },
+    });
+
+    const activity = await this.databaseService.activity.findFirst({
+      where: {
+        id: activityId,
+      },
+    });
+
+    if (!classroom) {
+      throw new HttpException(
+        { error: 'Classroom does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (!activity) {
+      throw new HttpException(
+        { error: 'Activity does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    //find the file related to the activity
+    const file = await this.databaseService.files.findFirst({
+      where: {
+        relatedToActivity: {
+          id: activityId,
+        },
+      },
+    });
+
+    if (file?.filePath) {
+      const { data, error } = await this.supabase.storage
+        .from('edugemini')
+        .remove([file?.filePath]);
+
+      if (data) {
+        await this.databaseService.activity.delete({
+          where: {
+            id: activityId,
+          },
+        });
+        throw new HttpException(
+          { message: 'Activity Deleted Successfully' },
+          HttpStatus.ACCEPTED,
+        );
+      } else {
+        throw new HttpException(
+          { error: error.message },
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
+    }
+  }
 }

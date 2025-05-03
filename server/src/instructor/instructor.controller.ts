@@ -84,4 +84,14 @@ export class InstructorController {
       activityDto,
     );
   }
+
+  // @DESC   Remove Activity that is related to both classroom and its own id
+  // @ROUTE  instructor/removeActivity/:roomId/:activityId
+  @Post('removeActivity/:roomId/:activityId')
+  async removeActivity(
+    @Param('roomId', ParseIntPipe) roomId: number,
+    @Param('activityId', ParseIntPipe) activityId: number,
+  ) {
+    return this.instructorService.removeActivity(+roomId, +activityId);
+  }
 }
