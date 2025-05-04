@@ -133,9 +133,30 @@ export class InstructorController {
   }
 
   // @DESC   Approved student to join specific classroom
-  // @ROUTE  instructor/approvedStudent/:roomId
-  @Post('approvedStudent/:roomId')
-  async approvedStudent(@Param('roomId', ParseIntPipe) roomId: number) {
-    return this.instructorService.approvedStudent(roomId);
+  // @ROUTE  instructor/approvedStudent/:userId
+  @Post('approvedStudent/:userId')
+  async approvedStudent(@Param('userId', ParseIntPipe) userId: number) {
+    return this.instructorService.approvedStudent(+userId);
+  }
+
+  // @DESC   Declined student to join specific classroom
+  // @ROUTE  instructor/declinedStudent/:userId
+  @Post('declinedStudent/:userId')
+  async declinedStudent(@Param('userId', ParseIntPipe) userId: number) {
+    return this.instructorService.declinedStudent(+userId);
+  }
+
+  // @DESC   Get students associated with the classroom
+  // @ROUTE  instructor/students/:roomId
+  @Get('students/:roomId')
+  async getStudents(@Param('roomId', ParseIntPipe) roomId: number) {
+    return this.instructorService.getStudents(roomId);
+  }
+
+  // @DESC   Get student
+  // @ROUTE  instructor/student/:userId
+  @Get('student/:userId')
+  async getStudent(@Param('userId', ParseIntPipe) userId: number) {
+    return this.instructorService.getStudent(userId);
   }
 }

@@ -621,34 +621,123 @@ export class InstructorService {
   }
 
   // @DESC   Approved student to join specific classroom
-  // @ROUTE  instructor/approvedStudent/:roomId/:userId
-  async approvedStudent(roomId: number) {
-    if (!roomId)
+  // @ROUTE  instructor/approvedStudent/:userId
+  async approvedStudent(userId: number) {
+    if (!userId)
       new HttpException(
         { error: 'The Id does not exist' },
         HttpStatus.BAD_REQUEST,
       );
 
+    const student = await this.databaseService.student.findFirst({
+      where: {
+        userId: userId,
+      },
+    });
+
+    if (!student) {
+      throw new HttpException(
+        { error: 'Student does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    await this.databaseService.student.update({
+      where: {
+        userId: userId,
+      },
+      data: {
+        status: 'APPROVED',
+      },
+    });
+
+    throw new HttpException(
+      { message: 'Approved Student' },
+      HttpStatus.ACCEPTED,
+    );
+  }
+
+  // @DESC   Declined student to join specific classroom
+  // @ROUTE  instructor/declinedStudent/:userId
+  async declinedStudent(userId: number) {
+    if (!userId)
+      new HttpException(
+        { error: 'The Id does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+
+    const student = await this.databaseService.student.findFirst({
+      where: {
+        userId: userId,
+      },
+    });
+
+    if (!student) {
+      throw new HttpException(
+        { error: 'Student does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    await this.databaseService.student.update({
+      where: {
+        userId: userId,
+      },
+      data: {
+        status: 'DECLINED',
+      },
+    });
+
+    throw new HttpException(
+      { message: 'Declined Student' },
+      HttpStatus.ACCEPTED,
+    );
+  }
+
+  // @DESC   Get students associated with the classroom
+  // @ROUTE  instructor/students/:roomId
+  async getStudents(roomId: number) {
+    if (!roomId)
+      new HttpException({ error: 'Id does not exist' }, HttpStatus.BAD_GATEWAY);
+
     const classroom = await this.databaseService.classroom.findFirst({
       where: {
         id: roomId,
+      },
+      select: {
+        listOfStudents: true,
       },
     });
 
     if (!classroom) {
       throw new HttpException(
-        { error: 'The classroom does not exist' },
+        { error: 'Classroom does not exist' },
         HttpStatus.BAD_REQUEST,
       );
     }
 
-    const listOfStudents = await this.databaseService.classroom.findMany({
+    return classroom.listOfStudents;
+  }
+
+  // @DESC   Get student
+  // @ROUTE  instructor/student/:userId
+  async getStudent(userId: number) {
+    if (!userId)
+      new HttpException({ error: 'Id does not exist' }, HttpStatus.BAD_REQUEST);
+
+    const student = await this.databaseService.student.findFirst({
       where: {
-        id: roomId,
-      },
-      include: {
-        listOfStudents: true,
+        userId: userId,
       },
     });
+
+    if (!student) {
+      throw new HttpException(
+        { error: 'Student does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    return student;
   }
 }
