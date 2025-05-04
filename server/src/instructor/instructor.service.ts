@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Activity, Announcement, Prisma } from 'generated/prisma';
 import { DatabaseService } from 'src/database/database.service';
-import { existsSync, rm, unlink, unlinkSync } from 'fs';
 import { SupabaseClient } from '@supabase/supabase-js';
 
 @Injectable()
@@ -112,24 +111,19 @@ export class InstructorService {
       );
     }
 
-    const newAnnouncement = await this.databaseService.announcement
-      .create({
-        data: {
-          title: announcementDto?.title ?? '',
-          description: announcementDto.description,
-          relatedToClassroom: {
-            connect: {
-              id: roomId,
-            },
+    const newAnnouncement = await this.databaseService.announcement.create({
+      data: {
+        title: announcementDto?.title ?? '',
+        description: announcementDto.description,
+        relatedToClassroom: {
+          connect: {
+            id: roomId,
           },
         },
-      })
-      .catch((error) => {
-        throw new HttpException(
-          { error: error.message },
-          HttpStatus.INTERNAL_SERVER_ERROR,
-        );
-      });
+      },
+    });
+
+    console.log(files, 'files');
 
     files.forEach(async (file) => {
       const mimetype = file.originalname.split('.').pop();
@@ -346,7 +340,6 @@ export class InstructorService {
 
   //@DESC   Update Activity that is related to both classroom and its own id
   //@ROUTE  instructor/updateActivity/:roomId/:activityId
-
   async updateActivity(
     roomId: number,
     activityId: number,
@@ -523,5 +516,139 @@ export class InstructorService {
         );
       }
     }
+  }
+
+  // @DESC   Get Announcements that is related to both classroom and its user
+  // @ROUTE  instructor/getAnnouncements/:roomId
+  async getAnnouncements(roomId: number): Promise<Announcement[]> {
+    if (!roomId)
+      new HttpException({ error: 'Id does not exist' }, HttpStatus.BAD_REQUEST);
+
+    const classroom = await this.databaseService.classroom.findFirst({
+      where: { id: roomId },
+    });
+
+    if (!classroom)
+      new HttpException(
+        { error: 'Classroomdoes not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+
+    const announcements = await this.databaseService.announcement.findMany({
+      where: {
+        relatedToClassroom: {
+          id: roomId,
+        },
+      },
+      include: {
+        listOfFiles: true,
+      },
+    });
+
+    return announcements;
+  }
+
+  // @DESC   Get Announcement that is related to both classroom and its user
+  // @ROUTE  instructor/getAnnouncement/:roomId
+  async getAnnouncement(announceId: number): Promise<Announcement> {
+    if (!announceId)
+      new HttpException({ error: 'Id does not exist' }, HttpStatus.BAD_REQUEST);
+
+    const announcement = await this.databaseService.announcement.findFirst({
+      where: {
+        id: announceId,
+      },
+      include: {
+        listOfFiles: true,
+      },
+    });
+
+    if (!announcement) {
+      throw new HttpException(
+        { error: 'Announcement does not exist' },
+        HttpStatus.BAD_GATEWAY,
+      );
+    }
+
+    return announcement;
+  }
+
+  // @DESC   Get Activities that is related to classroom
+  // @ROUTE  instructor/getActivities/:roomId
+  async getActivities(roomId: number): Promise<Activity[]> {
+    if (!roomId)
+      new HttpException({ error: 'Id does not exist' }, HttpStatus.BAD_GATEWAY);
+
+    const classworks = await this.databaseService.activity.findMany({
+      where: {
+        roomId: roomId,
+      },
+    });
+
+    if (!classworks) {
+      throw new HttpException(
+        { error: 'Classworks does not exist' },
+        HttpStatus.BAD_GATEWAY,
+      );
+    }
+
+    return classworks;
+  }
+
+  // @DESC   Get Classwork that is related to classroom
+  // @ROUTE  instructor/getClasswork/:roomId
+  async getActivity(activityId: number): Promise<Activity> {
+    if (!activityId)
+      new HttpException({ error: 'Id does not exist' }, HttpStatus.BAD_REQUEST);
+
+    const activity = await this.databaseService.activity.findFirst({
+      where: {
+        id: activityId,
+      },
+      include: {
+        criteria: true,
+      },
+    });
+
+    if (!activity) {
+      throw new HttpException(
+        { error: 'Activity does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    return activity;
+  }
+
+  // @DESC   Approved student to join specific classroom
+  // @ROUTE  instructor/approvedStudent/:roomId/:userId
+  async approvedStudent(roomId: number) {
+    if (!roomId)
+      new HttpException(
+        { error: 'The Id does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+
+    const classroom = await this.databaseService.classroom.findFirst({
+      where: {
+        id: roomId,
+      },
+    });
+
+    if (!classroom) {
+      throw new HttpException(
+        { error: 'The classroom does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const listOfStudents = await this.databaseService.classroom.findMany({
+      where: {
+        id: roomId,
+      },
+      include: {
+        listOfStudents: true,
+      },
+    });
   }
 }

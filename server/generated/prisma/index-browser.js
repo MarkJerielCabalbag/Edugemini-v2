@@ -124,6 +124,16 @@ exports.Prisma.UserScalarFieldEnum = {
   password: 'password'
 };
 
+exports.Prisma.StudentScalarFieldEnum = {
+  userId: 'userId',
+  lastname: 'lastname',
+  firstname: 'firstname',
+  middlename: 'middlename',
+  sex: 'sex',
+  status: 'status',
+  roomId: 'roomId'
+};
+
 exports.Prisma.ClassroomScalarFieldEnum = {
   id: 'id',
   classname: 'classname',
@@ -184,6 +194,7 @@ exports.ClassroomStatus = exports.$Enums.ClassroomStatus = {
 
 exports.Prisma.ModelName = {
   User: 'User',
+  Student: 'Student',
   Classroom: 'Classroom',
   Activity: 'Activity',
   Announcement: 'Announcement',

@@ -7,6 +7,7 @@ import {
   UseInterceptors,
   UploadedFiles,
   UploadedFile,
+  Get,
 } from '@nestjs/common';
 import { InstructorService } from './instructor.service';
 import { Activity, Announcement, Prisma } from 'generated/prisma';
@@ -93,5 +94,48 @@ export class InstructorController {
     @Param('activityId', ParseIntPipe) activityId: number,
   ) {
     return this.instructorService.removeActivity(+roomId, +activityId);
+  }
+
+  // @DESC   Get Announcements that is related to both classroom and its user
+  // @ROUTE  instructor/getAnnouncements/:roomId
+  @Get('getAnnouncements/:roomId')
+  async getAnnouncements(
+    @Param('roomId', ParseIntPipe) roomId: number,
+  ): Promise<Announcement[]> {
+    return this.instructorService.getAnnouncements(+roomId);
+  }
+
+  // @DESC   Get Announcement that is related to both classroom and its user
+  // @ROUTE  instructor/getAnnouncement/:announceId
+  @Get('getAnnouncement/:announceId')
+  async getAnnouncement(
+    @Param('announceId', ParseIntPipe) announceId: number,
+  ): Promise<Announcement> {
+    return this.instructorService.getAnnouncement(+announceId);
+  }
+
+  // @DESC   Get Activities that is related to classroom
+  // @ROUTE  instructor/getActivities/:roomId
+  @Get('getActivities/:roomId')
+  async getActivities(
+    @Param('roomId', ParseIntPipe) roomId: number,
+  ): Promise<Activity[]> {
+    return this.instructorService.getActivities(+roomId);
+  }
+
+  // @DESC   Get Activity
+  // @ROUTE  instructor/getActivity/:activityId
+  @Get('getActivity/:activityId')
+  async getActivity(
+    @Param('activityId', ParseIntPipe) activityId: number,
+  ): Promise<Activity> {
+    return this.instructorService.getActivity(+activityId);
+  }
+
+  // @DESC   Approved student to join specific classroom
+  // @ROUTE  instructor/approvedStudent/:roomId
+  @Post('approvedStudent/:roomId')
+  async approvedStudent(@Param('roomId', ParseIntPipe) roomId: number) {
+    return this.instructorService.approvedStudent(roomId);
   }
 }

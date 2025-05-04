@@ -22,6 +22,20 @@ model User {
   password    String?
 
   listOfCreatedClassroom Classroom[]
+  student                Student?
+}
+
+model Student {
+  relatedToUser       User              @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  userId              Int         @id    @unique
+  lastname            String
+  firstname           String
+  middlename          String
+  sex                 String            
+  status              ClassroomStatus   @default(PENDING)
+
+  relatedtoClassroom  Classroom?        @relation(fields: [roomId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  roomId              Int?
 }
 
 model Classroom {
@@ -37,6 +51,7 @@ model Classroom {
 
   listOfAnnouncements Announcement[]
   listOfActivity      Activity[]
+  listOfStudents      Student[]
 }
 
 model Activity {

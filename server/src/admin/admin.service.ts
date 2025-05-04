@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Classroom, Prisma } from 'generated/prisma';
 import { DatabaseService } from 'src/database/database.service';
-import * as uuid from 'uuid';
+import { nanoid } from 'nanoid';
 @Injectable()
 export class AdminService {
   constructor(private readonly databaseService: DatabaseService) {}
@@ -29,7 +29,7 @@ export class AdminService {
       },
       data: {
         status: 'APPROVED',
-        classcode: uuid.v4(),
+        classcode: nanoid(6),
       },
     });
 
@@ -65,6 +65,7 @@ export class AdminService {
       },
       data: {
         status: 'DECLINED',
+        classcode: null,
       },
     });
 
