@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
 
-const SignIn = () => {
+type SignInProps = {
+  showButton: ReactNode;
+};
+
+const SignIn = ({ showButton }: SignInProps) => {
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -56,6 +60,8 @@ const SignIn = () => {
           </div>
 
           <Button className="w-full">Sign In</Button>
+
+          {showButton}
         </form>
       </div>
     </div>

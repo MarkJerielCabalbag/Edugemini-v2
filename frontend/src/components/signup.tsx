@@ -1,14 +1,13 @@
 "use client";
-import React, { useState } from "react";
+import React, { ReactNode, useState } from "react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import Link from "next/link";
 type SignUpProps = {
-  show: false;
-  handleShow: (show: false) => void;
+  showButton: ReactNode;
 };
-const SignUp = ({ handleShow, show }: SignUpProps) => {
+const SignUp = ({ showButton }: SignUpProps) => {
   const [user, setUser] = useState({
     email: "",
     username: "",
@@ -80,7 +79,7 @@ const SignUp = ({ handleShow, show }: SignUpProps) => {
 
           <Button className="w-full">Sign Up</Button>
 
-          <Button onClick={() => handleShow(show)}>Has account</Button>
+          {showButton}
         </form>
       </div>
     </div>
