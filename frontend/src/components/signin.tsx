@@ -2,6 +2,8 @@ import React, { ReactNode, useState } from "react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
+import { useSignIn } from "@/hooks/user.hooks";
+import Link from "next/link";
 
 type SignInProps = {
   showButton: ReactNode;
@@ -16,6 +18,8 @@ const SignIn = ({ showButton }: SignInProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setUser({ ...user, [e.target.name]: e.target.value });
 
+  const { mutateAsync, data } = useSignIn(user.email, user.password);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-md">
@@ -24,7 +28,7 @@ const SignIn = ({ showButton }: SignInProps) => {
           <p className="text-gray-600">Sign in to your account</p>
         </div>
 
-        <form className="mt-8 space-y-6">
+        <form className="mt-8 space-y-6" onSubmit={(e) => e.preventDefault()}>
           <div className="space-y-2">
             <Label
               htmlFor="email"
@@ -59,7 +63,19 @@ const SignIn = ({ showButton }: SignInProps) => {
             />
           </div>
 
-          <Button className="w-full">Sign In</Button>
+          <Button
+            className="w-full"
+            onClick={async () => {
+              try {
+                await mutateAsync();
+                <Link href={``} />;
+              } catch (error) {
+                console.log(error);
+              }
+            }}
+          >
+            Sign In
+          </Button>
 
           {showButton}
         </form>

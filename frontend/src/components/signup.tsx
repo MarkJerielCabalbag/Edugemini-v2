@@ -3,7 +3,9 @@ import React, { ReactNode, useState } from "react";
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
-import Link from "next/link";
+
+import { useSignUp } from "@/hooks/user.hooks";
+
 type SignUpProps = {
   showButton: ReactNode;
 };
@@ -17,6 +19,8 @@ const SignUp = ({ showButton }: SignUpProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setUser({ ...user, [e.target.name]: e.target.value });
 
+  const { mutateAsync } = useSignUp(user.username, user.email, user.password);
+
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-md">
@@ -25,7 +29,7 @@ const SignUp = ({ showButton }: SignUpProps) => {
           <p className="text-gray-600">Sign Up to create account</p>
         </div>
 
-        <form className="mt-8 space-y-6">
+        <form className="mt-8 space-y-6" onSubmit={(e) => e.preventDefault()}>
           <div className="space-y-2">
             <Label
               htmlFor="email"
@@ -77,7 +81,18 @@ const SignUp = ({ showButton }: SignUpProps) => {
             />
           </div>
 
-          <Button className="w-full">Sign Up</Button>
+          <Button
+            className="w-full"
+            onClick={async () => {
+              try {
+                await mutateAsync();
+              } catch (error) {
+                console.log(error);
+              }
+            }}
+          >
+            Sign Up
+          </Button>
 
           {showButton}
         </form>

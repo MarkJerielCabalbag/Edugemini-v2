@@ -55,7 +55,6 @@ export class UserService {
 
     throw new HttpException(
       {
-        status: HttpStatus.CREATED,
         data: newUser,
         message: `Welcome ${newUser.username}`,
       },
@@ -70,10 +69,9 @@ export class UserService {
    * @throws {BadRequestException} If the account is not registered yet.
    */
   async signIn(userDto: Partial<User>): Promise<void> {
-    if (!userDto.username || !userDto.email || !userDto.password) {
+    if (!userDto.email || !userDto.password) {
       throw new HttpException(
         {
-          status: HttpStatus.BAD_REQUEST,
           error: 'Please fill all the fields',
         },
         HttpStatus.BAD_REQUEST,
@@ -84,12 +82,14 @@ export class UserService {
       where: {
         email: userDto.email,
       },
+      omit: {
+        password: true,
+      },
     });
 
     if (!isUserExist) {
       throw new HttpException(
         {
-          status: HttpStatus.CONFLICT,
           error: `${userDto.email} is not registered yet`,
         },
         HttpStatus.CONFLICT,
@@ -97,7 +97,7 @@ export class UserService {
     } else {
       throw new HttpException(
         {
-          status: HttpStatus.ACCEPTED,
+          data: isUserExist,
           message: `Welccome ${userDto.username}!`,
         },
         HttpStatus.ACCEPTED,
