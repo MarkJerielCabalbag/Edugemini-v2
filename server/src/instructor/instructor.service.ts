@@ -740,4 +740,54 @@ export class InstructorService {
 
     return student;
   }
+
+  // @DESC   Get classes associated with the userId
+  // @ROUTE  instructor/classes/:userId
+  async getClasses(userId: number) {
+    if (!userId)
+      new HttpException({ error: 'Id does not exist' }, HttpStatus.BAD_REQUEST);
+
+    const user = await this.databaseService.user.findFirst({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!user)
+      new HttpException(
+        { error: 'User does not exist' },
+        HttpStatus.BAD_GATEWAY,
+      );
+
+    const classrooms = await this.databaseService.classroom.findMany({
+      where: {
+        relatedToUser: {
+          id: userId,
+        },
+      },
+    });
+
+    return classrooms;
+  }
+
+  // @DESC   Get class
+  // @ROUTE  instructor/class/:roomId
+  async getClass(roomId: number) {
+    if (!roomId)
+      new HttpException({ error: 'Id does not exist' }, HttpStatus.BAD_GATEWAY);
+
+    const classroom = await this.databaseService.classroom.findFirst({
+      where: {
+        id: roomId,
+      },
+    });
+
+    if (!classroom)
+      new HttpException(
+        { error: 'Classroom does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+
+    return classroom;
+  }
 }

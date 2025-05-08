@@ -25,7 +25,7 @@ export const useSignIn = (
     mutationFn: () => user.signIn(email, password),
     onSuccess: (data) => {
       onSuccess?.();
-      router.push(`instructor/${data.data.id}`);
+      router.push(`home/${data.data.id}`);
     },
     onError: () => {
       onError?.();

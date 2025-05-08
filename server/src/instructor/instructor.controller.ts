@@ -22,11 +22,11 @@ export class InstructorController {
   ) {}
 
   //@DESC   Create Classroom related to user
-  //@ROUTE  instructor/instructor/createClassroom/:roomId
-  @Post('createClassroom/:id')
+  //@ROUTE  instructor/instructor/createClassroom/:userId
+  @Post('createClassroom/:userId')
   createClassroom(
     @Body() createClassroomDto: Prisma.ClassroomCreateInput,
-    @Param('id', ParseIntPipe) id: number,
+    @Param('userId', ParseIntPipe) id: number,
   ) {
     return this.instructorService.createClassroom(createClassroomDto, +id);
   }
@@ -158,5 +158,19 @@ export class InstructorController {
   @Get('student/:userId')
   async getStudent(@Param('userId', ParseIntPipe) userId: number) {
     return this.instructorService.getStudent(userId);
+  }
+
+  // @DESC   Get classes associated with the userId
+  // @ROUTE  instructor/classes/:userId
+  @Get('classes/:userId')
+  async getClasses(@Param('userId', ParseIntPipe) userId: number) {
+    return this.instructorService.getClasses(userId);
+  }
+
+  // @DESC   Get class
+  // @ROUTE  instructor/class/:roomId
+  @Get('class/:roomId')
+  async getClass(@Param('roomId', ParseIntPipe) roomId: number) {
+    return this.instructorService.getClass(roomId);
   }
 }
