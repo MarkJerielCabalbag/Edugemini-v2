@@ -68,7 +68,6 @@ const SignIn = ({ showButton }: SignInProps) => {
             onClick={async () => {
               try {
                 await mutateAsync();
-                <Link href={``} />;
               } catch (error) {
                 console.log(error);
               }

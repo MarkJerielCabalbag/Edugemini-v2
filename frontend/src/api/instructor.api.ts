@@ -1,3 +1,4 @@
+import { ClassProps } from "@/app/instructor/types";
 import { baseUrl } from "@/baseUrl";
 
 export const instructor = {
@@ -27,6 +28,21 @@ export const instructor = {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ classname, subject, section, room }),
+    }).then(async (res) => {
+      const response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(response.message || "An Error Occured");
+      }
+
+      return response;
+    });
+  },
+
+  async getClassroom(roomId: number): Promise<ClassProps> {
+    return await fetch(`${baseUrl}/instructor/class/${roomId}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
     }).then(async (res) => {
       const response = await res.json();
 

@@ -1,16 +1,13 @@
 "use client";
 import Modal from "@/components/modal";
-import {
-  AlertDialogAction,
-  AlertDialogCancel,
-} from "@/components/ui/alert-dialog";
+import { AlertDialogCancel } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { usePostClassroom } from "@/hooks/instructor.hooks";
 import { ModalProps } from "@/types/types";
 import { useParams } from "next/navigation";
-import React, { useRef } from "react";
+import React from "react";
 import toast from "react-hot-toast";
 
 const CreateClassroomModal = ({ open, onOpenChange }: ModalProps) => {

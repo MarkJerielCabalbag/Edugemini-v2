@@ -32,3 +32,10 @@ export const usePostClassroom = (
     },
   });
 };
+
+export const useGetClassroom = (roomId: number) => {
+  return useQuery({
+    queryKey: ["classroom"],
+    queryFn: () => instructor.getClassroom(roomId),
+  });
+};

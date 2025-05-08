@@ -6,6 +6,7 @@ import { ClassProps } from "../types";
 import { ArrowLeft, PlusCircleIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CreateClassroomModal from "@/components/modals/instructor/CreateClassroomModal";
+import Link from "next/link";
 const page = () => {
   const { userId } = useParams();
   const [showCreateClassroomModal, setCreateClassroomModal] =
@@ -13,78 +14,77 @@ const page = () => {
   const { data, isLoading, isPending } = useGetClasses(Number(userId));
 
   return (
-    <div className="p-6 bg-background m-auto w-[90%]">
-      <div className="my-5">
-        <ArrowLeft />
+    <div className="p-8 bg-background max-w-7xl mx-auto">
+      <div className="flex items-center mb-8 hover:text-primary transition-colors cursor-pointer">
+        <ArrowLeft className="mr-2" />
+        <span>Back to Dashboard</span>
       </div>
+
       {showCreateClassroomModal && (
         <CreateClassroomModal
           open={showCreateClassroomModal}
           onOpenChange={setCreateClassroomModal}
         />
       )}
+
       {isLoading || isPending ? (
-        <div className="flex justify-center items-center h-64">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary" />
+        <div className="flex justify-center items-center h-[60vh]">
+          <div className="animate-spin rounded-full h-16 w-16 border-4 border-primary border-t-transparent" />
         </div>
       ) : (
         <>
-          <div className="bg-primary rounded-lg w-full p-5 text-white my-5 flex justify-between items-center">
+          <div className="bg-primary/95 rounded-xl w-full p-8 text-white mb-8 flex justify-between items-center shadow-lg hover:bg-primary transition-all">
             <div>
-              <h1 className="text-2xl font-bold">My Classes</h1>
-              <p className="text-primary-foreground">
+              <h1 className="text-3xl font-bold mb-2">My Classes</h1>
+              <p className="text-primary-foreground/90 text-lg">
                 You have {data?.length || 0} active{" "}
                 {data?.length === 1 ? "class" : "classes"}
               </p>
             </div>
             <Button
-              className="flex justify-between gap-2 items-center bg-white text-primary px-4 py-2 rounded-md hover:bg-primary-foreground transition-colors"
+              className="flex items-center gap-3 bg-white text-primary px-6 py-5 rounded-lg hover:bg-primary-foreground transition-all text-lg font-semibold shadow-md"
               onClick={() => setCreateClassroomModal(!showCreateClassroomModal)}
             >
-              <PlusCircleIcon /> Create New Class
+              <PlusCircleIcon size={24} /> Create New Class
             </Button>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {data?.map((classItem: ClassProps) => (
-              <div
+              <Link
                 key={classItem.id}
-                className="bg-card rounded-lg shadow-sm hover:shadow-md transition-shadow p-6 border border-border"
+                href={
+                  classItem.status === "APPROVED"
+                    ? `classroom/${userId}/${classItem.id}`
+                    : classItem.status === "DECLINED"
+                    ? ""
+                    : ""
+                }
               >
-                <div className="flex items-center mb-4">
-                  <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center mr-4">
-                    <svg
-                      className="w-6 h-6 text-primary"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={2}
-                        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
-                      />
-                    </svg>
-                  </div>
-                  <div className="flex-1">
-                    <h2 className="text-xl font-semibold text-foreground">
-                      {classItem.classname}
-                    </h2>
-                    <span
-                      className={`text-sm ${
-                        classItem.status === "APPROVED"
-                          ? "text-green-500"
-                          : classItem.status === "DECLINED"
-                          ? "text-red-500"
-                          : "text-yellow-500"
-                      }`}
-                    >
-                      {classItem.status.charAt(0).toUpperCase() +
-                        classItem.status.slice(1)}
-                    </span>
+                <div className="bg-card rounded-xl shadow-md hover:shadow-xl transition-all p-8 border border-border/50 cursor-pointer group">
+                  <div className="flex flex-col gap-4">
+                    <div className="flex justify-between items-start">
+                      <p
+                        className={`text-sm font-semibold py-1.5 px-3 rounded-full inline-flex items-center ${
+                          classItem.status === "APPROVED"
+                            ? "text-green-700 bg-green-100 border border-green-200"
+                            : classItem.status === "DECLINED"
+                            ? "text-red-700 bg-red-100 border border-red-200"
+                            : "text-yellow-700 bg-yellow-100 border border-yellow-200"
+                        }`}
+                      >
+                        {classItem.status.charAt(0).toUpperCase() +
+                          classItem.status.slice(1)}
+                      </p>
+                    </div>
+                    <div>
+                      <h2 className="text-2xl font-bold text-foreground group-hover:text-primary transition-colors mb-2">
+                        {classItem.classname}
+                      </h2>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </>
