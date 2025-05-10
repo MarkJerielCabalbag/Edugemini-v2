@@ -68,4 +68,75 @@ export const instructor = {
       return response;
     });
   },
+
+  async createAnnouncement(
+    roomId: number,
+    title: string,
+    description: string,
+    fileData: any[]
+  ) {
+    try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("description", description);
+
+      fileData.forEach((file) => {
+        formData.append("files", file);
+      });
+
+      console.log(formData);
+
+      const response = await fetch(
+        `${baseUrl}/instructor/createAnnouncement/${roomId}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "An Error Occurred");
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  },
+
+  async getAnnouncement(announceId: number) {
+    return await fetch(`${baseUrl}/instructor/getAnnouncement/${announceId}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }).then(async (res) => {
+      const response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(response.message || "An Error Occured");
+      }
+
+      return response;
+    });
+  },
+
+  async removeAnnouncement(announceId: number) {
+    return await fetch(
+      `${baseUrl}/instructor/deleteAnnouncement/${announceId}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      }
+    ).then(async (res) => {
+      const response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(response.message || "An Error Occured");
+      }
+
+      return response;
+    });
+  },
 };

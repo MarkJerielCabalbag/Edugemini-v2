@@ -1,32 +1,84 @@
 "use client";
+import { instructor } from "@/api/instructor.api";
 import Modal from "@/components/modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { FileProps, ModalProps } from "@/types/types";
+import { usePostAnnouncement } from "@/hooks/instructor.hooks";
+import { AnnouncementProps, FileProps, ModalProps } from "@/types/types";
+import { baseUrl } from "@/utils/baseUrl";
 import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
-import { FileIcon, Paperclip } from "lucide-react";
-import React from "react";
+import { FileIcon, Paperclip, XIcon } from "lucide-react";
+import { useParams } from "next/navigation";
+import React, { ChangeEvent } from "react";
 
 const CreateAnnouncementModal = ({ open, onOpenChange }: ModalProps) => {
-  const [fileData, setFileData] = React.useState<FileProps[]>([]);
+  const [fileData, setFileData] = React.useState<File[]>([]);
 
-  console.log(fileData);
+  const [announcement, setAnnouncement] = React.useState<AnnouncementProps>({
+    title: "",
+    description: "",
+    listOfFiles: [],
+  });
 
-  const handleFileUploadChange = (data: any) => {
-    if (data.target.files) {
-      if (data.target.files.length > 0) {
-        let fileData: any = [];
-        for (let index = 0; index < data.target.files.length; index++) {
-          fileData.push({
-            name: data.target.files[index].name,
-            size: data.target.files[index].size,
-          });
-        }
-        setFileData(fileData);
-      }
+  const { roomId } = useParams();
+
+  const handleFileUploadChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const inputElement = e.target;
+    const files = inputElement.files;
+    if (files) {
+      setFileData(Array.from(files));
     }
   };
+
+  const handleFilterFile = (filteredValue: string) => {
+    const filterValue = fileData.filter((file) => file.name !== filteredValue);
+
+    setFileData(filterValue);
+  };
+
+  const handleOnChange = (e: ChangeEvent<HTMLInputElement>) =>
+    setAnnouncement({ ...announcement, [e.target.name]: e.target.value });
+
+  //   async function handleUpload() {
+  //     try {
+  //       const formData = new FormData();
+  //       formData.append("title", announcement?.title as string);
+  //       formData.append("description", announcement?.description as string);
+
+  //       fileData.forEach((file) => {
+  //         formData.append("files", file);
+  //       });
+
+  //       console.log(formData);
+
+  //       const response = await fetch(
+  //         `${baseUrl}/instructor/createAnnouncement/${roomId}`,
+  //         {
+  //           method: "POST",
+  //           body: formData,
+  //         }
+  //       );
+
+  //       if (!response.ok) {
+  //         const errorData = await response.json();
+  //         throw new Error(errorData.message || "An Error Occurred");
+  //       }
+
+  //       const data = await response.json();
+  //       return data;
+  //     } catch (e) {
+  //       console.error(e);
+  //       throw e;
+  //     }
+  //   }
+
+  const { mutateAsync } = usePostAnnouncement(
+    Number(roomId),
+    announcement?.title as string,
+    announcement?.description as string,
+    fileData
+  );
   return (
     <Modal
       open={open}
@@ -42,14 +94,9 @@ const CreateAnnouncementModal = ({ open, onOpenChange }: ModalProps) => {
             <Label className="text-sm font-medium">Title*</Label>
             <Input
               placeholder="e.g., Mathematics 101"
-              //   className={`${
-              //     isError ? "border-red-500 focus:border-red-500" : "w-full"
-              //   } transition-all`}
-              //   value={classroom.classname}
-              //   name="classname"
-              //   ref={inputRef}
-              //   onChange={handleOnChange}
-              //   autoFocus
+              value={announcement.title}
+              name="title"
+              onChange={handleOnChange}
             />
           </div>
 
@@ -57,12 +104,9 @@ const CreateAnnouncementModal = ({ open, onOpenChange }: ModalProps) => {
             <Label className="text-sm font-medium">Description</Label>
             <Input
               placeholder="e.g., Mathematics"
-              //   value={classroom.subject}
-              //   name="subject"
-              //   onChange={handleOnChange}
-              //   className={`${
-              //     isError ? "border-red-500 focus:border-red-500" : "w-full"
-              //   } transition-all`}
+              value={announcement.description}
+              name="description"
+              onChange={handleOnChange}
             />
           </div>
 
@@ -81,7 +125,7 @@ const CreateAnnouncementModal = ({ open, onOpenChange }: ModalProps) => {
                 type="file"
                 className="hidden"
                 multiple
-                onChange={handleFileUploadChange}
+                onChange={(e) => handleFileUploadChange(e)}
                 accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf, image/png, application/pdf, image/jpeg"
               />
             </div>
@@ -91,8 +135,20 @@ const CreateAnnouncementModal = ({ open, onOpenChange }: ModalProps) => {
             fileData.length > 0 &&
             fileData.map((item: any, index: any) => {
               return (
-                <div key={index} className="flex gap-2">
-                  <FileIcon /> - {item.name}
+                <div
+                  key={index}
+                  className="flex items-center justify-between px-3 py-2 bg-slate-50 rounded-md"
+                >
+                  <div className="flex items-center gap-2">
+                    <FileIcon className="h-4 w-4 text-slate-500" />
+                    <span className="text-sm text-slate-700">{item.name}</span>
+                  </div>
+                  <button
+                    onClick={() => handleFilterFile(item.name)}
+                    className="p-1 hover:bg-slate-200 rounded-full transition-colors"
+                  >
+                    <XIcon className="h-4 w-4 text-slate-500" />
+                  </button>
                 </div>
               );
             })}
@@ -101,7 +157,18 @@ const CreateAnnouncementModal = ({ open, onOpenChange }: ModalProps) => {
       modalFooter={
         <>
           <AlertDialogCancel>Cancel</AlertDialogCancel>
-          <Button>Create</Button>
+          <Button
+            onClick={async () => {
+              try {
+                await mutateAsync();
+                onOpenChange(false);
+              } catch (error) {
+                console.log(error);
+              }
+            }}
+          >
+            Create
+          </Button>
         </>
       }
     />

@@ -10,22 +10,22 @@ export type ModalProps = {
 };
 
 export type FileProps = {
-  id: number;
+  id?: number;
   activityId?: number | null;
   announceId?: number | null;
   filePath?: string;
-  fileSize: number;
-  filename: string;
-  folderPath: string;
+  fileSize?: number;
+  filename?: string;
+  folderPath?: string;
   mimetype?: string;
 };
 
 export type AnnouncementProps = {
-  id: number;
-  title: string;
-  decription: string;
+  id?: number;
+  title?: string;
+  description: string;
   roomId?: number;
-  createdAt: string;
+  createdAt?: string;
 
   listOfFiles: FileProps[];
 };

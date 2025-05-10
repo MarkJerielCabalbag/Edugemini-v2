@@ -46,3 +46,50 @@ export const useGetAnnouncements = (roomId: number) => {
     queryFn: () => instructor.getAnnouncements(roomId),
   });
 };
+
+export const usePostAnnouncement = (
+  roomId: number,
+  title: string,
+  description: string,
+  fileData: any[]
+) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () =>
+      instructor.createAnnouncement(roomId, title, description, fileData),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["announcements"] });
+      queryClient.invalidateQueries({ queryKey: ["announcement"] });
+      toast.success(data?.message);
+    },
+    onError: (error) => {
+      queryClient.invalidateQueries({ queryKey: ["announcements"] });
+      queryClient.invalidateQueries({ queryKey: ["announcement"] });
+      toast.success(error?.message);
+    },
+  });
+};
+
+export const useGetAnnouncement = (announceId: number) => {
+  return useQuery({
+    queryKey: ["announcement"],
+    queryFn: () => instructor.getAnnouncement(announceId),
+  });
+};
+
+export const useDeleteAnnouncement = (announceId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => instructor.removeAnnouncement(announceId),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["announcements"] });
+
+      toast.success(data?.message);
+    },
+    onError: (error) => {
+      queryClient.invalidateQueries({ queryKey: ["announcements"] });
+
+      toast.success(error?.message);
+    },
+  });
+};
