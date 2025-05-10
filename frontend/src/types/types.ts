@@ -29,3 +29,12 @@ export type AnnouncementProps = {
 
   listOfFiles: FileProps[];
 };
+
+export type ClassworkProps = {
+  id?: number;
+  title: string;
+  date: string;
+  time: string;
+  instruction: string;
+  roomId?: number;
+};

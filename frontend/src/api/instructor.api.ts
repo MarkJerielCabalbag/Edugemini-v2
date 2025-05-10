@@ -139,4 +139,74 @@ export const instructor = {
       return response;
     });
   },
+
+  async getClassworks(roomId: number) {
+    return await fetch(`${baseUrl}/instructor/getActivities/${roomId}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }).then(async (res) => {
+      const response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(response.message || "An Error Occured");
+      }
+
+      return response;
+    });
+  },
+
+  async createClasswork(
+    roomId: number,
+    title: string,
+    instruction: string,
+    date: string,
+    time: string,
+    file: any
+  ) {
+    try {
+      const formData = new FormData();
+      formData.append("title", title);
+      formData.append("instruction", instruction);
+      formData.append("date", date);
+      formData.append("time", time);
+
+      formData.append("file", file);
+
+      console.log(formData);
+
+      const response = await fetch(
+        `${baseUrl}/instructor/createActivity/${roomId}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "An Error Occurred");
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
+  },
+
+  async getClasswork(workId: number) {
+    return await fetch(`${baseUrl}/instructor/getActivity/${workId}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }).then(async (res) => {
+      const response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(response.message || "An Error Occured");
+      }
+
+      return response;
+    });
+  },
 };

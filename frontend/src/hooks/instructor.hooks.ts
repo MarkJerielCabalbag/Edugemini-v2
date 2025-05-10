@@ -93,3 +93,42 @@ export const useDeleteAnnouncement = (announceId: number) => {
     },
   });
 };
+
+export const useGetClassworks = (roomId: number) => {
+  return useQuery({
+    queryKey: ["classworks"],
+    queryFn: () => instructor.getClassworks(roomId),
+  });
+};
+
+export const usePostActivity = (
+  roomId: number,
+  title: string,
+  instruction: string,
+  date: string,
+  time: string,
+  file: any
+) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () =>
+      instructor.createClasswork(roomId, title, instruction, date, time, file),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["classworks"] });
+
+      toast.success(data?.message);
+    },
+    onError: (error) => {
+      queryClient.invalidateQueries({ queryKey: ["classworks"] });
+
+      toast.success(error?.message);
+    },
+  });
+};
+
+export const useGetClasswork = (workId: number) => {
+  return useQuery({
+    queryKey: ["classwork"],
+    queryFn: () => instructor.getClasswork(workId),
+  });
+};
