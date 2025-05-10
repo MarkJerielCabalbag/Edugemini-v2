@@ -6133,6 +6133,7 @@ export namespace Prisma {
     title: string | null
     description: string | null
     roomId: number | null
+    createdAt: Date | null
   }
 
   export type AnnouncementMaxAggregateOutputType = {
@@ -6140,6 +6141,7 @@ export namespace Prisma {
     title: string | null
     description: string | null
     roomId: number | null
+    createdAt: Date | null
   }
 
   export type AnnouncementCountAggregateOutputType = {
@@ -6147,6 +6149,7 @@ export namespace Prisma {
     title: number
     description: number
     roomId: number
+    createdAt: number
     _all: number
   }
 
@@ -6166,6 +6169,7 @@ export namespace Prisma {
     title?: true
     description?: true
     roomId?: true
+    createdAt?: true
   }
 
   export type AnnouncementMaxAggregateInputType = {
@@ -6173,6 +6177,7 @@ export namespace Prisma {
     title?: true
     description?: true
     roomId?: true
+    createdAt?: true
   }
 
   export type AnnouncementCountAggregateInputType = {
@@ -6180,6 +6185,7 @@ export namespace Prisma {
     title?: true
     description?: true
     roomId?: true
+    createdAt?: true
     _all?: true
   }
 
@@ -6274,6 +6280,7 @@ export namespace Prisma {
     title: string
     description: string | null
     roomId: number
+    createdAt: Date | null
     _count: AnnouncementCountAggregateOutputType | null
     _avg: AnnouncementAvgAggregateOutputType | null
     _sum: AnnouncementSumAggregateOutputType | null
@@ -6300,6 +6307,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     roomId?: boolean
+    createdAt?: boolean
     relatedToClassroom?: boolean | ClassroomDefaultArgs<ExtArgs>
     listOfFiles?: boolean | Announcement$listOfFilesArgs<ExtArgs>
     _count?: boolean | AnnouncementCountOutputTypeDefaultArgs<ExtArgs>
@@ -6310,6 +6318,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     roomId?: boolean
+    createdAt?: boolean
     relatedToClassroom?: boolean | ClassroomDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["announcement"]>
 
@@ -6318,6 +6327,7 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     roomId?: boolean
+    createdAt?: boolean
     relatedToClassroom?: boolean | ClassroomDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["announcement"]>
 
@@ -6326,9 +6336,10 @@ export namespace Prisma {
     title?: boolean
     description?: boolean
     roomId?: boolean
+    createdAt?: boolean
   }
 
-  export type AnnouncementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "roomId", ExtArgs["result"]["announcement"]>
+  export type AnnouncementOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "roomId" | "createdAt", ExtArgs["result"]["announcement"]>
   export type AnnouncementInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     relatedToClassroom?: boolean | ClassroomDefaultArgs<ExtArgs>
     listOfFiles?: boolean | Announcement$listOfFilesArgs<ExtArgs>
@@ -6352,6 +6363,7 @@ export namespace Prisma {
       title: string
       description: string | null
       roomId: number
+      createdAt: Date | null
     }, ExtArgs["result"]["announcement"]>
     composites: {}
   }
@@ -6781,6 +6793,7 @@ export namespace Prisma {
     readonly title: FieldRef<"Announcement", 'String'>
     readonly description: FieldRef<"Announcement", 'String'>
     readonly roomId: FieldRef<"Announcement", 'Int'>
+    readonly createdAt: FieldRef<"Announcement", 'DateTime'>
   }
     
 
@@ -8475,7 +8488,8 @@ export namespace Prisma {
     id: 'id',
     title: 'title',
     description: 'description',
-    roomId: 'roomId'
+    roomId: 'roomId',
+    createdAt: 'createdAt'
   };
 
   export type AnnouncementScalarFieldEnum = (typeof AnnouncementScalarFieldEnum)[keyof typeof AnnouncementScalarFieldEnum]
@@ -8563,6 +8577,20 @@ export namespace Prisma {
    * Reference to a field of type 'ClassroomStatus[]'
    */
   export type ListEnumClassroomStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'ClassroomStatus[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime'
+   */
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime[]'
+   */
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
     
 
 
@@ -8862,6 +8890,7 @@ export namespace Prisma {
     title?: StringFilter<"Announcement"> | string
     description?: StringNullableFilter<"Announcement"> | string | null
     roomId?: IntFilter<"Announcement"> | number
+    createdAt?: DateTimeNullableFilter<"Announcement"> | Date | string | null
     relatedToClassroom?: XOR<ClassroomScalarRelationFilter, ClassroomWhereInput>
     listOfFiles?: FilesListRelationFilter
   }
@@ -8871,6 +8900,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrderInput | SortOrder
     roomId?: SortOrder
+    createdAt?: SortOrderInput | SortOrder
     relatedToClassroom?: ClassroomOrderByWithRelationInput
     listOfFiles?: FilesOrderByRelationAggregateInput
   }
@@ -8883,6 +8913,7 @@ export namespace Prisma {
     title?: StringFilter<"Announcement"> | string
     description?: StringNullableFilter<"Announcement"> | string | null
     roomId?: IntFilter<"Announcement"> | number
+    createdAt?: DateTimeNullableFilter<"Announcement"> | Date | string | null
     relatedToClassroom?: XOR<ClassroomScalarRelationFilter, ClassroomWhereInput>
     listOfFiles?: FilesListRelationFilter
   }, "id">
@@ -8892,6 +8923,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrderInput | SortOrder
     roomId?: SortOrder
+    createdAt?: SortOrderInput | SortOrder
     _count?: AnnouncementCountOrderByAggregateInput
     _avg?: AnnouncementAvgOrderByAggregateInput
     _max?: AnnouncementMaxOrderByAggregateInput
@@ -8907,6 +8939,7 @@ export namespace Prisma {
     title?: StringWithAggregatesFilter<"Announcement"> | string
     description?: StringNullableWithAggregatesFilter<"Announcement"> | string | null
     roomId?: IntWithAggregatesFilter<"Announcement"> | number
+    createdAt?: DateTimeNullableWithAggregatesFilter<"Announcement"> | Date | string | null
   }
 
   export type FilesWhereInput = {
@@ -9257,6 +9290,7 @@ export namespace Prisma {
   export type AnnouncementCreateInput = {
     title: string
     description?: string | null
+    createdAt?: Date | string | null
     relatedToClassroom: ClassroomCreateNestedOneWithoutListOfAnnouncementsInput
     listOfFiles?: FilesCreateNestedManyWithoutRelatedToAnnouncementInput
   }
@@ -9266,12 +9300,14 @@ export namespace Prisma {
     title: string
     description?: string | null
     roomId: number
+    createdAt?: Date | string | null
     listOfFiles?: FilesUncheckedCreateNestedManyWithoutRelatedToAnnouncementInput
   }
 
   export type AnnouncementUpdateInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     relatedToClassroom?: ClassroomUpdateOneRequiredWithoutListOfAnnouncementsNestedInput
     listOfFiles?: FilesUpdateManyWithoutRelatedToAnnouncementNestedInput
   }
@@ -9281,6 +9317,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     roomId?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     listOfFiles?: FilesUncheckedUpdateManyWithoutRelatedToAnnouncementNestedInput
   }
 
@@ -9289,11 +9326,13 @@ export namespace Prisma {
     title: string
     description?: string | null
     roomId: number
+    createdAt?: Date | string | null
   }
 
   export type AnnouncementUpdateManyMutationInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type AnnouncementUncheckedUpdateManyInput = {
@@ -9301,6 +9340,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     roomId?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type FilesCreateInput = {
@@ -9736,11 +9776,23 @@ export namespace Prisma {
     roomId?: SortOrder
   }
 
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
   export type AnnouncementCountOrderByAggregateInput = {
     id?: SortOrder
     title?: SortOrder
     description?: SortOrder
     roomId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type AnnouncementAvgOrderByAggregateInput = {
@@ -9753,6 +9805,7 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     roomId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type AnnouncementMinOrderByAggregateInput = {
@@ -9760,11 +9813,26 @@ export namespace Prisma {
     title?: SortOrder
     description?: SortOrder
     roomId?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type AnnouncementSumOrderByAggregateInput = {
     id?: SortOrder
     roomId?: SortOrder
+  }
+
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type ActivityNullableScalarRelationFilter = {
@@ -10172,6 +10240,10 @@ export namespace Prisma {
     connect?: FilesWhereUniqueInput | FilesWhereUniqueInput[]
   }
 
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
+  }
+
   export type ClassroomUpdateOneRequiredWithoutListOfAnnouncementsNestedInput = {
     create?: XOR<ClassroomCreateWithoutListOfAnnouncementsInput, ClassroomUncheckedCreateWithoutListOfAnnouncementsInput>
     connectOrCreate?: ClassroomCreateOrConnectWithoutListOfAnnouncementsInput
@@ -10393,6 +10465,31 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
+  }
+
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
   export type ClassroomCreateWithoutRelatedToUserInput = {
@@ -10647,6 +10744,7 @@ export namespace Prisma {
   export type AnnouncementCreateWithoutRelatedToClassroomInput = {
     title: string
     description?: string | null
+    createdAt?: Date | string | null
     listOfFiles?: FilesCreateNestedManyWithoutRelatedToAnnouncementInput
   }
 
@@ -10654,6 +10752,7 @@ export namespace Prisma {
     id?: number
     title: string
     description?: string | null
+    createdAt?: Date | string | null
     listOfFiles?: FilesUncheckedCreateNestedManyWithoutRelatedToAnnouncementInput
   }
 
@@ -10772,6 +10871,7 @@ export namespace Prisma {
     title?: StringFilter<"Announcement"> | string
     description?: StringNullableFilter<"Announcement"> | string | null
     roomId?: IntFilter<"Announcement"> | number
+    createdAt?: DateTimeNullableFilter<"Announcement"> | Date | string | null
   }
 
   export type ActivityUpsertWithWhereUniqueWithoutRelatedToClassroomInput = {
@@ -11092,6 +11192,7 @@ export namespace Prisma {
   export type AnnouncementCreateWithoutListOfFilesInput = {
     title: string
     description?: string | null
+    createdAt?: Date | string | null
     relatedToClassroom: ClassroomCreateNestedOneWithoutListOfAnnouncementsInput
   }
 
@@ -11100,6 +11201,7 @@ export namespace Prisma {
     title: string
     description?: string | null
     roomId: number
+    createdAt?: Date | string | null
   }
 
   export type AnnouncementCreateOrConnectWithoutListOfFilesInput = {
@@ -11149,6 +11251,7 @@ export namespace Prisma {
   export type AnnouncementUpdateWithoutListOfFilesInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     relatedToClassroom?: ClassroomUpdateOneRequiredWithoutListOfAnnouncementsNestedInput
   }
 
@@ -11157,6 +11260,7 @@ export namespace Prisma {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
     roomId?: IntFieldUpdateOperationsInput | number
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ClassroomCreateManyRelatedToUserInput = {
@@ -11208,6 +11312,7 @@ export namespace Prisma {
     id?: number
     title: string
     description?: string | null
+    createdAt?: Date | string | null
   }
 
   export type ActivityCreateManyRelatedToClassroomInput = {
@@ -11230,6 +11335,7 @@ export namespace Prisma {
   export type AnnouncementUpdateWithoutRelatedToClassroomInput = {
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     listOfFiles?: FilesUpdateManyWithoutRelatedToAnnouncementNestedInput
   }
 
@@ -11237,6 +11343,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     listOfFiles?: FilesUncheckedUpdateManyWithoutRelatedToAnnouncementNestedInput
   }
 
@@ -11244,6 +11351,7 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     title?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type ActivityUpdateWithoutRelatedToClassroomInput = {

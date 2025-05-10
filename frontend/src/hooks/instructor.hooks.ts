@@ -39,3 +39,10 @@ export const useGetClassroom = (roomId: number) => {
     queryFn: () => instructor.getClassroom(roomId),
   });
 };
+
+export const useGetAnnouncements = (roomId: number) => {
+  return useQuery({
+    queryKey: ["announcements"],
+    queryFn: () => instructor.getAnnouncements(roomId),
+  });
+};

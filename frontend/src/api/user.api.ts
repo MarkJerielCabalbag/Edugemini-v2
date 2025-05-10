@@ -1,4 +1,4 @@
-import { baseUrl } from "@/baseUrl";
+import { baseUrl } from "@/utils/baseUrl";
 
 export const user = {
   async signUp(username: string, email: string, password: string) {

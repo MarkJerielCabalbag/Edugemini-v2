@@ -1,5 +1,5 @@
 import { ClassProps } from "@/app/instructor/types";
-import { baseUrl } from "@/baseUrl";
+import { baseUrl } from "@/utils/baseUrl";
 
 export const instructor = {
   async getClasses(userId: number) {
@@ -41,6 +41,21 @@ export const instructor = {
 
   async getClassroom(roomId: number): Promise<ClassProps> {
     return await fetch(`${baseUrl}/instructor/class/${roomId}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }).then(async (res) => {
+      const response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(response.message || "An Error Occured");
+      }
+
+      return response;
+    });
+  },
+
+  async getAnnouncements(roomId: number) {
+    return await fetch(`${baseUrl}/instructor/getAnnouncements/${roomId}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     }).then(async (res) => {

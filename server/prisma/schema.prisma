@@ -75,6 +75,7 @@ model Announcement {
   relatedToClassroom  Classroom            @relation(fields: [roomId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   roomId              Int
   listOfFiles         Files[]
+  createdAt           DateTime?            @default(now())
 }
 
 enum ClassroomStatus {

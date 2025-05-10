@@ -120,6 +120,7 @@ export class InstructorService {
             id: roomId,
           },
         },
+        createdAt: new Date(),
       },
     });
 
