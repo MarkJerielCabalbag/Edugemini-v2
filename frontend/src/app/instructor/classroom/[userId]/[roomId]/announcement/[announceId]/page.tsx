@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { useGetAnnouncement } from "@/hooks/instructor.hooks";
 import { FileProps } from "@/types/types";
 import { formatTimestampToRelativeTime } from "@/utils/formatDate";
+import { formatFileSize } from "@/utils/formatFileSizes";
 import { ArrowLeft, DeleteIcon, Trash } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -13,12 +14,6 @@ const page = () => {
   const { userId, roomId, announceId } = useParams();
   const [showDeleteAnnouncementModal, setShowDeleteModal] =
     React.useState(false);
-  const formatFileSize = (bytes: number) => {
-    const sizes = ["B", "KB", "MB", "GB"];
-    if (bytes === 0) return "0 B";
-    const i = Math.floor(Math.log(bytes) / Math.log(1024));
-    return `${(bytes / Math.pow(1024, i)).toFixed(1)} ${sizes[i]}`;
-  };
 
   const { data } = useGetAnnouncement(Number(announceId));
 

@@ -132,3 +132,49 @@ export const useGetClasswork = (workId: number) => {
     queryFn: () => instructor.getClasswork(workId),
   });
 };
+
+export const useDeleteClasswork = (roomId: number, workId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => instructor.removeClasswork(roomId, workId),
+    onSuccess: (data) => {
+      queryClient.invalidateQueries({ queryKey: ["classwork"] });
+      toast.success(data?.message);
+    },
+    onError: (error) => {
+      toast.error(error?.message);
+    },
+  });
+};
+
+export const usePatchClasswork = (
+  roomId: number,
+  workId: number,
+  title: string,
+  instruction: string,
+  date: string,
+  time: string,
+  file: any
+) => {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: () =>
+      instructor.updateActivity(
+        roomId,
+        workId,
+        title,
+        instruction,
+        date,
+        time,
+        file
+      ),
+    onSuccess: (data) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({ queryKey: ["classworks"] });
+    },
+    onError: (error) => {
+      toast.error(error.message);
+    },
+  });
+};

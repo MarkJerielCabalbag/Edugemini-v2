@@ -344,8 +344,8 @@ export class InstructorService {
   async updateActivity(
     roomId: number,
     activityId: number,
-    file: Express.Multer.File,
-    activityDto: Partial<Activity>,
+    file?: Express.Multer.File,
+    activityDto?: Partial<Activity>,
   ) {
     const classroom = await this.databaseService.classroom.findFirst({
       where: { id: roomId },
@@ -372,15 +372,16 @@ export class InstructorService {
       );
     }
 
-    const listOfActivities = await this.databaseService.activity.findMany({
-      where: {
-        roomId: roomId,
-      },
-    });
+    if (activityDto?.title) {
+      const existingActivity = await this.databaseService.activity.findFirst({
+        where: {
+          roomId: roomId,
+          title: activityDto.title,
+          id: { not: activityId },
+        },
+      });
 
-    //map all activities if the activity title to be updated is already exist
-    for (let activity of listOfActivities) {
-      if (activity.title === activityDto.title) {
+      if (existingActivity) {
         throw new HttpException(
           { error: 'Activity title already exist' },
           HttpStatus.BAD_REQUEST,
@@ -388,66 +389,61 @@ export class InstructorService {
       }
     }
 
-    const currentFile = await this.databaseService.files.findFirst({
-      where: {
-        activityId: activityId,
-      },
+    const updateData: Partial<Activity> = {};
+    if (activityDto?.title) updateData.title = activityDto.title;
+    if (activityDto?.time) updateData.time = activityDto.time;
+    if (activityDto?.date) updateData.date = activityDto.date;
+    if (activityDto?.instruction)
+      updateData.instruction = activityDto.instruction;
+
+    const updatedActivity = await this.databaseService.activity.update({
+      where: { id: activityId },
+      data: updateData,
     });
 
     if (file) {
+      const currentFile = await this.databaseService.files.findFirst({
+        where: { activityId: activityId },
+      });
+
       if (currentFile?.filePath) {
-        const { data, error } = await this.supabase.storage
+        await this.supabase.storage
           .from('edugemini')
-          .remove([currentFile?.filePath]);
-        if (error) {
-          throw new HttpException(
-            { error: error.message },
-            HttpStatus.INTERNAL_SERVER_ERROR,
-          );
-        } else {
-          const updatedActivity = await this.databaseService.activity.update({
-            where: { id: activityId },
-            data: {
-              title: activityDto.title,
-              time: activityDto.time,
-              date: activityDto.date,
-              instruction: activityDto.instruction,
-            },
-          });
-          const { data, error } = await this.supabase.storage
-            .from('edugemini')
-            .upload(
-              `classroom/${classroom?.classname}/activity/${updatedActivity.title}/${file.originalname}`,
-              file.buffer,
-            );
+          .remove([currentFile.filePath]);
+      }
 
-          await this.databaseService.files.update({
-            where: {
-              id: currentFile.id,
-            },
-            data: {
-              filename: file.originalname,
-              fileSize: file.size,
-              mimetype: file.mimetype,
-              filePath: `classroom/${classroom?.classname}/activity/${updatedActivity.title}/${file.originalname}`,
-              folderPath: `classroom/${classroom?.classname}/activity/${updatedActivity.title}`,
-            },
-          });
+      const { data, error } = await this.supabase.storage
+        .from('edugemini')
+        .upload(
+          `classroom/${classroom?.classname}/activity/${updatedActivity.title}/${file.originalname}`,
+          file.buffer,
+        );
 
-          if (data) {
-            throw new HttpException(
-              { message: 'Successfully Updated' },
-              HttpStatus.ACCEPTED,
-            );
-          } else {
-            throw new HttpException(
-              { error: error.message },
-              HttpStatus.BAD_REQUEST,
-            );
-          }
-        }
+      if (error) {
+        throw new HttpException(
+          { error: error.message },
+          HttpStatus.INTERNAL_SERVER_ERROR,
+        );
+      }
+
+      if (currentFile) {
+        await this.databaseService.files.update({
+          where: { id: currentFile.id },
+          data: {
+            filename: file.originalname,
+            fileSize: file.size,
+            mimetype: file.mimetype,
+            filePath: `classroom/${classroom?.classname}/activity/${updatedActivity.title}/${file.originalname}`,
+            folderPath: `classroom/${classroom?.classname}/activity/${updatedActivity.title}`,
+          },
+        });
       }
     }
+
+    throw new HttpException(
+      { message: 'Successfully Updated' },
+      HttpStatus.ACCEPTED,
+    );
   }
 
   // @DESC   Remove Activity that is related to both classroom and its own id

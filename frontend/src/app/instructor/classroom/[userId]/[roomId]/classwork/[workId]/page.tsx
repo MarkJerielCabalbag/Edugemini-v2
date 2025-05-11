@@ -1,92 +1,117 @@
 "use client";
+import DeleteClassworkModal from "@/components/modals/instructor/DeleteClassworkModal";
+import UpdateClassworkModal from "@/components/modals/instructor/UpdateClassworkModal";
 import { Button } from "@/components/ui/button";
 import { useGetClasswork } from "@/hooks/instructor.hooks";
-import { ArrowLeft, Trash } from "lucide-react";
+import { FileProps } from "@/types/types";
+import { formatFileSize } from "@/utils/formatFileSizes";
+import { ArrowLeft, Book, Trash } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React from "react";
-
+import { toDate, format } from "date-fns";
 const page = () => {
   const { workId, userId, roomId } = useParams();
   const { data } = useGetClasswork(Number(workId));
   console.log(data);
+  const [showDeleteClassworkModal, setShowDeleteClassworkModal] =
+    React.useState(false);
+  const [showUpdateClassworkModal, setShowUpdateClassworkModal] =
+    React.useState(false);
   return (
     <div className="p-8 bg-background max-w-7xl mx-auto">
-      <div className="flex items-center mb-8">
-        <Link
-          href={`/instructor/classroom/${userId}/${roomId}/classwork`}
-          className="flex items-center text-gray-600 hover:text-primary transition-colors duration-200"
-        >
-          <ArrowLeft className="w-5 h-5 mr-2" />
-          <span className="font-medium">Back to Classworks</span>
-        </Link>
-      </div>
+      <Link
+        href={`/instructor/classroom/${userId}/${roomId}/classwork`}
+        className="inline-flex items-center text-gray-600 hover:text-primary mb-6 transition-all"
+      >
+        <ArrowLeft className="w-4 h-4 mr-2" />
+        Back
+      </Link>
 
       <div className="space-y-6">
-        <div className="flex justify-between">
+        {/* Header Section */}
+        <div className="flex justify-between items-start pb-4 border-b">
           <div>
-            <div>
-              <h1 className="text-3xl font-bold text-gray-900">
-                {data?.title}
-              </h1>
-              <div className="text-sm text-gray-500 mt-2">
-                Posted{" "}
-                {/* {data?.createdAt &&
-                  formatTimestampToRelativeTime(data?.createdAt as string)} */}
-              </div>
-            </div>
-
-            <div className="prose max-w-none">
-              <p className="text-gray-700 text-lg leading-relaxed">
-                {data?.instruction}
+            <h1 className="text-2xl font-semibold text-gray-900">
+              {data?.title}
+            </h1>
+            {data?.date && (
+              <p className="text-sm text-gray-500 mt-1">
+                Due {format(toDate(data.date), "MMM d, yyyy")}
               </p>
-            </div>
+            )}
           </div>
-
-          {/* {showDeleteAnnouncementModal && (
-            <DeleteAnnouncementModal
-              open={showDeleteAnnouncementModal}
-              onOpenChange={setShowDeleteModal}
-            />
-          )} */}
-
-          <div>
+          <div className="flex gap-3">
             <Button
-              // onClick={() => setShowDeleteModal(!showDeleteAnnouncementModal)}
-              variant={"destructive"}
+              variant="outline"
+              size="sm"
+              className="hover:bg-gray-50"
+              onClick={() => setShowUpdateClassworkModal(true)}
             >
-              Delete Classwork
-              <Trash />
+              <Book className="w-4 h-4 mr-2" />
+              Edit
+            </Button>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="text-red-600 hover:bg-red-50"
+              onClick={() => setShowDeleteClassworkModal(true)}
+            >
+              <Trash className="w-4 h-4 mr-2" />
+              Delete
             </Button>
           </div>
         </div>
 
-        {/* {data?.listOfFiles && data.listOfFiles.length > 0 && (
-          <div className="border-t pt-6">
-            <h2 className="text-xl font-semibold mb-4">Attached Files</h2>
-            <div className="grid gap-4">
-              {data?.listOfFiles.map((file: FileProps) => (
+        {/* Instructions */}
+        {data?.instruction && (
+          <div className="rounded-lg border p-5">
+            <h2 className="text-lg font-medium mb-3">Instructions</h2>
+            <p className="text-gray-700 leading-relaxed">{data.instruction}</p>
+          </div>
+        )}
+
+        {/* Criteria Files */}
+        {data?.criteria && data.criteria.length > 0 && (
+          <div className="rounded-lg border p-5">
+            <h2 className="text-lg font-medium mb-4">Criteria Files</h2>
+            <div className="space-y-3">
+              {data.criteria.map((file: FileProps) => (
                 <div
                   key={file.id}
-                  className="flex items-center p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors duration-200"
+                  className="flex items-center justify-between p-3 rounded-md border hover:border-primary transition-colors"
                 >
-                  <div className="flex-1">
-                    <h3 className="font-medium text-gray-900">
-                      {file.filename}
-                    </h3>
-                    <p className="text-sm text-gray-500">
-                      {formatFileSize(file.fileSize as number)}
-                    </p>
+                  <div className="flex items-center">
+                    <Book className="w-4 h-4 text-gray-400 mr-3" />
+                    <div>
+                      <p className="font-medium text-sm">{file.filename}</p>
+                      <p className="text-xs text-gray-500">
+                        {formatFileSize(file.fileSize as number)}
+                      </p>
+                    </div>
                   </div>
-                  <button className="px-4 py-2 text-sm text-primary hover:text-primary/80 font-medium">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="hover:bg-primary/10"
+                  >
                     Download
-                  </button>
+                  </Button>
                 </div>
               ))}
             </div>
           </div>
-        )} */}
+        )}
       </div>
+
+      <UpdateClassworkModal
+        open={showUpdateClassworkModal}
+        onOpenChange={setShowUpdateClassworkModal}
+      />
+      <DeleteClassworkModal
+        open={showDeleteClassworkModal}
+        onOpenChange={setShowDeleteClassworkModal}
+      />
     </div>
   );
 };
