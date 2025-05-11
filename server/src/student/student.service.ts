@@ -89,4 +89,34 @@ export class StudentService {
       HttpStatus.ACCEPTED,
     );
   }
+
+  //@DESC    Get classrooms enrolled
+  //@Route   POST student/classrooms/:userId
+  async getClassrooms(userId: number) {
+    if (!userId)
+      new HttpException({ error: 'Id does not exist' }, HttpStatus.BAD_REQUEST);
+
+    const classroom = await this.databaseService.student.findMany({
+      where: {
+        userId: userId,
+      },
+      include: {
+        relatedtoClassroom: {
+          select: {
+            id: true,
+            classcode: true,
+            classname: true,
+          },
+        },
+      },
+    });
+
+    if (!classroom)
+      new HttpException(
+        { error: 'Cannot find student' },
+        HttpStatus.BAD_GATEWAY,
+      );
+
+    return classroom;
+  }
 }

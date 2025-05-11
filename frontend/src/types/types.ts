@@ -9,6 +9,21 @@ export type ModalProps = {
   modalFooter?: ReactNode;
 };
 
+type RelatedToClassroom = {
+  classname: string;
+  classcode: string;
+  section: string;
+};
+
+export type ClassroomProps = {
+  userId?: number;
+  room: string;
+  status: string;
+  roomId?: number;
+
+  relatedtoClassroom: RelatedToClassroom;
+};
+
 export type FileProps = {
   id?: number;
   activityId?: number | null;

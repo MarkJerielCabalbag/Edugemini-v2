@@ -25,4 +25,11 @@ export class StudentController {
   ) {
     return this.studentService.joinClassroom(userId, studentDto, classcode);
   }
+
+  //@DESC    Get classrooms enrolled
+  //@Route   POST student/classrooms/:userId
+  @Get('classrooms/:userId')
+  async getClassrooms(@Param('userId', ParseIntPipe) userId: number) {
+    return this.studentService.getClassrooms(userId);
+  }
 }
