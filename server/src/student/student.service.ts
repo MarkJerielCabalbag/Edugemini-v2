@@ -119,4 +119,86 @@ export class StudentService {
 
     return classroom;
   }
+
+  //@DESC    Select Files
+  //@Route   POST student/selectFiles/:roomId/:workId/:userId
+  async selectFiles(
+    workId: number,
+    roomId: number,
+    files: Express.Multer.File[],
+    userId: number,
+  ) {
+    if (!workId || !roomId || !userId)
+      new HttpException({ error: 'Id does not exist' }, HttpStatus.BAD_REQUEST);
+
+    const classwork = await this.databaseService.activity.findFirst({
+      where: { id: workId },
+    });
+
+    const classroom = await this.databaseService.classroom.findFirst({
+      where: { id: roomId },
+    });
+
+    const student = await this.databaseService.student.findFirst({
+      where: { userId: userId },
+    });
+
+    if (!classroom)
+      new HttpException(
+        { error: 'Classroom does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+
+    if (!classwork)
+      new HttpException({ error: 'No activity exist' }, HttpStatus.BAD_REQUEST);
+
+    if (!student)
+      new HttpException(
+        { error: 'Student does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+
+    if (files) {
+      files.forEach(async (file) => {
+        const mimetype = file.originalname.split('.').pop();
+        const { data, error } = await this.supabase.storage
+          .from('edugemini')
+          .upload(
+            `classroom/${classroom?.classname}/activity/${classwork?.title}/${student?.firstname}/${file.originalname}`,
+            file.buffer,
+          );
+        if (data) {
+          const output = await this.databaseService.output.create({
+            data: {
+              relatedToStudent: {
+                connect: {
+                  userId: userId,
+                },
+              },
+            },
+          });
+          await this.databaseService.files.create({
+            data: {
+              filename: file.originalname,
+              mimetype: file.mimetype,
+              fileSize: file.size,
+              filePath: `classroom/${classroom?.classname}/activity/${classwork?.title}/${student?.firstname}/${file.originalname}`,
+              folderPath: `classroom/${classroom?.classname}/activity/${classwork?.title}/${student?.firstname}`,
+
+              relatedToOutput: {
+                connect: {
+                  id: output.id,
+                },
+              },
+            },
+          });
+        } else {
+          return new HttpException(
+            { error: 'Server error' },
+            HttpStatus.INTERNAL_SERVER_ERROR,
+          );
+        }
+      });
+    }
+  }
 }

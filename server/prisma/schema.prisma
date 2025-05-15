@@ -22,17 +22,22 @@ model User {
   password    String?
 
   listOfCreatedClassroom Classroom[]
+
   student                Student?
 }
 
 model Student {
   relatedToUser       User              @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
-  userId              Int         @id    @unique
+  userId              Int         @id    
   lastname            String
   firstname           String
   middlename          String
   sex                 String            
   status              ClassroomStatus   @default(PENDING)
+
+  listOfOutputs       Output[]
+
+ 
 
   relatedtoClassroom  Classroom?        @relation(fields: [roomId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   roomId              Int?
@@ -62,6 +67,8 @@ model Activity {
   instruction         String?
 
   criteria            Files[]
+ 
+ 
 
   relatedToClassroom  Classroom           @relation(fields: [roomId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   roomId              Int
@@ -84,6 +91,13 @@ enum ClassroomStatus {
   APPROVED
 }
 
+model Output {
+  id                  Int         @id   @default(autoincrement())
+  listOfFiles         Files[]  
+  relatedToStudent    Student?           @relation(fields: [studentId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
+  studentId           Int?
+}
+
 model Files {
   id                    Int           @id         @default(autoincrement())
   filename              String        
@@ -97,4 +111,7 @@ model Files {
 
   relatedToAnnouncement Announcement?               @relation(fields: [announceId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   announceId            Int?
+
+  relatedToOutput       Output?                     @relation(fields: [outputId], references: [id], onDelete: Cascade, onUpdate: Cascade )
+  outputId              Int?
 }

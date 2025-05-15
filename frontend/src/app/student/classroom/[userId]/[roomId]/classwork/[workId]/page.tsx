@@ -78,6 +78,9 @@ const page = () => {
             </div>
           </div>
         )}
+
+        {/* Select a file */}
+        <Button className="w-full">Select Files</Button>
       </div>
     </div>
   );
