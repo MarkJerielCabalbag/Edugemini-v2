@@ -28,6 +28,7 @@ export type FileProps = {
   id?: number;
   activityId?: number | null;
   announceId?: number | null;
+  outputId?: number | null;
   filePath?: string;
   fileSize?: number;
   filename?: string;

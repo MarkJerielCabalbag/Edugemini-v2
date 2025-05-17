@@ -11,7 +11,7 @@ import {
   UploadedFiles,
 } from '@nestjs/common';
 import { StudentService } from './student.service';
-import { Student } from 'generated/prisma';
+import { Output, Student } from 'generated/prisma';
 import { FilesInterceptor } from '@nestjs/platform-express';
 
 @Controller('student')
@@ -53,10 +53,11 @@ export class StudentController {
   //@DECS   Get student files
   //@Route  GET student/getFiles/:roomId/:workId/:userId
   @Get('getFiles/:roomId/:workId/:userId')
-  @UseInterceptors(FilesInterceptor('files'))
   async getFiles(
-    @Param('roomId') roomId: number,
-    @Param('workId') workId: number,
-    @Param('userId') userId: number,
-  ) {}
+    @Param('roomId', ParseIntPipe) roomId: number,
+    @Param('workId', ParseIntPipe) workId: number,
+    @Param('userId', ParseIntPipe) userId: number,
+  ) {
+    return this.studentService.getFiles(roomId, workId, userId);
+  }
 }

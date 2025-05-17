@@ -38,4 +38,22 @@ export const student = {
       return response;
     });
   },
+
+  async getFiles(roomId: number, workId: number, userId: number) {
+    return await fetch(
+      `${baseUrl}/student/getFiles/${roomId}/${workId}/${userId}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    ).then(async (res) => {
+      const response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(response.message || "An Error Occured");
+      }
+
+      return response;
+    });
+  },
 };

@@ -164,7 +164,9 @@ exports.Prisma.AnnouncementScalarFieldEnum = {
 
 exports.Prisma.OutputScalarFieldEnum = {
   id: 'id',
-  studentId: 'studentId'
+  studentId: 'studentId',
+  roomId: 'roomId',
+  activityId: 'activityId'
 };
 
 exports.Prisma.FilesScalarFieldEnum = {

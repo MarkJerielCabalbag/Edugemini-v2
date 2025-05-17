@@ -57,6 +57,7 @@ model Classroom {
   listOfAnnouncements Announcement[]
   listOfActivity      Activity[]
   listOfStudents      Student[]
+  listOfOutputs       Output[]
 }
 
 model Activity {
@@ -67,6 +68,7 @@ model Activity {
   instruction         String?
 
   criteria            Files[]
+  outputs             Output[]
  
  
 
@@ -96,6 +98,10 @@ model Output {
   listOfFiles         Files[]  
   relatedToStudent    Student?           @relation(fields: [studentId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
   studentId           Int?
+  relatedToClassroom  Classroom?          @relation(fields: [roomId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  roomId              Int?
+  relatedToActivity   Activity?           @relation(fields: [activityId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  activityId          Int?
 }
 
 model Files {

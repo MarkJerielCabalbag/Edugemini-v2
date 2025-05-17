@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { Student } from 'generated/prisma';
+import { Output, Student } from 'generated/prisma';
 import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
@@ -160,13 +160,18 @@ export class StudentService {
 
     if (files) {
       files.forEach(async (file) => {
-        const mimetype = file.originalname.split('.').pop();
         const { data, error } = await this.supabase.storage
           .from('edugemini')
           .upload(
             `classroom/${classroom?.classname}/activity/${classwork?.title}/${student?.firstname}/${file.originalname}`,
             file.buffer,
           );
+        if (error) {
+          throw new HttpException(
+            { error: error.message },
+            HttpStatus.INTERNAL_SERVER_ERROR,
+          );
+        }
         if (data) {
           const output = await this.databaseService.output.create({
             data: {
@@ -175,8 +180,22 @@ export class StudentService {
                   userId: userId,
                 },
               },
+
+              relatedToClassroom: {
+                connect: {
+                  id: roomId,
+                },
+              },
+
+              relatedToActivity: {
+                connect: {
+                  id: workId,
+                },
+              },
             },
           });
+
+          console.log(output);
           await this.databaseService.files.create({
             data: {
               filename: file.originalname,
@@ -200,5 +219,60 @@ export class StudentService {
         }
       });
     }
+  }
+
+  //@DECS   Get student files
+  //@Route  GET student/getFiles/:roomId/:workId/:userId
+  async getFiles(roomId: number, workId: number, userId: number) {
+    if (!roomId || !workId || !userId)
+      new HttpException({ error: 'Id does not exist' }, HttpStatus.BAD_REQUEST);
+
+    const classroom = await this.databaseService.classroom.findFirst({
+      where: { id: roomId },
+    });
+
+    const activity = await this.databaseService.activity.findFirst({
+      where: { id: workId },
+    });
+
+    const user = await this.databaseService.user.findFirst({
+      where: { id: userId },
+    });
+
+    if (!classroom)
+      new HttpException(
+        { error: 'Classroom does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+
+    if (!activity)
+      new HttpException(
+        { error: 'Activity does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+
+    if (!user)
+      new HttpException(
+        { error: 'User does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+
+    const outputs = await this.databaseService.output.findMany({
+      where: {
+        AND: {
+          roomId: roomId,
+          studentId: userId,
+          activityId: workId,
+        },
+      },
+    });
+
+    const files = await Promise.all(
+      outputs.map((file) =>
+        this.databaseService.files.findMany({ where: { outputId: file.id } }),
+      ),
+    );
+
+    return files.flat();
   }
 }

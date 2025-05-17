@@ -10,9 +10,18 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import React from "react";
 import { toDate, format } from "date-fns";
+import { useGetFiles } from "@/hooks/student.hooks";
 const page = () => {
   const { workId, userId, roomId } = useParams();
   const { data } = useGetClasswork(Number(workId));
+
+  const {
+    data: files,
+    isFetching,
+    isLoading,
+  } = useGetFiles(Number(roomId), Number(workId), Number(userId));
+
+  console.log(files);
 
   return (
     <div className="p-8 bg-background max-w-7xl mx-auto">
@@ -45,6 +54,20 @@ const page = () => {
             <h2 className="text-lg font-medium mb-3">Instructions</h2>
             <p className="text-gray-700 leading-relaxed">{data.instruction}</p>
           </div>
+        )}
+
+        {/*Files student*/}
+
+        {isFetching || isLoading ? (
+          "loading"
+        ) : (
+          <>
+            {files.map((file: FileProps) => (
+              <div>
+                <h1>{file.filename}</h1>
+              </div>
+            ))}
+          </>
         )}
 
         {/* Criteria Files */}

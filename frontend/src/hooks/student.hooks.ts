@@ -36,3 +36,10 @@ export const usePostJoinClassroom = (
     },
   });
 };
+
+export const useGetFiles = (roomId: number, workId: number, userId: number) => {
+  return useQuery({
+    queryKey: ["files"],
+    queryFn: () => student.getFiles(roomId, workId, userId),
+  });
+};

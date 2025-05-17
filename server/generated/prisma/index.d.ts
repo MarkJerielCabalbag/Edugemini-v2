@@ -1498,12 +1498,14 @@ export namespace Prisma {
     listOfAnnouncements: number
     listOfActivity: number
     listOfStudents: number
+    listOfOutputs: number
   }
 
   export type ClassroomCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     listOfAnnouncements?: boolean | ClassroomCountOutputTypeCountListOfAnnouncementsArgs
     listOfActivity?: boolean | ClassroomCountOutputTypeCountListOfActivityArgs
     listOfStudents?: boolean | ClassroomCountOutputTypeCountListOfStudentsArgs
+    listOfOutputs?: boolean | ClassroomCountOutputTypeCountListOfOutputsArgs
   }
 
   // Custom InputTypes
@@ -1538,6 +1540,13 @@ export namespace Prisma {
     where?: StudentWhereInput
   }
 
+  /**
+   * ClassroomCountOutputType without action
+   */
+  export type ClassroomCountOutputTypeCountListOfOutputsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OutputWhereInput
+  }
+
 
   /**
    * Count Type ActivityCountOutputType
@@ -1545,10 +1554,12 @@ export namespace Prisma {
 
   export type ActivityCountOutputType = {
     criteria: number
+    outputs: number
   }
 
   export type ActivityCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     criteria?: boolean | ActivityCountOutputTypeCountCriteriaArgs
+    outputs?: boolean | ActivityCountOutputTypeCountOutputsArgs
   }
 
   // Custom InputTypes
@@ -1567,6 +1578,13 @@ export namespace Prisma {
    */
   export type ActivityCountOutputTypeCountCriteriaArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FilesWhereInput
+  }
+
+  /**
+   * ActivityCountOutputType without action
+   */
+  export type ActivityCountOutputTypeCountOutputsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OutputWhereInput
   }
 
 
@@ -4159,6 +4177,7 @@ export namespace Prisma {
     listOfAnnouncements?: boolean | Classroom$listOfAnnouncementsArgs<ExtArgs>
     listOfActivity?: boolean | Classroom$listOfActivityArgs<ExtArgs>
     listOfStudents?: boolean | Classroom$listOfStudentsArgs<ExtArgs>
+    listOfOutputs?: boolean | Classroom$listOfOutputsArgs<ExtArgs>
     _count?: boolean | ClassroomCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["classroom"]>
 
@@ -4203,6 +4222,7 @@ export namespace Prisma {
     listOfAnnouncements?: boolean | Classroom$listOfAnnouncementsArgs<ExtArgs>
     listOfActivity?: boolean | Classroom$listOfActivityArgs<ExtArgs>
     listOfStudents?: boolean | Classroom$listOfStudentsArgs<ExtArgs>
+    listOfOutputs?: boolean | Classroom$listOfOutputsArgs<ExtArgs>
     _count?: boolean | ClassroomCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ClassroomIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4219,6 +4239,7 @@ export namespace Prisma {
       listOfAnnouncements: Prisma.$AnnouncementPayload<ExtArgs>[]
       listOfActivity: Prisma.$ActivityPayload<ExtArgs>[]
       listOfStudents: Prisma.$StudentPayload<ExtArgs>[]
+      listOfOutputs: Prisma.$OutputPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
@@ -4627,6 +4648,7 @@ export namespace Prisma {
     listOfAnnouncements<T extends Classroom$listOfAnnouncementsArgs<ExtArgs> = {}>(args?: Subset<T, Classroom$listOfAnnouncementsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AnnouncementPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     listOfActivity<T extends Classroom$listOfActivityArgs<ExtArgs> = {}>(args?: Subset<T, Classroom$listOfActivityArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     listOfStudents<T extends Classroom$listOfStudentsArgs<ExtArgs> = {}>(args?: Subset<T, Classroom$listOfStudentsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    listOfOutputs<T extends Classroom$listOfOutputsArgs<ExtArgs> = {}>(args?: Subset<T, Classroom$listOfOutputsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OutputPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5132,6 +5154,30 @@ export namespace Prisma {
   }
 
   /**
+   * Classroom.listOfOutputs
+   */
+  export type Classroom$listOfOutputsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Output
+     */
+    select?: OutputSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Output
+     */
+    omit?: OutputOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OutputInclude<ExtArgs> | null
+    where?: OutputWhereInput
+    orderBy?: OutputOrderByWithRelationInput | OutputOrderByWithRelationInput[]
+    cursor?: OutputWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OutputScalarFieldEnum | OutputScalarFieldEnum[]
+  }
+
+  /**
    * Classroom without action
    */
   export type ClassroomDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5361,6 +5407,7 @@ export namespace Prisma {
     instruction?: boolean
     roomId?: boolean
     criteria?: boolean | Activity$criteriaArgs<ExtArgs>
+    outputs?: boolean | Activity$outputsArgs<ExtArgs>
     relatedToClassroom?: boolean | ClassroomDefaultArgs<ExtArgs>
     _count?: boolean | ActivityCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["activity"]>
@@ -5397,6 +5444,7 @@ export namespace Prisma {
   export type ActivityOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "date" | "time" | "instruction" | "roomId", ExtArgs["result"]["activity"]>
   export type ActivityInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     criteria?: boolean | Activity$criteriaArgs<ExtArgs>
+    outputs?: boolean | Activity$outputsArgs<ExtArgs>
     relatedToClassroom?: boolean | ClassroomDefaultArgs<ExtArgs>
     _count?: boolean | ActivityCountOutputTypeDefaultArgs<ExtArgs>
   }
@@ -5411,6 +5459,7 @@ export namespace Prisma {
     name: "Activity"
     objects: {
       criteria: Prisma.$FilesPayload<ExtArgs>[]
+      outputs: Prisma.$OutputPayload<ExtArgs>[]
       relatedToClassroom: Prisma.$ClassroomPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
@@ -5815,6 +5864,7 @@ export namespace Prisma {
   export interface Prisma__ActivityClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     criteria<T extends Activity$criteriaArgs<ExtArgs> = {}>(args?: Subset<T, Activity$criteriaArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    outputs<T extends Activity$outputsArgs<ExtArgs> = {}>(args?: Subset<T, Activity$outputsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OutputPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     relatedToClassroom<T extends ClassroomDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ClassroomDefaultArgs<ExtArgs>>): Prisma__ClassroomClient<$Result.GetResult<Prisma.$ClassroomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -6268,6 +6318,30 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: FilesScalarFieldEnum | FilesScalarFieldEnum[]
+  }
+
+  /**
+   * Activity.outputs
+   */
+  export type Activity$outputsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Output
+     */
+    select?: OutputSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Output
+     */
+    omit?: OutputOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OutputInclude<ExtArgs> | null
+    where?: OutputWhereInput
+    orderBy?: OutputOrderByWithRelationInput | OutputOrderByWithRelationInput[]
+    cursor?: OutputWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OutputScalarFieldEnum | OutputScalarFieldEnum[]
   }
 
   /**
@@ -7430,26 +7504,36 @@ export namespace Prisma {
   export type OutputAvgAggregateOutputType = {
     id: number | null
     studentId: number | null
+    roomId: number | null
+    activityId: number | null
   }
 
   export type OutputSumAggregateOutputType = {
     id: number | null
     studentId: number | null
+    roomId: number | null
+    activityId: number | null
   }
 
   export type OutputMinAggregateOutputType = {
     id: number | null
     studentId: number | null
+    roomId: number | null
+    activityId: number | null
   }
 
   export type OutputMaxAggregateOutputType = {
     id: number | null
     studentId: number | null
+    roomId: number | null
+    activityId: number | null
   }
 
   export type OutputCountAggregateOutputType = {
     id: number
     studentId: number
+    roomId: number
+    activityId: number
     _all: number
   }
 
@@ -7457,26 +7541,36 @@ export namespace Prisma {
   export type OutputAvgAggregateInputType = {
     id?: true
     studentId?: true
+    roomId?: true
+    activityId?: true
   }
 
   export type OutputSumAggregateInputType = {
     id?: true
     studentId?: true
+    roomId?: true
+    activityId?: true
   }
 
   export type OutputMinAggregateInputType = {
     id?: true
     studentId?: true
+    roomId?: true
+    activityId?: true
   }
 
   export type OutputMaxAggregateInputType = {
     id?: true
     studentId?: true
+    roomId?: true
+    activityId?: true
   }
 
   export type OutputCountAggregateInputType = {
     id?: true
     studentId?: true
+    roomId?: true
+    activityId?: true
     _all?: true
   }
 
@@ -7569,6 +7663,8 @@ export namespace Prisma {
   export type OutputGroupByOutputType = {
     id: number
     studentId: number | null
+    roomId: number | null
+    activityId: number | null
     _count: OutputCountAggregateOutputType | null
     _avg: OutputAvgAggregateOutputType | null
     _sum: OutputSumAggregateOutputType | null
@@ -7593,39 +7689,59 @@ export namespace Prisma {
   export type OutputSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     studentId?: boolean
+    roomId?: boolean
+    activityId?: boolean
     listOfFiles?: boolean | Output$listOfFilesArgs<ExtArgs>
     relatedToStudent?: boolean | Output$relatedToStudentArgs<ExtArgs>
+    relatedToClassroom?: boolean | Output$relatedToClassroomArgs<ExtArgs>
+    relatedToActivity?: boolean | Output$relatedToActivityArgs<ExtArgs>
     _count?: boolean | OutputCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["output"]>
 
   export type OutputSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     studentId?: boolean
+    roomId?: boolean
+    activityId?: boolean
     relatedToStudent?: boolean | Output$relatedToStudentArgs<ExtArgs>
+    relatedToClassroom?: boolean | Output$relatedToClassroomArgs<ExtArgs>
+    relatedToActivity?: boolean | Output$relatedToActivityArgs<ExtArgs>
   }, ExtArgs["result"]["output"]>
 
   export type OutputSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     studentId?: boolean
+    roomId?: boolean
+    activityId?: boolean
     relatedToStudent?: boolean | Output$relatedToStudentArgs<ExtArgs>
+    relatedToClassroom?: boolean | Output$relatedToClassroomArgs<ExtArgs>
+    relatedToActivity?: boolean | Output$relatedToActivityArgs<ExtArgs>
   }, ExtArgs["result"]["output"]>
 
   export type OutputSelectScalar = {
     id?: boolean
     studentId?: boolean
+    roomId?: boolean
+    activityId?: boolean
   }
 
-  export type OutputOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId", ExtArgs["result"]["output"]>
+  export type OutputOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "roomId" | "activityId", ExtArgs["result"]["output"]>
   export type OutputInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     listOfFiles?: boolean | Output$listOfFilesArgs<ExtArgs>
     relatedToStudent?: boolean | Output$relatedToStudentArgs<ExtArgs>
+    relatedToClassroom?: boolean | Output$relatedToClassroomArgs<ExtArgs>
+    relatedToActivity?: boolean | Output$relatedToActivityArgs<ExtArgs>
     _count?: boolean | OutputCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type OutputIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     relatedToStudent?: boolean | Output$relatedToStudentArgs<ExtArgs>
+    relatedToClassroom?: boolean | Output$relatedToClassroomArgs<ExtArgs>
+    relatedToActivity?: boolean | Output$relatedToActivityArgs<ExtArgs>
   }
   export type OutputIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     relatedToStudent?: boolean | Output$relatedToStudentArgs<ExtArgs>
+    relatedToClassroom?: boolean | Output$relatedToClassroomArgs<ExtArgs>
+    relatedToActivity?: boolean | Output$relatedToActivityArgs<ExtArgs>
   }
 
   export type $OutputPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7633,10 +7749,14 @@ export namespace Prisma {
     objects: {
       listOfFiles: Prisma.$FilesPayload<ExtArgs>[]
       relatedToStudent: Prisma.$StudentPayload<ExtArgs> | null
+      relatedToClassroom: Prisma.$ClassroomPayload<ExtArgs> | null
+      relatedToActivity: Prisma.$ActivityPayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       studentId: number | null
+      roomId: number | null
+      activityId: number | null
     }, ExtArgs["result"]["output"]>
     composites: {}
   }
@@ -8033,6 +8153,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     listOfFiles<T extends Output$listOfFilesArgs<ExtArgs> = {}>(args?: Subset<T, Output$listOfFilesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FilesPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     relatedToStudent<T extends Output$relatedToStudentArgs<ExtArgs> = {}>(args?: Subset<T, Output$relatedToStudentArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    relatedToClassroom<T extends Output$relatedToClassroomArgs<ExtArgs> = {}>(args?: Subset<T, Output$relatedToClassroomArgs<ExtArgs>>): Prisma__ClassroomClient<$Result.GetResult<Prisma.$ClassroomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    relatedToActivity<T extends Output$relatedToActivityArgs<ExtArgs> = {}>(args?: Subset<T, Output$relatedToActivityArgs<ExtArgs>>): Prisma__ActivityClient<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8064,6 +8186,8 @@ export namespace Prisma {
   interface OutputFieldRefs {
     readonly id: FieldRef<"Output", 'Int'>
     readonly studentId: FieldRef<"Output", 'Int'>
+    readonly roomId: FieldRef<"Output", 'Int'>
+    readonly activityId: FieldRef<"Output", 'Int'>
   }
     
 
@@ -8500,6 +8624,44 @@ export namespace Prisma {
      */
     include?: StudentInclude<ExtArgs> | null
     where?: StudentWhereInput
+  }
+
+  /**
+   * Output.relatedToClassroom
+   */
+  export type Output$relatedToClassroomArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Classroom
+     */
+    select?: ClassroomSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Classroom
+     */
+    omit?: ClassroomOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ClassroomInclude<ExtArgs> | null
+    where?: ClassroomWhereInput
+  }
+
+  /**
+   * Output.relatedToActivity
+   */
+  export type Output$relatedToActivityArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Activity
+     */
+    select?: ActivitySelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Activity
+     */
+    omit?: ActivityOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ActivityInclude<ExtArgs> | null
+    where?: ActivityWhereInput
   }
 
   /**
@@ -9830,7 +9992,9 @@ export namespace Prisma {
 
   export const OutputScalarFieldEnum: {
     id: 'id',
-    studentId: 'studentId'
+    studentId: 'studentId',
+    roomId: 'roomId',
+    activityId: 'activityId'
   };
 
   export type OutputScalarFieldEnum = (typeof OutputScalarFieldEnum)[keyof typeof OutputScalarFieldEnum]
@@ -10097,6 +10261,7 @@ export namespace Prisma {
     listOfAnnouncements?: AnnouncementListRelationFilter
     listOfActivity?: ActivityListRelationFilter
     listOfStudents?: StudentListRelationFilter
+    listOfOutputs?: OutputListRelationFilter
   }
 
   export type ClassroomOrderByWithRelationInput = {
@@ -10112,6 +10277,7 @@ export namespace Prisma {
     listOfAnnouncements?: AnnouncementOrderByRelationAggregateInput
     listOfActivity?: ActivityOrderByRelationAggregateInput
     listOfStudents?: StudentOrderByRelationAggregateInput
+    listOfOutputs?: OutputOrderByRelationAggregateInput
   }
 
   export type ClassroomWhereUniqueInput = Prisma.AtLeast<{
@@ -10130,6 +10296,7 @@ export namespace Prisma {
     listOfAnnouncements?: AnnouncementListRelationFilter
     listOfActivity?: ActivityListRelationFilter
     listOfStudents?: StudentListRelationFilter
+    listOfOutputs?: OutputListRelationFilter
   }, "id">
 
   export type ClassroomOrderByWithAggregationInput = {
@@ -10173,6 +10340,7 @@ export namespace Prisma {
     instruction?: StringNullableFilter<"Activity"> | string | null
     roomId?: IntFilter<"Activity"> | number
     criteria?: FilesListRelationFilter
+    outputs?: OutputListRelationFilter
     relatedToClassroom?: XOR<ClassroomScalarRelationFilter, ClassroomWhereInput>
   }
 
@@ -10184,6 +10352,7 @@ export namespace Prisma {
     instruction?: SortOrderInput | SortOrder
     roomId?: SortOrder
     criteria?: FilesOrderByRelationAggregateInput
+    outputs?: OutputOrderByRelationAggregateInput
     relatedToClassroom?: ClassroomOrderByWithRelationInput
   }
 
@@ -10198,6 +10367,7 @@ export namespace Prisma {
     instruction?: StringNullableFilter<"Activity"> | string | null
     roomId?: IntFilter<"Activity"> | number
     criteria?: FilesListRelationFilter
+    outputs?: OutputListRelationFilter
     relatedToClassroom?: XOR<ClassroomScalarRelationFilter, ClassroomWhereInput>
   }, "id">
 
@@ -10293,15 +10463,23 @@ export namespace Prisma {
     NOT?: OutputWhereInput | OutputWhereInput[]
     id?: IntFilter<"Output"> | number
     studentId?: IntNullableFilter<"Output"> | number | null
+    roomId?: IntNullableFilter<"Output"> | number | null
+    activityId?: IntNullableFilter<"Output"> | number | null
     listOfFiles?: FilesListRelationFilter
     relatedToStudent?: XOR<StudentNullableScalarRelationFilter, StudentWhereInput> | null
+    relatedToClassroom?: XOR<ClassroomNullableScalarRelationFilter, ClassroomWhereInput> | null
+    relatedToActivity?: XOR<ActivityNullableScalarRelationFilter, ActivityWhereInput> | null
   }
 
   export type OutputOrderByWithRelationInput = {
     id?: SortOrder
     studentId?: SortOrderInput | SortOrder
+    roomId?: SortOrderInput | SortOrder
+    activityId?: SortOrderInput | SortOrder
     listOfFiles?: FilesOrderByRelationAggregateInput
     relatedToStudent?: StudentOrderByWithRelationInput
+    relatedToClassroom?: ClassroomOrderByWithRelationInput
+    relatedToActivity?: ActivityOrderByWithRelationInput
   }
 
   export type OutputWhereUniqueInput = Prisma.AtLeast<{
@@ -10310,13 +10488,19 @@ export namespace Prisma {
     OR?: OutputWhereInput[]
     NOT?: OutputWhereInput | OutputWhereInput[]
     studentId?: IntNullableFilter<"Output"> | number | null
+    roomId?: IntNullableFilter<"Output"> | number | null
+    activityId?: IntNullableFilter<"Output"> | number | null
     listOfFiles?: FilesListRelationFilter
     relatedToStudent?: XOR<StudentNullableScalarRelationFilter, StudentWhereInput> | null
+    relatedToClassroom?: XOR<ClassroomNullableScalarRelationFilter, ClassroomWhereInput> | null
+    relatedToActivity?: XOR<ActivityNullableScalarRelationFilter, ActivityWhereInput> | null
   }, "id">
 
   export type OutputOrderByWithAggregationInput = {
     id?: SortOrder
     studentId?: SortOrderInput | SortOrder
+    roomId?: SortOrderInput | SortOrder
+    activityId?: SortOrderInput | SortOrder
     _count?: OutputCountOrderByAggregateInput
     _avg?: OutputAvgOrderByAggregateInput
     _max?: OutputMaxOrderByAggregateInput
@@ -10330,6 +10514,8 @@ export namespace Prisma {
     NOT?: OutputScalarWhereWithAggregatesInput | OutputScalarWhereWithAggregatesInput[]
     id?: IntWithAggregatesFilter<"Output"> | number
     studentId?: IntNullableWithAggregatesFilter<"Output"> | number | null
+    roomId?: IntNullableWithAggregatesFilter<"Output"> | number | null
+    activityId?: IntNullableWithAggregatesFilter<"Output"> | number | null
   }
 
   export type FilesWhereInput = {
@@ -10552,6 +10738,7 @@ export namespace Prisma {
     listOfAnnouncements?: AnnouncementCreateNestedManyWithoutRelatedToClassroomInput
     listOfActivity?: ActivityCreateNestedManyWithoutRelatedToClassroomInput
     listOfStudents?: StudentCreateNestedManyWithoutRelatedtoClassroomInput
+    listOfOutputs?: OutputCreateNestedManyWithoutRelatedToClassroomInput
   }
 
   export type ClassroomUncheckedCreateInput = {
@@ -10566,6 +10753,7 @@ export namespace Prisma {
     listOfAnnouncements?: AnnouncementUncheckedCreateNestedManyWithoutRelatedToClassroomInput
     listOfActivity?: ActivityUncheckedCreateNestedManyWithoutRelatedToClassroomInput
     listOfStudents?: StudentUncheckedCreateNestedManyWithoutRelatedtoClassroomInput
+    listOfOutputs?: OutputUncheckedCreateNestedManyWithoutRelatedToClassroomInput
   }
 
   export type ClassroomUpdateInput = {
@@ -10579,6 +10767,7 @@ export namespace Prisma {
     listOfAnnouncements?: AnnouncementUpdateManyWithoutRelatedToClassroomNestedInput
     listOfActivity?: ActivityUpdateManyWithoutRelatedToClassroomNestedInput
     listOfStudents?: StudentUpdateManyWithoutRelatedtoClassroomNestedInput
+    listOfOutputs?: OutputUpdateManyWithoutRelatedToClassroomNestedInput
   }
 
   export type ClassroomUncheckedUpdateInput = {
@@ -10593,6 +10782,7 @@ export namespace Prisma {
     listOfAnnouncements?: AnnouncementUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
     listOfActivity?: ActivityUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
     listOfStudents?: StudentUncheckedUpdateManyWithoutRelatedtoClassroomNestedInput
+    listOfOutputs?: OutputUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
   }
 
   export type ClassroomCreateManyInput = {
@@ -10632,6 +10822,7 @@ export namespace Prisma {
     time: string
     instruction?: string | null
     criteria?: FilesCreateNestedManyWithoutRelatedToActivityInput
+    outputs?: OutputCreateNestedManyWithoutRelatedToActivityInput
     relatedToClassroom: ClassroomCreateNestedOneWithoutListOfActivityInput
   }
 
@@ -10643,6 +10834,7 @@ export namespace Prisma {
     instruction?: string | null
     roomId: number
     criteria?: FilesUncheckedCreateNestedManyWithoutRelatedToActivityInput
+    outputs?: OutputUncheckedCreateNestedManyWithoutRelatedToActivityInput
   }
 
   export type ActivityUpdateInput = {
@@ -10651,6 +10843,7 @@ export namespace Prisma {
     time?: StringFieldUpdateOperationsInput | string
     instruction?: NullableStringFieldUpdateOperationsInput | string | null
     criteria?: FilesUpdateManyWithoutRelatedToActivityNestedInput
+    outputs?: OutputUpdateManyWithoutRelatedToActivityNestedInput
     relatedToClassroom?: ClassroomUpdateOneRequiredWithoutListOfActivityNestedInput
   }
 
@@ -10662,6 +10855,7 @@ export namespace Prisma {
     instruction?: NullableStringFieldUpdateOperationsInput | string | null
     roomId?: IntFieldUpdateOperationsInput | number
     criteria?: FilesUncheckedUpdateManyWithoutRelatedToActivityNestedInput
+    outputs?: OutputUncheckedUpdateManyWithoutRelatedToActivityNestedInput
   }
 
   export type ActivityCreateManyInput = {
@@ -10748,28 +10942,38 @@ export namespace Prisma {
   export type OutputCreateInput = {
     listOfFiles?: FilesCreateNestedManyWithoutRelatedToOutputInput
     relatedToStudent?: StudentCreateNestedOneWithoutListOfOutputsInput
+    relatedToClassroom?: ClassroomCreateNestedOneWithoutListOfOutputsInput
+    relatedToActivity?: ActivityCreateNestedOneWithoutOutputsInput
   }
 
   export type OutputUncheckedCreateInput = {
     id?: number
     studentId?: number | null
+    roomId?: number | null
+    activityId?: number | null
     listOfFiles?: FilesUncheckedCreateNestedManyWithoutRelatedToOutputInput
   }
 
   export type OutputUpdateInput = {
     listOfFiles?: FilesUpdateManyWithoutRelatedToOutputNestedInput
     relatedToStudent?: StudentUpdateOneWithoutListOfOutputsNestedInput
+    relatedToClassroom?: ClassroomUpdateOneWithoutListOfOutputsNestedInput
+    relatedToActivity?: ActivityUpdateOneWithoutOutputsNestedInput
   }
 
   export type OutputUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     studentId?: NullableIntFieldUpdateOperationsInput | number | null
+    roomId?: NullableIntFieldUpdateOperationsInput | number | null
+    activityId?: NullableIntFieldUpdateOperationsInput | number | null
     listOfFiles?: FilesUncheckedUpdateManyWithoutRelatedToOutputNestedInput
   }
 
   export type OutputCreateManyInput = {
     id?: number
     studentId?: number | null
+    roomId?: number | null
+    activityId?: number | null
   }
 
   export type OutputUpdateManyMutationInput = {
@@ -10779,6 +10983,8 @@ export namespace Prisma {
   export type OutputUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     studentId?: NullableIntFieldUpdateOperationsInput | number | null
+    roomId?: NullableIntFieldUpdateOperationsInput | number | null
+    activityId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type FilesCreateInput = {
@@ -11289,34 +11495,44 @@ export namespace Prisma {
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
 
+  export type ActivityNullableScalarRelationFilter = {
+    is?: ActivityWhereInput | null
+    isNot?: ActivityWhereInput | null
+  }
+
   export type OutputCountOrderByAggregateInput = {
     id?: SortOrder
     studentId?: SortOrder
+    roomId?: SortOrder
+    activityId?: SortOrder
   }
 
   export type OutputAvgOrderByAggregateInput = {
     id?: SortOrder
     studentId?: SortOrder
+    roomId?: SortOrder
+    activityId?: SortOrder
   }
 
   export type OutputMaxOrderByAggregateInput = {
     id?: SortOrder
     studentId?: SortOrder
+    roomId?: SortOrder
+    activityId?: SortOrder
   }
 
   export type OutputMinOrderByAggregateInput = {
     id?: SortOrder
     studentId?: SortOrder
+    roomId?: SortOrder
+    activityId?: SortOrder
   }
 
   export type OutputSumOrderByAggregateInput = {
     id?: SortOrder
     studentId?: SortOrder
-  }
-
-  export type ActivityNullableScalarRelationFilter = {
-    is?: ActivityWhereInput | null
-    isNot?: ActivityWhereInput | null
+    roomId?: SortOrder
+    activityId?: SortOrder
   }
 
   export type AnnouncementNullableScalarRelationFilter = {
@@ -11582,6 +11798,13 @@ export namespace Prisma {
     connect?: StudentWhereUniqueInput | StudentWhereUniqueInput[]
   }
 
+  export type OutputCreateNestedManyWithoutRelatedToClassroomInput = {
+    create?: XOR<OutputCreateWithoutRelatedToClassroomInput, OutputUncheckedCreateWithoutRelatedToClassroomInput> | OutputCreateWithoutRelatedToClassroomInput[] | OutputUncheckedCreateWithoutRelatedToClassroomInput[]
+    connectOrCreate?: OutputCreateOrConnectWithoutRelatedToClassroomInput | OutputCreateOrConnectWithoutRelatedToClassroomInput[]
+    createMany?: OutputCreateManyRelatedToClassroomInputEnvelope
+    connect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+  }
+
   export type AnnouncementUncheckedCreateNestedManyWithoutRelatedToClassroomInput = {
     create?: XOR<AnnouncementCreateWithoutRelatedToClassroomInput, AnnouncementUncheckedCreateWithoutRelatedToClassroomInput> | AnnouncementCreateWithoutRelatedToClassroomInput[] | AnnouncementUncheckedCreateWithoutRelatedToClassroomInput[]
     connectOrCreate?: AnnouncementCreateOrConnectWithoutRelatedToClassroomInput | AnnouncementCreateOrConnectWithoutRelatedToClassroomInput[]
@@ -11601,6 +11824,13 @@ export namespace Prisma {
     connectOrCreate?: StudentCreateOrConnectWithoutRelatedtoClassroomInput | StudentCreateOrConnectWithoutRelatedtoClassroomInput[]
     createMany?: StudentCreateManyRelatedtoClassroomInputEnvelope
     connect?: StudentWhereUniqueInput | StudentWhereUniqueInput[]
+  }
+
+  export type OutputUncheckedCreateNestedManyWithoutRelatedToClassroomInput = {
+    create?: XOR<OutputCreateWithoutRelatedToClassroomInput, OutputUncheckedCreateWithoutRelatedToClassroomInput> | OutputCreateWithoutRelatedToClassroomInput[] | OutputUncheckedCreateWithoutRelatedToClassroomInput[]
+    connectOrCreate?: OutputCreateOrConnectWithoutRelatedToClassroomInput | OutputCreateOrConnectWithoutRelatedToClassroomInput[]
+    createMany?: OutputCreateManyRelatedToClassroomInputEnvelope
+    connect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutListOfCreatedClassroomNestedInput = {
@@ -11653,6 +11883,20 @@ export namespace Prisma {
     deleteMany?: StudentScalarWhereInput | StudentScalarWhereInput[]
   }
 
+  export type OutputUpdateManyWithoutRelatedToClassroomNestedInput = {
+    create?: XOR<OutputCreateWithoutRelatedToClassroomInput, OutputUncheckedCreateWithoutRelatedToClassroomInput> | OutputCreateWithoutRelatedToClassroomInput[] | OutputUncheckedCreateWithoutRelatedToClassroomInput[]
+    connectOrCreate?: OutputCreateOrConnectWithoutRelatedToClassroomInput | OutputCreateOrConnectWithoutRelatedToClassroomInput[]
+    upsert?: OutputUpsertWithWhereUniqueWithoutRelatedToClassroomInput | OutputUpsertWithWhereUniqueWithoutRelatedToClassroomInput[]
+    createMany?: OutputCreateManyRelatedToClassroomInputEnvelope
+    set?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    disconnect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    delete?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    connect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    update?: OutputUpdateWithWhereUniqueWithoutRelatedToClassroomInput | OutputUpdateWithWhereUniqueWithoutRelatedToClassroomInput[]
+    updateMany?: OutputUpdateManyWithWhereWithoutRelatedToClassroomInput | OutputUpdateManyWithWhereWithoutRelatedToClassroomInput[]
+    deleteMany?: OutputScalarWhereInput | OutputScalarWhereInput[]
+  }
+
   export type AnnouncementUncheckedUpdateManyWithoutRelatedToClassroomNestedInput = {
     create?: XOR<AnnouncementCreateWithoutRelatedToClassroomInput, AnnouncementUncheckedCreateWithoutRelatedToClassroomInput> | AnnouncementCreateWithoutRelatedToClassroomInput[] | AnnouncementUncheckedCreateWithoutRelatedToClassroomInput[]
     connectOrCreate?: AnnouncementCreateOrConnectWithoutRelatedToClassroomInput | AnnouncementCreateOrConnectWithoutRelatedToClassroomInput[]
@@ -11695,11 +11939,32 @@ export namespace Prisma {
     deleteMany?: StudentScalarWhereInput | StudentScalarWhereInput[]
   }
 
+  export type OutputUncheckedUpdateManyWithoutRelatedToClassroomNestedInput = {
+    create?: XOR<OutputCreateWithoutRelatedToClassroomInput, OutputUncheckedCreateWithoutRelatedToClassroomInput> | OutputCreateWithoutRelatedToClassroomInput[] | OutputUncheckedCreateWithoutRelatedToClassroomInput[]
+    connectOrCreate?: OutputCreateOrConnectWithoutRelatedToClassroomInput | OutputCreateOrConnectWithoutRelatedToClassroomInput[]
+    upsert?: OutputUpsertWithWhereUniqueWithoutRelatedToClassroomInput | OutputUpsertWithWhereUniqueWithoutRelatedToClassroomInput[]
+    createMany?: OutputCreateManyRelatedToClassroomInputEnvelope
+    set?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    disconnect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    delete?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    connect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    update?: OutputUpdateWithWhereUniqueWithoutRelatedToClassroomInput | OutputUpdateWithWhereUniqueWithoutRelatedToClassroomInput[]
+    updateMany?: OutputUpdateManyWithWhereWithoutRelatedToClassroomInput | OutputUpdateManyWithWhereWithoutRelatedToClassroomInput[]
+    deleteMany?: OutputScalarWhereInput | OutputScalarWhereInput[]
+  }
+
   export type FilesCreateNestedManyWithoutRelatedToActivityInput = {
     create?: XOR<FilesCreateWithoutRelatedToActivityInput, FilesUncheckedCreateWithoutRelatedToActivityInput> | FilesCreateWithoutRelatedToActivityInput[] | FilesUncheckedCreateWithoutRelatedToActivityInput[]
     connectOrCreate?: FilesCreateOrConnectWithoutRelatedToActivityInput | FilesCreateOrConnectWithoutRelatedToActivityInput[]
     createMany?: FilesCreateManyRelatedToActivityInputEnvelope
     connect?: FilesWhereUniqueInput | FilesWhereUniqueInput[]
+  }
+
+  export type OutputCreateNestedManyWithoutRelatedToActivityInput = {
+    create?: XOR<OutputCreateWithoutRelatedToActivityInput, OutputUncheckedCreateWithoutRelatedToActivityInput> | OutputCreateWithoutRelatedToActivityInput[] | OutputUncheckedCreateWithoutRelatedToActivityInput[]
+    connectOrCreate?: OutputCreateOrConnectWithoutRelatedToActivityInput | OutputCreateOrConnectWithoutRelatedToActivityInput[]
+    createMany?: OutputCreateManyRelatedToActivityInputEnvelope
+    connect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
   }
 
   export type ClassroomCreateNestedOneWithoutListOfActivityInput = {
@@ -11715,6 +11980,13 @@ export namespace Prisma {
     connect?: FilesWhereUniqueInput | FilesWhereUniqueInput[]
   }
 
+  export type OutputUncheckedCreateNestedManyWithoutRelatedToActivityInput = {
+    create?: XOR<OutputCreateWithoutRelatedToActivityInput, OutputUncheckedCreateWithoutRelatedToActivityInput> | OutputCreateWithoutRelatedToActivityInput[] | OutputUncheckedCreateWithoutRelatedToActivityInput[]
+    connectOrCreate?: OutputCreateOrConnectWithoutRelatedToActivityInput | OutputCreateOrConnectWithoutRelatedToActivityInput[]
+    createMany?: OutputCreateManyRelatedToActivityInputEnvelope
+    connect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+  }
+
   export type FilesUpdateManyWithoutRelatedToActivityNestedInput = {
     create?: XOR<FilesCreateWithoutRelatedToActivityInput, FilesUncheckedCreateWithoutRelatedToActivityInput> | FilesCreateWithoutRelatedToActivityInput[] | FilesUncheckedCreateWithoutRelatedToActivityInput[]
     connectOrCreate?: FilesCreateOrConnectWithoutRelatedToActivityInput | FilesCreateOrConnectWithoutRelatedToActivityInput[]
@@ -11727,6 +11999,20 @@ export namespace Prisma {
     update?: FilesUpdateWithWhereUniqueWithoutRelatedToActivityInput | FilesUpdateWithWhereUniqueWithoutRelatedToActivityInput[]
     updateMany?: FilesUpdateManyWithWhereWithoutRelatedToActivityInput | FilesUpdateManyWithWhereWithoutRelatedToActivityInput[]
     deleteMany?: FilesScalarWhereInput | FilesScalarWhereInput[]
+  }
+
+  export type OutputUpdateManyWithoutRelatedToActivityNestedInput = {
+    create?: XOR<OutputCreateWithoutRelatedToActivityInput, OutputUncheckedCreateWithoutRelatedToActivityInput> | OutputCreateWithoutRelatedToActivityInput[] | OutputUncheckedCreateWithoutRelatedToActivityInput[]
+    connectOrCreate?: OutputCreateOrConnectWithoutRelatedToActivityInput | OutputCreateOrConnectWithoutRelatedToActivityInput[]
+    upsert?: OutputUpsertWithWhereUniqueWithoutRelatedToActivityInput | OutputUpsertWithWhereUniqueWithoutRelatedToActivityInput[]
+    createMany?: OutputCreateManyRelatedToActivityInputEnvelope
+    set?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    disconnect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    delete?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    connect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    update?: OutputUpdateWithWhereUniqueWithoutRelatedToActivityInput | OutputUpdateWithWhereUniqueWithoutRelatedToActivityInput[]
+    updateMany?: OutputUpdateManyWithWhereWithoutRelatedToActivityInput | OutputUpdateManyWithWhereWithoutRelatedToActivityInput[]
+    deleteMany?: OutputScalarWhereInput | OutputScalarWhereInput[]
   }
 
   export type ClassroomUpdateOneRequiredWithoutListOfActivityNestedInput = {
@@ -11749,6 +12035,20 @@ export namespace Prisma {
     update?: FilesUpdateWithWhereUniqueWithoutRelatedToActivityInput | FilesUpdateWithWhereUniqueWithoutRelatedToActivityInput[]
     updateMany?: FilesUpdateManyWithWhereWithoutRelatedToActivityInput | FilesUpdateManyWithWhereWithoutRelatedToActivityInput[]
     deleteMany?: FilesScalarWhereInput | FilesScalarWhereInput[]
+  }
+
+  export type OutputUncheckedUpdateManyWithoutRelatedToActivityNestedInput = {
+    create?: XOR<OutputCreateWithoutRelatedToActivityInput, OutputUncheckedCreateWithoutRelatedToActivityInput> | OutputCreateWithoutRelatedToActivityInput[] | OutputUncheckedCreateWithoutRelatedToActivityInput[]
+    connectOrCreate?: OutputCreateOrConnectWithoutRelatedToActivityInput | OutputCreateOrConnectWithoutRelatedToActivityInput[]
+    upsert?: OutputUpsertWithWhereUniqueWithoutRelatedToActivityInput | OutputUpsertWithWhereUniqueWithoutRelatedToActivityInput[]
+    createMany?: OutputCreateManyRelatedToActivityInputEnvelope
+    set?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    disconnect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    delete?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    connect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    update?: OutputUpdateWithWhereUniqueWithoutRelatedToActivityInput | OutputUpdateWithWhereUniqueWithoutRelatedToActivityInput[]
+    updateMany?: OutputUpdateManyWithWhereWithoutRelatedToActivityInput | OutputUpdateManyWithWhereWithoutRelatedToActivityInput[]
+    deleteMany?: OutputScalarWhereInput | OutputScalarWhereInput[]
   }
 
   export type ClassroomCreateNestedOneWithoutListOfAnnouncementsInput = {
@@ -11824,6 +12124,18 @@ export namespace Prisma {
     connect?: StudentWhereUniqueInput
   }
 
+  export type ClassroomCreateNestedOneWithoutListOfOutputsInput = {
+    create?: XOR<ClassroomCreateWithoutListOfOutputsInput, ClassroomUncheckedCreateWithoutListOfOutputsInput>
+    connectOrCreate?: ClassroomCreateOrConnectWithoutListOfOutputsInput
+    connect?: ClassroomWhereUniqueInput
+  }
+
+  export type ActivityCreateNestedOneWithoutOutputsInput = {
+    create?: XOR<ActivityCreateWithoutOutputsInput, ActivityUncheckedCreateWithoutOutputsInput>
+    connectOrCreate?: ActivityCreateOrConnectWithoutOutputsInput
+    connect?: ActivityWhereUniqueInput
+  }
+
   export type FilesUncheckedCreateNestedManyWithoutRelatedToOutputInput = {
     create?: XOR<FilesCreateWithoutRelatedToOutputInput, FilesUncheckedCreateWithoutRelatedToOutputInput> | FilesCreateWithoutRelatedToOutputInput[] | FilesUncheckedCreateWithoutRelatedToOutputInput[]
     connectOrCreate?: FilesCreateOrConnectWithoutRelatedToOutputInput | FilesCreateOrConnectWithoutRelatedToOutputInput[]
@@ -11853,6 +12165,26 @@ export namespace Prisma {
     delete?: StudentWhereInput | boolean
     connect?: StudentWhereUniqueInput
     update?: XOR<XOR<StudentUpdateToOneWithWhereWithoutListOfOutputsInput, StudentUpdateWithoutListOfOutputsInput>, StudentUncheckedUpdateWithoutListOfOutputsInput>
+  }
+
+  export type ClassroomUpdateOneWithoutListOfOutputsNestedInput = {
+    create?: XOR<ClassroomCreateWithoutListOfOutputsInput, ClassroomUncheckedCreateWithoutListOfOutputsInput>
+    connectOrCreate?: ClassroomCreateOrConnectWithoutListOfOutputsInput
+    upsert?: ClassroomUpsertWithoutListOfOutputsInput
+    disconnect?: ClassroomWhereInput | boolean
+    delete?: ClassroomWhereInput | boolean
+    connect?: ClassroomWhereUniqueInput
+    update?: XOR<XOR<ClassroomUpdateToOneWithWhereWithoutListOfOutputsInput, ClassroomUpdateWithoutListOfOutputsInput>, ClassroomUncheckedUpdateWithoutListOfOutputsInput>
+  }
+
+  export type ActivityUpdateOneWithoutOutputsNestedInput = {
+    create?: XOR<ActivityCreateWithoutOutputsInput, ActivityUncheckedCreateWithoutOutputsInput>
+    connectOrCreate?: ActivityCreateOrConnectWithoutOutputsInput
+    upsert?: ActivityUpsertWithoutOutputsInput
+    disconnect?: ActivityWhereInput | boolean
+    delete?: ActivityWhereInput | boolean
+    connect?: ActivityWhereUniqueInput
+    update?: XOR<XOR<ActivityUpdateToOneWithWhereWithoutOutputsInput, ActivityUpdateWithoutOutputsInput>, ActivityUncheckedUpdateWithoutOutputsInput>
   }
 
   export type FilesUncheckedUpdateManyWithoutRelatedToOutputNestedInput = {
@@ -12107,6 +12439,7 @@ export namespace Prisma {
     listOfAnnouncements?: AnnouncementCreateNestedManyWithoutRelatedToClassroomInput
     listOfActivity?: ActivityCreateNestedManyWithoutRelatedToClassroomInput
     listOfStudents?: StudentCreateNestedManyWithoutRelatedtoClassroomInput
+    listOfOutputs?: OutputCreateNestedManyWithoutRelatedToClassroomInput
   }
 
   export type ClassroomUncheckedCreateWithoutRelatedToUserInput = {
@@ -12120,6 +12453,7 @@ export namespace Prisma {
     listOfAnnouncements?: AnnouncementUncheckedCreateNestedManyWithoutRelatedToClassroomInput
     listOfActivity?: ActivityUncheckedCreateNestedManyWithoutRelatedToClassroomInput
     listOfStudents?: StudentUncheckedCreateNestedManyWithoutRelatedtoClassroomInput
+    listOfOutputs?: OutputUncheckedCreateNestedManyWithoutRelatedToClassroomInput
   }
 
   export type ClassroomCreateOrConnectWithoutRelatedToUserInput = {
@@ -12240,10 +12574,14 @@ export namespace Prisma {
 
   export type OutputCreateWithoutRelatedToStudentInput = {
     listOfFiles?: FilesCreateNestedManyWithoutRelatedToOutputInput
+    relatedToClassroom?: ClassroomCreateNestedOneWithoutListOfOutputsInput
+    relatedToActivity?: ActivityCreateNestedOneWithoutOutputsInput
   }
 
   export type OutputUncheckedCreateWithoutRelatedToStudentInput = {
     id?: number
+    roomId?: number | null
+    activityId?: number | null
     listOfFiles?: FilesUncheckedCreateNestedManyWithoutRelatedToOutputInput
   }
 
@@ -12267,6 +12605,7 @@ export namespace Prisma {
     relatedToUser: UserCreateNestedOneWithoutListOfCreatedClassroomInput
     listOfAnnouncements?: AnnouncementCreateNestedManyWithoutRelatedToClassroomInput
     listOfActivity?: ActivityCreateNestedManyWithoutRelatedToClassroomInput
+    listOfOutputs?: OutputCreateNestedManyWithoutRelatedToClassroomInput
   }
 
   export type ClassroomUncheckedCreateWithoutListOfStudentsInput = {
@@ -12280,6 +12619,7 @@ export namespace Prisma {
     userId: number
     listOfAnnouncements?: AnnouncementUncheckedCreateNestedManyWithoutRelatedToClassroomInput
     listOfActivity?: ActivityUncheckedCreateNestedManyWithoutRelatedToClassroomInput
+    listOfOutputs?: OutputUncheckedCreateNestedManyWithoutRelatedToClassroomInput
   }
 
   export type ClassroomCreateOrConnectWithoutListOfStudentsInput = {
@@ -12335,6 +12675,8 @@ export namespace Prisma {
     NOT?: OutputScalarWhereInput | OutputScalarWhereInput[]
     id?: IntFilter<"Output"> | number
     studentId?: IntNullableFilter<"Output"> | number | null
+    roomId?: IntNullableFilter<"Output"> | number | null
+    activityId?: IntNullableFilter<"Output"> | number | null
   }
 
   export type ClassroomUpsertWithoutListOfStudentsInput = {
@@ -12358,6 +12700,7 @@ export namespace Prisma {
     relatedToUser?: UserUpdateOneRequiredWithoutListOfCreatedClassroomNestedInput
     listOfAnnouncements?: AnnouncementUpdateManyWithoutRelatedToClassroomNestedInput
     listOfActivity?: ActivityUpdateManyWithoutRelatedToClassroomNestedInput
+    listOfOutputs?: OutputUpdateManyWithoutRelatedToClassroomNestedInput
   }
 
   export type ClassroomUncheckedUpdateWithoutListOfStudentsInput = {
@@ -12371,6 +12714,7 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     listOfAnnouncements?: AnnouncementUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
     listOfActivity?: ActivityUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
+    listOfOutputs?: OutputUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
   }
 
   export type UserCreateWithoutListOfCreatedClassroomInput = {
@@ -12424,6 +12768,7 @@ export namespace Prisma {
     time: string
     instruction?: string | null
     criteria?: FilesCreateNestedManyWithoutRelatedToActivityInput
+    outputs?: OutputCreateNestedManyWithoutRelatedToActivityInput
   }
 
   export type ActivityUncheckedCreateWithoutRelatedToClassroomInput = {
@@ -12433,6 +12778,7 @@ export namespace Prisma {
     time: string
     instruction?: string | null
     criteria?: FilesUncheckedCreateNestedManyWithoutRelatedToActivityInput
+    outputs?: OutputUncheckedCreateNestedManyWithoutRelatedToActivityInput
   }
 
   export type ActivityCreateOrConnectWithoutRelatedToClassroomInput = {
@@ -12472,6 +12818,29 @@ export namespace Prisma {
 
   export type StudentCreateManyRelatedtoClassroomInputEnvelope = {
     data: StudentCreateManyRelatedtoClassroomInput | StudentCreateManyRelatedtoClassroomInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OutputCreateWithoutRelatedToClassroomInput = {
+    listOfFiles?: FilesCreateNestedManyWithoutRelatedToOutputInput
+    relatedToStudent?: StudentCreateNestedOneWithoutListOfOutputsInput
+    relatedToActivity?: ActivityCreateNestedOneWithoutOutputsInput
+  }
+
+  export type OutputUncheckedCreateWithoutRelatedToClassroomInput = {
+    id?: number
+    studentId?: number | null
+    activityId?: number | null
+    listOfFiles?: FilesUncheckedCreateNestedManyWithoutRelatedToOutputInput
+  }
+
+  export type OutputCreateOrConnectWithoutRelatedToClassroomInput = {
+    where: OutputWhereUniqueInput
+    create: XOR<OutputCreateWithoutRelatedToClassroomInput, OutputUncheckedCreateWithoutRelatedToClassroomInput>
+  }
+
+  export type OutputCreateManyRelatedToClassroomInputEnvelope = {
+    data: OutputCreateManyRelatedToClassroomInput | OutputCreateManyRelatedToClassroomInput[]
     skipDuplicates?: boolean
   }
 
@@ -12585,6 +12954,22 @@ export namespace Prisma {
     roomId?: IntNullableFilter<"Student"> | number | null
   }
 
+  export type OutputUpsertWithWhereUniqueWithoutRelatedToClassroomInput = {
+    where: OutputWhereUniqueInput
+    update: XOR<OutputUpdateWithoutRelatedToClassroomInput, OutputUncheckedUpdateWithoutRelatedToClassroomInput>
+    create: XOR<OutputCreateWithoutRelatedToClassroomInput, OutputUncheckedCreateWithoutRelatedToClassroomInput>
+  }
+
+  export type OutputUpdateWithWhereUniqueWithoutRelatedToClassroomInput = {
+    where: OutputWhereUniqueInput
+    data: XOR<OutputUpdateWithoutRelatedToClassroomInput, OutputUncheckedUpdateWithoutRelatedToClassroomInput>
+  }
+
+  export type OutputUpdateManyWithWhereWithoutRelatedToClassroomInput = {
+    where: OutputScalarWhereInput
+    data: XOR<OutputUpdateManyMutationInput, OutputUncheckedUpdateManyWithoutRelatedToClassroomInput>
+  }
+
   export type FilesCreateWithoutRelatedToActivityInput = {
     filename: string
     mimetype: string
@@ -12616,6 +13001,29 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type OutputCreateWithoutRelatedToActivityInput = {
+    listOfFiles?: FilesCreateNestedManyWithoutRelatedToOutputInput
+    relatedToStudent?: StudentCreateNestedOneWithoutListOfOutputsInput
+    relatedToClassroom?: ClassroomCreateNestedOneWithoutListOfOutputsInput
+  }
+
+  export type OutputUncheckedCreateWithoutRelatedToActivityInput = {
+    id?: number
+    studentId?: number | null
+    roomId?: number | null
+    listOfFiles?: FilesUncheckedCreateNestedManyWithoutRelatedToOutputInput
+  }
+
+  export type OutputCreateOrConnectWithoutRelatedToActivityInput = {
+    where: OutputWhereUniqueInput
+    create: XOR<OutputCreateWithoutRelatedToActivityInput, OutputUncheckedCreateWithoutRelatedToActivityInput>
+  }
+
+  export type OutputCreateManyRelatedToActivityInputEnvelope = {
+    data: OutputCreateManyRelatedToActivityInput | OutputCreateManyRelatedToActivityInput[]
+    skipDuplicates?: boolean
+  }
+
   export type ClassroomCreateWithoutListOfActivityInput = {
     classname: string
     section: string
@@ -12626,6 +13034,7 @@ export namespace Prisma {
     relatedToUser: UserCreateNestedOneWithoutListOfCreatedClassroomInput
     listOfAnnouncements?: AnnouncementCreateNestedManyWithoutRelatedToClassroomInput
     listOfStudents?: StudentCreateNestedManyWithoutRelatedtoClassroomInput
+    listOfOutputs?: OutputCreateNestedManyWithoutRelatedToClassroomInput
   }
 
   export type ClassroomUncheckedCreateWithoutListOfActivityInput = {
@@ -12639,6 +13048,7 @@ export namespace Prisma {
     userId: number
     listOfAnnouncements?: AnnouncementUncheckedCreateNestedManyWithoutRelatedToClassroomInput
     listOfStudents?: StudentUncheckedCreateNestedManyWithoutRelatedtoClassroomInput
+    listOfOutputs?: OutputUncheckedCreateNestedManyWithoutRelatedToClassroomInput
   }
 
   export type ClassroomCreateOrConnectWithoutListOfActivityInput = {
@@ -12677,6 +13087,22 @@ export namespace Prisma {
     outputId?: IntNullableFilter<"Files"> | number | null
   }
 
+  export type OutputUpsertWithWhereUniqueWithoutRelatedToActivityInput = {
+    where: OutputWhereUniqueInput
+    update: XOR<OutputUpdateWithoutRelatedToActivityInput, OutputUncheckedUpdateWithoutRelatedToActivityInput>
+    create: XOR<OutputCreateWithoutRelatedToActivityInput, OutputUncheckedCreateWithoutRelatedToActivityInput>
+  }
+
+  export type OutputUpdateWithWhereUniqueWithoutRelatedToActivityInput = {
+    where: OutputWhereUniqueInput
+    data: XOR<OutputUpdateWithoutRelatedToActivityInput, OutputUncheckedUpdateWithoutRelatedToActivityInput>
+  }
+
+  export type OutputUpdateManyWithWhereWithoutRelatedToActivityInput = {
+    where: OutputScalarWhereInput
+    data: XOR<OutputUpdateManyMutationInput, OutputUncheckedUpdateManyWithoutRelatedToActivityInput>
+  }
+
   export type ClassroomUpsertWithoutListOfActivityInput = {
     update: XOR<ClassroomUpdateWithoutListOfActivityInput, ClassroomUncheckedUpdateWithoutListOfActivityInput>
     create: XOR<ClassroomCreateWithoutListOfActivityInput, ClassroomUncheckedCreateWithoutListOfActivityInput>
@@ -12698,6 +13124,7 @@ export namespace Prisma {
     relatedToUser?: UserUpdateOneRequiredWithoutListOfCreatedClassroomNestedInput
     listOfAnnouncements?: AnnouncementUpdateManyWithoutRelatedToClassroomNestedInput
     listOfStudents?: StudentUpdateManyWithoutRelatedtoClassroomNestedInput
+    listOfOutputs?: OutputUpdateManyWithoutRelatedToClassroomNestedInput
   }
 
   export type ClassroomUncheckedUpdateWithoutListOfActivityInput = {
@@ -12711,6 +13138,7 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     listOfAnnouncements?: AnnouncementUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
     listOfStudents?: StudentUncheckedUpdateManyWithoutRelatedtoClassroomNestedInput
+    listOfOutputs?: OutputUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
   }
 
   export type ClassroomCreateWithoutListOfAnnouncementsInput = {
@@ -12723,6 +13151,7 @@ export namespace Prisma {
     relatedToUser: UserCreateNestedOneWithoutListOfCreatedClassroomInput
     listOfActivity?: ActivityCreateNestedManyWithoutRelatedToClassroomInput
     listOfStudents?: StudentCreateNestedManyWithoutRelatedtoClassroomInput
+    listOfOutputs?: OutputCreateNestedManyWithoutRelatedToClassroomInput
   }
 
   export type ClassroomUncheckedCreateWithoutListOfAnnouncementsInput = {
@@ -12736,6 +13165,7 @@ export namespace Prisma {
     userId: number
     listOfActivity?: ActivityUncheckedCreateNestedManyWithoutRelatedToClassroomInput
     listOfStudents?: StudentUncheckedCreateNestedManyWithoutRelatedtoClassroomInput
+    listOfOutputs?: OutputUncheckedCreateNestedManyWithoutRelatedToClassroomInput
   }
 
   export type ClassroomCreateOrConnectWithoutListOfAnnouncementsInput = {
@@ -12795,6 +13225,7 @@ export namespace Prisma {
     relatedToUser?: UserUpdateOneRequiredWithoutListOfCreatedClassroomNestedInput
     listOfActivity?: ActivityUpdateManyWithoutRelatedToClassroomNestedInput
     listOfStudents?: StudentUpdateManyWithoutRelatedtoClassroomNestedInput
+    listOfOutputs?: OutputUpdateManyWithoutRelatedToClassroomNestedInput
   }
 
   export type ClassroomUncheckedUpdateWithoutListOfAnnouncementsInput = {
@@ -12808,6 +13239,7 @@ export namespace Prisma {
     userId?: IntFieldUpdateOperationsInput | number
     listOfActivity?: ActivityUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
     listOfStudents?: StudentUncheckedUpdateManyWithoutRelatedtoClassroomNestedInput
+    listOfOutputs?: OutputUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
   }
 
   export type FilesUpsertWithWhereUniqueWithoutRelatedToAnnouncementInput = {
@@ -12882,6 +13314,62 @@ export namespace Prisma {
     create: XOR<StudentCreateWithoutListOfOutputsInput, StudentUncheckedCreateWithoutListOfOutputsInput>
   }
 
+  export type ClassroomCreateWithoutListOfOutputsInput = {
+    classname: string
+    section: string
+    subject: string
+    room: string
+    classcode?: string | null
+    status?: $Enums.ClassroomStatus
+    relatedToUser: UserCreateNestedOneWithoutListOfCreatedClassroomInput
+    listOfAnnouncements?: AnnouncementCreateNestedManyWithoutRelatedToClassroomInput
+    listOfActivity?: ActivityCreateNestedManyWithoutRelatedToClassroomInput
+    listOfStudents?: StudentCreateNestedManyWithoutRelatedtoClassroomInput
+  }
+
+  export type ClassroomUncheckedCreateWithoutListOfOutputsInput = {
+    id?: number
+    classname: string
+    section: string
+    subject: string
+    room: string
+    classcode?: string | null
+    status?: $Enums.ClassroomStatus
+    userId: number
+    listOfAnnouncements?: AnnouncementUncheckedCreateNestedManyWithoutRelatedToClassroomInput
+    listOfActivity?: ActivityUncheckedCreateNestedManyWithoutRelatedToClassroomInput
+    listOfStudents?: StudentUncheckedCreateNestedManyWithoutRelatedtoClassroomInput
+  }
+
+  export type ClassroomCreateOrConnectWithoutListOfOutputsInput = {
+    where: ClassroomWhereUniqueInput
+    create: XOR<ClassroomCreateWithoutListOfOutputsInput, ClassroomUncheckedCreateWithoutListOfOutputsInput>
+  }
+
+  export type ActivityCreateWithoutOutputsInput = {
+    title: string
+    date: string
+    time: string
+    instruction?: string | null
+    criteria?: FilesCreateNestedManyWithoutRelatedToActivityInput
+    relatedToClassroom: ClassroomCreateNestedOneWithoutListOfActivityInput
+  }
+
+  export type ActivityUncheckedCreateWithoutOutputsInput = {
+    id?: number
+    title: string
+    date: string
+    time: string
+    instruction?: string | null
+    roomId: number
+    criteria?: FilesUncheckedCreateNestedManyWithoutRelatedToActivityInput
+  }
+
+  export type ActivityCreateOrConnectWithoutOutputsInput = {
+    where: ActivityWhereUniqueInput
+    create: XOR<ActivityCreateWithoutOutputsInput, ActivityUncheckedCreateWithoutOutputsInput>
+  }
+
   export type FilesUpsertWithWhereUniqueWithoutRelatedToOutputInput = {
     where: FilesWhereUniqueInput
     update: XOR<FilesUpdateWithoutRelatedToOutputInput, FilesUncheckedUpdateWithoutRelatedToOutputInput>
@@ -12929,11 +13417,80 @@ export namespace Prisma {
     roomId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
+  export type ClassroomUpsertWithoutListOfOutputsInput = {
+    update: XOR<ClassroomUpdateWithoutListOfOutputsInput, ClassroomUncheckedUpdateWithoutListOfOutputsInput>
+    create: XOR<ClassroomCreateWithoutListOfOutputsInput, ClassroomUncheckedCreateWithoutListOfOutputsInput>
+    where?: ClassroomWhereInput
+  }
+
+  export type ClassroomUpdateToOneWithWhereWithoutListOfOutputsInput = {
+    where?: ClassroomWhereInput
+    data: XOR<ClassroomUpdateWithoutListOfOutputsInput, ClassroomUncheckedUpdateWithoutListOfOutputsInput>
+  }
+
+  export type ClassroomUpdateWithoutListOfOutputsInput = {
+    classname?: StringFieldUpdateOperationsInput | string
+    section?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    room?: StringFieldUpdateOperationsInput | string
+    classcode?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
+    relatedToUser?: UserUpdateOneRequiredWithoutListOfCreatedClassroomNestedInput
+    listOfAnnouncements?: AnnouncementUpdateManyWithoutRelatedToClassroomNestedInput
+    listOfActivity?: ActivityUpdateManyWithoutRelatedToClassroomNestedInput
+    listOfStudents?: StudentUpdateManyWithoutRelatedtoClassroomNestedInput
+  }
+
+  export type ClassroomUncheckedUpdateWithoutListOfOutputsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    classname?: StringFieldUpdateOperationsInput | string
+    section?: StringFieldUpdateOperationsInput | string
+    subject?: StringFieldUpdateOperationsInput | string
+    room?: StringFieldUpdateOperationsInput | string
+    classcode?: NullableStringFieldUpdateOperationsInput | string | null
+    status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
+    userId?: IntFieldUpdateOperationsInput | number
+    listOfAnnouncements?: AnnouncementUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
+    listOfActivity?: ActivityUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
+    listOfStudents?: StudentUncheckedUpdateManyWithoutRelatedtoClassroomNestedInput
+  }
+
+  export type ActivityUpsertWithoutOutputsInput = {
+    update: XOR<ActivityUpdateWithoutOutputsInput, ActivityUncheckedUpdateWithoutOutputsInput>
+    create: XOR<ActivityCreateWithoutOutputsInput, ActivityUncheckedCreateWithoutOutputsInput>
+    where?: ActivityWhereInput
+  }
+
+  export type ActivityUpdateToOneWithWhereWithoutOutputsInput = {
+    where?: ActivityWhereInput
+    data: XOR<ActivityUpdateWithoutOutputsInput, ActivityUncheckedUpdateWithoutOutputsInput>
+  }
+
+  export type ActivityUpdateWithoutOutputsInput = {
+    title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    time?: StringFieldUpdateOperationsInput | string
+    instruction?: NullableStringFieldUpdateOperationsInput | string | null
+    criteria?: FilesUpdateManyWithoutRelatedToActivityNestedInput
+    relatedToClassroom?: ClassroomUpdateOneRequiredWithoutListOfActivityNestedInput
+  }
+
+  export type ActivityUncheckedUpdateWithoutOutputsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    title?: StringFieldUpdateOperationsInput | string
+    date?: StringFieldUpdateOperationsInput | string
+    time?: StringFieldUpdateOperationsInput | string
+    instruction?: NullableStringFieldUpdateOperationsInput | string | null
+    roomId?: IntFieldUpdateOperationsInput | number
+    criteria?: FilesUncheckedUpdateManyWithoutRelatedToActivityNestedInput
+  }
+
   export type ActivityCreateWithoutCriteriaInput = {
     title: string
     date: string
     time: string
     instruction?: string | null
+    outputs?: OutputCreateNestedManyWithoutRelatedToActivityInput
     relatedToClassroom: ClassroomCreateNestedOneWithoutListOfActivityInput
   }
 
@@ -12944,6 +13501,7 @@ export namespace Prisma {
     time: string
     instruction?: string | null
     roomId: number
+    outputs?: OutputUncheckedCreateNestedManyWithoutRelatedToActivityInput
   }
 
   export type ActivityCreateOrConnectWithoutCriteriaInput = {
@@ -12973,11 +13531,15 @@ export namespace Prisma {
 
   export type OutputCreateWithoutListOfFilesInput = {
     relatedToStudent?: StudentCreateNestedOneWithoutListOfOutputsInput
+    relatedToClassroom?: ClassroomCreateNestedOneWithoutListOfOutputsInput
+    relatedToActivity?: ActivityCreateNestedOneWithoutOutputsInput
   }
 
   export type OutputUncheckedCreateWithoutListOfFilesInput = {
     id?: number
     studentId?: number | null
+    roomId?: number | null
+    activityId?: number | null
   }
 
   export type OutputCreateOrConnectWithoutListOfFilesInput = {
@@ -13001,6 +13563,7 @@ export namespace Prisma {
     date?: StringFieldUpdateOperationsInput | string
     time?: StringFieldUpdateOperationsInput | string
     instruction?: NullableStringFieldUpdateOperationsInput | string | null
+    outputs?: OutputUpdateManyWithoutRelatedToActivityNestedInput
     relatedToClassroom?: ClassroomUpdateOneRequiredWithoutListOfActivityNestedInput
   }
 
@@ -13011,6 +13574,7 @@ export namespace Prisma {
     time?: StringFieldUpdateOperationsInput | string
     instruction?: NullableStringFieldUpdateOperationsInput | string | null
     roomId?: IntFieldUpdateOperationsInput | number
+    outputs?: OutputUncheckedUpdateManyWithoutRelatedToActivityNestedInput
   }
 
   export type AnnouncementUpsertWithoutListOfFilesInput = {
@@ -13052,11 +13616,15 @@ export namespace Prisma {
 
   export type OutputUpdateWithoutListOfFilesInput = {
     relatedToStudent?: StudentUpdateOneWithoutListOfOutputsNestedInput
+    relatedToClassroom?: ClassroomUpdateOneWithoutListOfOutputsNestedInput
+    relatedToActivity?: ActivityUpdateOneWithoutOutputsNestedInput
   }
 
   export type OutputUncheckedUpdateWithoutListOfFilesInput = {
     id?: IntFieldUpdateOperationsInput | number
     studentId?: NullableIntFieldUpdateOperationsInput | number | null
+    roomId?: NullableIntFieldUpdateOperationsInput | number | null
+    activityId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type ClassroomCreateManyRelatedToUserInput = {
@@ -13079,6 +13647,7 @@ export namespace Prisma {
     listOfAnnouncements?: AnnouncementUpdateManyWithoutRelatedToClassroomNestedInput
     listOfActivity?: ActivityUpdateManyWithoutRelatedToClassroomNestedInput
     listOfStudents?: StudentUpdateManyWithoutRelatedtoClassroomNestedInput
+    listOfOutputs?: OutputUpdateManyWithoutRelatedToClassroomNestedInput
   }
 
   export type ClassroomUncheckedUpdateWithoutRelatedToUserInput = {
@@ -13092,6 +13661,7 @@ export namespace Prisma {
     listOfAnnouncements?: AnnouncementUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
     listOfActivity?: ActivityUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
     listOfStudents?: StudentUncheckedUpdateManyWithoutRelatedtoClassroomNestedInput
+    listOfOutputs?: OutputUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
   }
 
   export type ClassroomUncheckedUpdateManyWithoutRelatedToUserInput = {
@@ -13106,19 +13676,27 @@ export namespace Prisma {
 
   export type OutputCreateManyRelatedToStudentInput = {
     id?: number
+    roomId?: number | null
+    activityId?: number | null
   }
 
   export type OutputUpdateWithoutRelatedToStudentInput = {
     listOfFiles?: FilesUpdateManyWithoutRelatedToOutputNestedInput
+    relatedToClassroom?: ClassroomUpdateOneWithoutListOfOutputsNestedInput
+    relatedToActivity?: ActivityUpdateOneWithoutOutputsNestedInput
   }
 
   export type OutputUncheckedUpdateWithoutRelatedToStudentInput = {
     id?: IntFieldUpdateOperationsInput | number
+    roomId?: NullableIntFieldUpdateOperationsInput | number | null
+    activityId?: NullableIntFieldUpdateOperationsInput | number | null
     listOfFiles?: FilesUncheckedUpdateManyWithoutRelatedToOutputNestedInput
   }
 
   export type OutputUncheckedUpdateManyWithoutRelatedToStudentInput = {
     id?: IntFieldUpdateOperationsInput | number
+    roomId?: NullableIntFieldUpdateOperationsInput | number | null
+    activityId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type AnnouncementCreateManyRelatedToClassroomInput = {
@@ -13143,6 +13721,12 @@ export namespace Prisma {
     middlename: string
     sex: string
     status?: $Enums.ClassroomStatus
+  }
+
+  export type OutputCreateManyRelatedToClassroomInput = {
+    id?: number
+    studentId?: number | null
+    activityId?: number | null
   }
 
   export type AnnouncementUpdateWithoutRelatedToClassroomInput = {
@@ -13173,6 +13757,7 @@ export namespace Prisma {
     time?: StringFieldUpdateOperationsInput | string
     instruction?: NullableStringFieldUpdateOperationsInput | string | null
     criteria?: FilesUpdateManyWithoutRelatedToActivityNestedInput
+    outputs?: OutputUpdateManyWithoutRelatedToActivityNestedInput
   }
 
   export type ActivityUncheckedUpdateWithoutRelatedToClassroomInput = {
@@ -13182,6 +13767,7 @@ export namespace Prisma {
     time?: StringFieldUpdateOperationsInput | string
     instruction?: NullableStringFieldUpdateOperationsInput | string | null
     criteria?: FilesUncheckedUpdateManyWithoutRelatedToActivityNestedInput
+    outputs?: OutputUncheckedUpdateManyWithoutRelatedToActivityNestedInput
   }
 
   export type ActivityUncheckedUpdateManyWithoutRelatedToClassroomInput = {
@@ -13221,6 +13807,25 @@ export namespace Prisma {
     status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
   }
 
+  export type OutputUpdateWithoutRelatedToClassroomInput = {
+    listOfFiles?: FilesUpdateManyWithoutRelatedToOutputNestedInput
+    relatedToStudent?: StudentUpdateOneWithoutListOfOutputsNestedInput
+    relatedToActivity?: ActivityUpdateOneWithoutOutputsNestedInput
+  }
+
+  export type OutputUncheckedUpdateWithoutRelatedToClassroomInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    studentId?: NullableIntFieldUpdateOperationsInput | number | null
+    activityId?: NullableIntFieldUpdateOperationsInput | number | null
+    listOfFiles?: FilesUncheckedUpdateManyWithoutRelatedToOutputNestedInput
+  }
+
+  export type OutputUncheckedUpdateManyWithoutRelatedToClassroomInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    studentId?: NullableIntFieldUpdateOperationsInput | number | null
+    activityId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
   export type FilesCreateManyRelatedToActivityInput = {
     id?: number
     filename: string
@@ -13230,6 +13835,12 @@ export namespace Prisma {
     filePath?: string | null
     announceId?: number | null
     outputId?: number | null
+  }
+
+  export type OutputCreateManyRelatedToActivityInput = {
+    id?: number
+    studentId?: number | null
+    roomId?: number | null
   }
 
   export type FilesUpdateWithoutRelatedToActivityInput = {
@@ -13262,6 +13873,25 @@ export namespace Prisma {
     filePath?: NullableStringFieldUpdateOperationsInput | string | null
     announceId?: NullableIntFieldUpdateOperationsInput | number | null
     outputId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type OutputUpdateWithoutRelatedToActivityInput = {
+    listOfFiles?: FilesUpdateManyWithoutRelatedToOutputNestedInput
+    relatedToStudent?: StudentUpdateOneWithoutListOfOutputsNestedInput
+    relatedToClassroom?: ClassroomUpdateOneWithoutListOfOutputsNestedInput
+  }
+
+  export type OutputUncheckedUpdateWithoutRelatedToActivityInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    studentId?: NullableIntFieldUpdateOperationsInput | number | null
+    roomId?: NullableIntFieldUpdateOperationsInput | number | null
+    listOfFiles?: FilesUncheckedUpdateManyWithoutRelatedToOutputNestedInput
+  }
+
+  export type OutputUncheckedUpdateManyWithoutRelatedToActivityInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    studentId?: NullableIntFieldUpdateOperationsInput | number | null
+    roomId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type FilesCreateManyRelatedToAnnouncementInput = {
