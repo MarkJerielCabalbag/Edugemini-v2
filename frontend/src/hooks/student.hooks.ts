@@ -1,4 +1,5 @@
 import { student } from "@/api/student.api";
+import { FileProps } from "@/types/types";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 
@@ -53,10 +54,11 @@ export const usePostSelectedFiles = (
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: () => student.selectFiles(roomId, workId, userId, filesData),
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
       toast.success(data.message);
-      queryClient.invalidateQueries({ queryKey: ["files"] });
+      await queryClient.invalidateQueries({ queryKey: ["files"] });
     },
+
     onError: (error) => {
       toast.error(error?.message);
     },

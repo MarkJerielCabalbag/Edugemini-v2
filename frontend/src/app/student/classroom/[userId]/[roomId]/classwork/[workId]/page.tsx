@@ -1,20 +1,10 @@
 "use client";
-import DeleteClassworkModal from "@/components/modals/instructor/DeleteClassworkModal";
-import UpdateClassworkModal from "@/components/modals/instructor/UpdateClassworkModal";
+
 import { Button } from "@/components/ui/button";
 import { useGetClasswork } from "@/hooks/instructor.hooks";
 import { FileProps } from "@/types/types";
 import { formatFileSize } from "@/utils/formatFileSizes";
-import {
-  ArrowLeft,
-  Book,
-  Loader,
-  LoaderCircle,
-  LoaderCircleIcon,
-  LoaderPinwheel,
-  Paperclip,
-  Trash,
-} from "lucide-react";
+import { ArrowLeft, Book, Loader, LoaderCircle } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
@@ -24,14 +14,21 @@ import {
   usePostRemoveFile,
   usePostSelectedFiles,
 } from "@/hooks/student.hooks";
-import { useFilePicker } from "use-file-picker";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { Input } from "@/components/ui/input";
+import { formatToStandardTime } from "@/utils/formatTimeStandard";
+
 const page = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { workId, userId, roomId } = useParams();
   const { data } = useGetClasswork(Number(workId));
+
+  const date = format(new Date(), "MMM d, yyyy");
+  let now = new Date();
+  let hours = now.getHours();
+  let minutes = now.getMinutes();
+
+  let time = formatToStandardTime(`${hours}:${minutes}`);
 
   const {
     data: files,
@@ -41,7 +38,7 @@ const page = () => {
     isLoading,
   } = useGetFiles(Number(roomId), Number(workId), Number(userId));
 
-  const { mutateAsync: selectFiles, isSuccess: isSuccessSelectedFiles } =
+  const { mutateAsync: selectFiles, isPending: isPendingSelecteingFiles } =
     usePostSelectedFiles(
       Number(roomId),
       Number(workId),
@@ -73,7 +70,7 @@ const page = () => {
             </h1>
             {data?.date && (
               <p className="text-sm text-gray-500 mt-1">
-                Due {format(toDate(data.date), "MMM d, yyyy")}
+                Due on {format(toDate(data.date), "MMM d, yyyy")}, {data?.time}
               </p>
             )}
           </div>
@@ -119,7 +116,7 @@ const page = () => {
           </div>
         )}
 
-        {isFetching || isLoading ? (
+        {isFetching || isLoading || isPendingSelecteingFiles ? (
           <div className="rounded-lg border p-8 text-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
             <p className="text-gray-500">Loading please wait...</p>
@@ -128,67 +125,73 @@ const page = () => {
           <div className="rounded-lg border p-6 bg-white shadow-sm">
             <div className="flex justify-between items-center mb-5">
               <h2 className="text-lg font-semibold mb-4">Submitted Files</h2>
-              {files?.length !== 0 && (
-                <Button
-                  size="sm"
-                  disabled={refetchingSelectedFiles}
-                  onClick={() => reloadSelectedFiles()}
-                >
-                  {refetchingSelectedFiles ? (
-                    <div className="flex gap-2 items-center">
-                      <LoaderCircle className="animate-spin" /> reloading...
-                    </div>
-                  ) : (
-                    <div className="flex gap-2 items-center">
-                      <Loader />
-                      reload
-                    </div>
-                  )}
-                </Button>
-              )}
+              <Button
+                size="sm"
+                disabled={
+                  refetchingSelectedFiles ||
+                  (date === data?.date && time === data?.time)
+                }
+                onClick={() => reloadSelectedFiles()}
+              >
+                {refetchingSelectedFiles ? (
+                  <div className="flex gap-2 items-center">
+                    <LoaderCircle className="animate-spin" /> reloading...
+                  </div>
+                ) : (
+                  <div className="flex gap-2 items-center">
+                    <Loader />
+                    reload
+                  </div>
+                )}
+              </Button>
             </div>
             {files?.length !== 0 ? (
-              <div className="space-y-3">
-                {files?.map((file: FileProps) => (
-                  <div
-                    key={file.outputId}
-                    className="flex items-center justify-between p-4 rounded-lg border bg-gray-50 hover:bg-gray-100 transition-all duration-200"
-                  >
-                    <div className="flex items-center space-x-4">
-                      <div className="p-2 rounded-full bg-primary/10">
-                        <Book className="w-5 h-5 text-primary" />
-                      </div>
-                      <div>
-                        <p className="font-medium text-gray-900">
-                          {file.filename}
-                        </p>
-                        <p className="text-sm text-gray-500">
-                          {formatFileSize(file.fileSize as number)}
-                        </p>
-                      </div>
-                    </div>
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="hover:bg-red-50 hover:text-red-600 transition-colors"
-                      disabled={isPendingRemovingFile}
-                      onClick={async () => {
-                        try {
-                          await removeFile(file?.outputId as number);
-
-                          queryClient.invalidateQueries({
-                            queryKey: ["files"],
-                          });
-                        } catch (error) {
-                          console.log(error);
-                        }
-                      }}
+              <>
+                <div className="space-y-3">
+                  {files?.map((file: FileProps) => (
+                    <div
+                      key={file.outputId}
+                      className="flex items-center justify-between p-4 rounded-lg border bg-gray-50 hover:bg-gray-100 transition-all duration-200"
                     >
-                      Remove
-                    </Button>
-                  </div>
-                ))}
-              </div>
+                      <div className="flex items-center space-x-4">
+                        <div className="p-2 rounded-full bg-primary/10">
+                          <Book className="w-5 h-5 text-primary" />
+                        </div>
+                        <div>
+                          <p className="font-medium text-gray-900">
+                            {file.filename}
+                          </p>
+                          <p className="text-sm text-gray-500">
+                            {formatFileSize(file.fileSize as number)}
+                          </p>
+                        </div>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        className="hover:bg-red-50 hover:text-red-600 transition-colors"
+                        disabled={
+                          isPendingRemovingFile ||
+                          (date === data?.date && time === data?.time)
+                        }
+                        onClick={async () => {
+                          try {
+                            await removeFile(file?.outputId as number);
+
+                            queryClient.invalidateQueries({
+                              queryKey: ["files"],
+                            });
+                          } catch (error) {
+                            console.log(error);
+                          }
+                        }}
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  ))}
+                </div>
+              </>
             ) : (
               <div className="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed">
                 <Book className="w-12 h-12 text-gray-300 mx-auto mb-3" />
@@ -203,33 +206,38 @@ const page = () => {
           </div>
         )}
 
-        {files?.length === 0 && (
-          <label
-            htmlFor="file-upload"
-            className="flex gap-2 items-center justify-center bg-primary text-white p-2 rounded-sm"
+        <label
+          htmlFor="file-upload"
+          className="flex gap-2 items-center justify-center bg-primary text-white p-2 rounded-sm"
+        >
+          <input
+            id="file-upload"
+            type="file"
+            multiple
+            className="w-full"
+            disabled={date === data?.date && time === data?.time}
+            style={{ display: "none" }}
+            onChange={async (e) => {
+              try {
+                e.target.files && setSelectedFiles(Array.from(e.target.files));
+
+                await selectFiles();
+                await queryClient.invalidateQueries({ queryKey: ["files"] });
+                await queryClient.cancelQueries({ queryKey: ["files"] });
+              } catch (error) {}
+            }}
+          />
+          <p className="font-medium text-sm">Select Files</p>
+        </label>
+
+        {files?.length !== 0 && (
+          <Button
+            className="w-full rounded-sm"
+            disabled={date === data?.date && time === data?.time}
           >
-            <Paperclip />
-            <input
-              id="file-upload"
-              type="file"
-              multiple
-              className="w-full"
-              style={{ display: "none" }}
-              onChange={async (e) => {
-                try {
-                  e.target.files &&
-                    setSelectedFiles(Array.from(e.target.files));
-
-                  queryClient.invalidateQueries({ queryKey: ["files"] });
-                  await selectFiles();
-                } catch (error) {}
-              }}
-            />
-            Select files
-          </label>
+            Submit
+          </Button>
         )}
-
-        {files?.length !== 0 && <Button className="w-full">Submit</Button>}
 
         <div className="rounded-lg border p-6 bg-white shadow-sm">
           <h2 className="text-lg font-semibold mb-4">Score</h2>

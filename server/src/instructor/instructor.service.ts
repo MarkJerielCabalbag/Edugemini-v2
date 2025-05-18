@@ -287,12 +287,22 @@ export class InstructorService {
       );
     }
 
+    function formatToStandardTime(time: string) {
+      const [hours, minutes] = time.split(':').map(Number);
+      const period = hours >= 12 ? 'PM' : 'AM';
+      const standardHours = hours % 12 || 12; // Convert 0 or 12 to 12 for standard time
+      return `${standardHours}:${minutes.toString().padStart(2, '0')} ${period}`;
+    }
+
+    const formatedTime = formatToStandardTime(activityDto.time);
+    console.log('fresh data', activityDto.time);
+    console.log('formated time', formatedTime);
     //activity details
     const newActivity = await this.databaseService.activity.create({
       data: {
         title: activityDto.title,
         date: activityDto.date,
-        time: activityDto.time,
+        time: formatedTime,
         instruction: activityDto.instruction,
         relatedToClassroom: {
           connect: {
