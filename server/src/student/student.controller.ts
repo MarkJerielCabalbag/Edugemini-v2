@@ -60,4 +60,11 @@ export class StudentController {
   ) {
     return this.studentService.getFiles(roomId, workId, userId);
   }
+
+  //@DECS   Remove student files
+  //@Route  Post student/removeFile/:outputId
+  @Post('removeFile/:outputId')
+  async removeFiles(@Param('outputId', ParseIntPipe) outputId: number) {
+    return this.studentService.removeFiles(outputId);
+  }
 }

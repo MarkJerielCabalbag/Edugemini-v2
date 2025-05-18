@@ -92,4 +92,19 @@ export const student = {
       return response;
     });
   },
+
+  async removeFile(outputId: number) {
+    return await fetch(`${baseUrl}/student/removeFile/${outputId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    }).then(async (res) => {
+      const response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(response.error);
+      }
+
+      return response;
+    });
+  },
 };

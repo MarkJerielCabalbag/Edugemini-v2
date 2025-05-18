@@ -48,12 +48,24 @@ export const usePostSelectedFiles = (
   roomId: number,
   workId: number,
   userId: number,
-
-  filesData: any
+  filesData: File[]
 ) => {
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: () => student.selectFiles(roomId, workId, userId, filesData),
+    onSuccess: (data) => {
+      toast.success(data.message);
+      queryClient.invalidateQueries({ queryKey: ["files"] });
+    },
+    onError: (error) => {
+      toast.error(error?.message);
+    },
+  });
+};
+
+export const usePostRemoveFile = () => {
+  return useMutation({
+    mutationFn: (outputId: number) => student.removeFile(outputId),
     onSuccess: (data) => {
       toast.success(data.message);
     },

@@ -1,6 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { Output, Student } from 'generated/prisma';
+import { Output, Prisma, Student } from 'generated/prisma';
 import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
@@ -275,5 +275,53 @@ export class StudentService {
     );
 
     return files.flat();
+  }
+
+  //@DECS   Remove student files
+  //@Route  Post student/removeFile/:outputId
+  async removeFiles(outputId: number) {
+    if (!outputId)
+      new HttpException({ error: 'Id does not exist' }, HttpStatus.BAD_REQUEST);
+
+    const output = await this.databaseService.output.findFirst({
+      where: {
+        id: outputId,
+      },
+    });
+
+    if (!output)
+      new HttpException(
+        { error: 'Out does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+
+    const file = await this.databaseService.files.findFirst({
+      where: {
+        outputId: outputId,
+      },
+    });
+
+    const { data, error } = await this.supabase.storage
+      .from('edugemini')
+      .remove([`${file?.filePath}`]);
+
+    if (data && file) {
+      await this.databaseService.output.delete({
+        where: {
+          id: outputId,
+        },
+      });
+      return new HttpException(
+        { message: 'Successfully remove a file' },
+        HttpStatus.ACCEPTED,
+      );
+    }
+
+    if (error) {
+      return new HttpException(
+        { error: 'Internal Server Error' },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 }

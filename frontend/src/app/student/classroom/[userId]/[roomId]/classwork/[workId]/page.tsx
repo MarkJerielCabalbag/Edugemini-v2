@@ -5,15 +5,29 @@ import { Button } from "@/components/ui/button";
 import { useGetClasswork } from "@/hooks/instructor.hooks";
 import { FileProps } from "@/types/types";
 import { formatFileSize } from "@/utils/formatFileSizes";
-import { ArrowLeft, Book, Trash } from "lucide-react";
+import {
+  ArrowLeft,
+  Book,
+  Loader,
+  LoaderCircle,
+  LoaderCircleIcon,
+  LoaderPinwheel,
+  Paperclip,
+  Trash,
+} from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import { toDate, format } from "date-fns";
-import { useGetFiles, usePostSelectedFiles } from "@/hooks/student.hooks";
+import {
+  useGetFiles,
+  usePostRemoveFile,
+  usePostSelectedFiles,
+} from "@/hooks/student.hooks";
 import { useFilePicker } from "use-file-picker";
-import toast from "react-hot-toast";
+
 import { useQueryClient } from "@tanstack/react-query";
+import { Input } from "@/components/ui/input";
 const page = () => {
   const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { workId, userId, roomId } = useParams();
@@ -21,36 +35,24 @@ const page = () => {
 
   const {
     data: files,
+    refetch: reloadSelectedFiles,
+    isRefetching: refetchingSelectedFiles,
     isFetching,
     isLoading,
   } = useGetFiles(Number(roomId), Number(workId), Number(userId));
 
-  const { mutateAsync: selectFiles } = usePostSelectedFiles(
-    Number(roomId),
-    Number(workId),
-    Number(userId),
-    selectedFiles
-  );
+  const { mutateAsync: selectFiles, isSuccess: isSuccessSelectedFiles } =
+    usePostSelectedFiles(
+      Number(roomId),
+      Number(workId),
+      Number(userId),
+      selectedFiles
+    );
+
+  const { mutateAsync: removeFile, isPending: isPendingRemovingFile } =
+    usePostRemoveFile();
 
   const queryClient = useQueryClient();
-
-  const { openFilePicker } = useFilePicker({
-    accept: ".docx",
-    onFilesSuccessfullySelected: async ({
-      plainFiles,
-      filesContent,
-    }: {
-      plainFiles: File[];
-      filesContent: { name: string; content: string | ArrayBuffer }[];
-    }) => {
-      try {
-        setSelectedFiles(plainFiles);
-        await selectFiles();
-        queryClient.invalidateQueries({ queryKey: ["files"] });
-        toast.success("iploaded");
-      } catch (error) {}
-    },
-  });
 
   return (
     <div className="p-8 bg-background max-w-7xl mx-auto">
@@ -84,8 +86,6 @@ const page = () => {
             <p className="text-gray-700 leading-relaxed">{data.instruction}</p>
           </div>
         )}
-
-        {/*Files student*/}
 
         {/* Criteria Files */}
         {data?.criteria && data.criteria.length > 0 && (
@@ -126,7 +126,27 @@ const page = () => {
           </div>
         ) : (
           <div className="rounded-lg border p-6 bg-white shadow-sm">
-            <h2 className="text-lg font-semibold mb-4">Submitted Files</h2>
+            <div className="flex justify-between items-center mb-5">
+              <h2 className="text-lg font-semibold mb-4">Submitted Files</h2>
+              {files?.length !== 0 && (
+                <Button
+                  size="sm"
+                  disabled={refetchingSelectedFiles}
+                  onClick={() => reloadSelectedFiles()}
+                >
+                  {refetchingSelectedFiles ? (
+                    <div className="flex gap-2 items-center">
+                      <LoaderCircle className="animate-spin" /> reloading...
+                    </div>
+                  ) : (
+                    <div className="flex gap-2 items-center">
+                      <Loader />
+                      reload
+                    </div>
+                  )}
+                </Button>
+              )}
+            </div>
             {files?.length !== 0 ? (
               <div className="space-y-3">
                 {files?.map((file: FileProps) => (
@@ -151,6 +171,18 @@ const page = () => {
                       variant="ghost"
                       size="sm"
                       className="hover:bg-red-50 hover:text-red-600 transition-colors"
+                      disabled={isPendingRemovingFile}
+                      onClick={async () => {
+                        try {
+                          await removeFile(file?.outputId as number);
+
+                          queryClient.invalidateQueries({
+                            queryKey: ["files"],
+                          });
+                        } catch (error) {
+                          console.log(error);
+                        }
+                      }}
                     >
                       Remove
                     </Button>
@@ -171,10 +203,43 @@ const page = () => {
           </div>
         )}
 
-        {/* Select a file */}
-        <Button className="w-full" onClick={() => openFilePicker()}>
-          Select Files
-        </Button>
+        {files?.length === 0 && (
+          <label
+            htmlFor="file-upload"
+            className="flex gap-2 items-center justify-center bg-primary text-white p-2 rounded-sm"
+          >
+            <Paperclip />
+            <input
+              id="file-upload"
+              type="file"
+              multiple
+              className="w-full"
+              style={{ display: "none" }}
+              onChange={async (e) => {
+                try {
+                  e.target.files &&
+                    setSelectedFiles(Array.from(e.target.files));
+
+                  queryClient.invalidateQueries({ queryKey: ["files"] });
+                  await selectFiles();
+                } catch (error) {}
+              }}
+            />
+            Select files
+          </label>
+        )}
+
+        {files?.length !== 0 && <Button className="w-full">Submit</Button>}
+
+        <div className="rounded-lg border p-6 bg-white shadow-sm">
+          <h2 className="text-lg font-semibold mb-4">Score</h2>
+          <p>90</p>
+        </div>
+
+        <div className="rounded-lg border p-6 bg-white shadow-sm">
+          <h2 className="text-lg font-semibold mb-4">Feedback</h2>
+          <p>here is the feedback</p>
+        </div>
       </div>
     </div>
   );
