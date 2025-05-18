@@ -158,6 +158,8 @@ export class StudentService {
         HttpStatus.BAD_REQUEST,
       );
 
+    console.log(files);
+
     if (files) {
       files.forEach(async (file) => {
         const { data, error } = await this.supabase.storage
@@ -195,7 +197,6 @@ export class StudentService {
             },
           });
 
-          console.log(output);
           await this.databaseService.files.create({
             data: {
               filename: file.originalname,
@@ -211,14 +212,14 @@ export class StudentService {
               },
             },
           });
-        } else {
-          return new HttpException(
-            { error: 'Server error' },
-            HttpStatus.INTERNAL_SERVER_ERROR,
-          );
         }
       });
     }
+
+    return new HttpException(
+      { message: 'Uploaded successfully' },
+      HttpStatus.ACCEPTED,
+    );
   }
 
   //@DECS   Get student files

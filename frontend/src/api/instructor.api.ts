@@ -84,8 +84,6 @@ export const instructor = {
         formData.append("files", file);
       });
 
-      console.log(formData);
-
       const response = await fetch(
         `${baseUrl}/instructor/createAnnouncement/${roomId}`,
         {

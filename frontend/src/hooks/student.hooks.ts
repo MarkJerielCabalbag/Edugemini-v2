@@ -43,3 +43,22 @@ export const useGetFiles = (roomId: number, workId: number, userId: number) => {
     queryFn: () => student.getFiles(roomId, workId, userId),
   });
 };
+
+export const usePostSelectedFiles = (
+  roomId: number,
+  workId: number,
+  userId: number,
+
+  filesData: any
+) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => student.selectFiles(roomId, workId, userId, filesData),
+    onSuccess: (data) => {
+      toast.success(data.message);
+    },
+    onError: (error) => {
+      toast.error(error?.message);
+    },
+  });
+};

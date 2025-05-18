@@ -1,4 +1,5 @@
 import { baseUrl } from "@/utils/baseUrl";
+import { useQueryClient } from "@tanstack/react-query";
 
 export const student = {
   async getClassrooms(userId: number) {
@@ -37,6 +38,41 @@ export const student = {
 
       return response;
     });
+  },
+
+  async selectFiles(
+    roomId: number,
+    workId: number,
+    userId: number,
+
+    filesData: File[]
+  ) {
+    try {
+      const formData = new FormData();
+
+      filesData.forEach((file) => {
+        formData.append("files", file);
+      });
+
+      const response = await fetch(
+        `${baseUrl}/student/selectFiles/${roomId}/${workId}/${userId}`,
+        {
+          method: "POST",
+          body: formData,
+        }
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || "An Error Occurred");
+      }
+
+      const data = await response.json();
+      return data;
+    } catch (e) {
+      console.error(e);
+      throw e;
+    }
   },
 
   async getFiles(roomId: number, workId: number, userId: number) {

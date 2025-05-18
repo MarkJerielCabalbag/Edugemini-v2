@@ -8,10 +8,14 @@ import { formatFileSize } from "@/utils/formatFileSizes";
 import { ArrowLeft, Book, Trash } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
-import React from "react";
+import React, { useState } from "react";
 import { toDate, format } from "date-fns";
-import { useGetFiles } from "@/hooks/student.hooks";
+import { useGetFiles, usePostSelectedFiles } from "@/hooks/student.hooks";
+import { useFilePicker } from "use-file-picker";
+import toast from "react-hot-toast";
+import { useQueryClient } from "@tanstack/react-query";
 const page = () => {
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
   const { workId, userId, roomId } = useParams();
   const { data } = useGetClasswork(Number(workId));
 
@@ -21,7 +25,32 @@ const page = () => {
     isLoading,
   } = useGetFiles(Number(roomId), Number(workId), Number(userId));
 
-  console.log(files);
+  const { mutateAsync: selectFiles } = usePostSelectedFiles(
+    Number(roomId),
+    Number(workId),
+    Number(userId),
+    selectedFiles
+  );
+
+  const queryClient = useQueryClient();
+
+  const { openFilePicker } = useFilePicker({
+    accept: ".docx",
+    onFilesSuccessfullySelected: async ({
+      plainFiles,
+      filesContent,
+    }: {
+      plainFiles: File[];
+      filesContent: { name: string; content: string | ArrayBuffer }[];
+    }) => {
+      try {
+        setSelectedFiles(plainFiles);
+        await selectFiles();
+        queryClient.invalidateQueries({ queryKey: ["files"] });
+        toast.success("iploaded");
+      } catch (error) {}
+    },
+  });
 
   return (
     <div className="p-8 bg-background max-w-7xl mx-auto">
@@ -58,24 +87,12 @@ const page = () => {
 
         {/*Files student*/}
 
-        {isFetching || isLoading ? (
-          "loading"
-        ) : (
-          <>
-            {files.map((file: FileProps) => (
-              <div>
-                <h1>{file.filename}</h1>
-              </div>
-            ))}
-          </>
-        )}
-
         {/* Criteria Files */}
         {data?.criteria && data.criteria.length > 0 && (
           <div className="rounded-lg border p-5">
             <h2 className="text-lg font-medium mb-4">Criteria Files</h2>
             <div className="space-y-3">
-              {data.criteria.map((file: FileProps) => (
+              {data?.criteria.map((file: FileProps) => (
                 <div
                   key={file.id}
                   className="flex items-center justify-between p-3 rounded-md border hover:border-primary transition-colors"
@@ -102,8 +119,62 @@ const page = () => {
           </div>
         )}
 
+        {isFetching || isLoading ? (
+          <div className="rounded-lg border p-8 text-center">
+            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+            <p className="text-gray-500">Loading please wait...</p>
+          </div>
+        ) : (
+          <div className="rounded-lg border p-6 bg-white shadow-sm">
+            <h2 className="text-lg font-semibold mb-4">Submitted Files</h2>
+            {files?.length !== 0 ? (
+              <div className="space-y-3">
+                {files?.map((file: FileProps) => (
+                  <div
+                    key={file.outputId}
+                    className="flex items-center justify-between p-4 rounded-lg border bg-gray-50 hover:bg-gray-100 transition-all duration-200"
+                  >
+                    <div className="flex items-center space-x-4">
+                      <div className="p-2 rounded-full bg-primary/10">
+                        <Book className="w-5 h-5 text-primary" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">
+                          {file.filename}
+                        </p>
+                        <p className="text-sm text-gray-500">
+                          {formatFileSize(file.fileSize as number)}
+                        </p>
+                      </div>
+                    </div>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      className="hover:bg-red-50 hover:text-red-600 transition-colors"
+                    >
+                      Remove
+                    </Button>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <div className="text-center py-8 bg-gray-50 rounded-lg border-2 border-dashed">
+                <Book className="w-12 h-12 text-gray-300 mx-auto mb-3" />
+                <p className="text-gray-500 font-medium">
+                  No files attached yet
+                </p>
+                <p className="text-sm text-gray-400">
+                  Upload files to submit your work
+                </p>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Select a file */}
-        <Button className="w-full">Select Files</Button>
+        <Button className="w-full" onClick={() => openFilePicker()}>
+          Select Files
+        </Button>
       </div>
     </div>
   );
