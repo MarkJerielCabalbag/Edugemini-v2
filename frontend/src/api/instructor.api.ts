@@ -264,4 +264,49 @@ export const instructor = {
       throw e;
     }
   },
+
+  async getPeople(roomId: number) {
+    return await fetch(`${baseUrl}/instructor/people/${roomId}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }).then(async (res) => {
+      const response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(response.message || "An Error Occured");
+      }
+
+      return response;
+    });
+  },
+
+  async acceptStudent(studentId: number) {
+    return await fetch(`${baseUrl}/instructor/approvedStudent/${studentId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    }).then(async (res) => {
+      const response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(response.message || "An Error Occured");
+      }
+
+      return response;
+    });
+  },
+
+  async declineStudent(studentId: number) {
+    return await fetch(`${baseUrl}/instructor/declinedStudent/${studentId}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    }).then(async (res) => {
+      const response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(response.error);
+      }
+
+      return response;
+    });
+  },
 };

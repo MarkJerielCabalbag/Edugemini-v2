@@ -178,3 +178,38 @@ export const usePatchClasswork = (
     },
   });
 };
+
+export const useGetPeople = (roomId: number) => {
+  return useQuery({
+    queryKey: ["people"],
+    queryFn: () => instructor.getPeople(roomId),
+  });
+};
+
+export const usePostApprovedStudent = (studentId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => instructor.acceptStudent(studentId),
+    onSuccess: async (data) => {
+      toast.success(data.message);
+      await queryClient.invalidateQueries({ queryKey: ["people"] });
+    },
+    onError: async (error) => {
+      toast.error(error.message);
+    },
+  });
+};
+
+export const usePostDeclinedStudent = (studentId: number) => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: () => instructor.declineStudent(studentId),
+    onSuccess: async (data) => {
+      toast.success(data.message);
+      await queryClient.invalidateQueries({ queryKey: ["people"] });
+    },
+    onError: async (error) => {
+      toast.error(error.message);
+    },
+  });
+};

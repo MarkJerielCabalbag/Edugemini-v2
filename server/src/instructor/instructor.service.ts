@@ -797,4 +797,31 @@ export class InstructorService {
 
     return classroom;
   }
+
+  // @DESC   Get the list of students who join the class by room id
+  // @ROUTE  instructor/people/:roomId
+  async getPeople(roomId: number) {
+    if (!roomId)
+      new HttpException({ error: 'Id does not exist' }, HttpStatus.BAD_REQUEST);
+
+    const classroom = await this.databaseService.classroom.findUnique({
+      where: {
+        id: roomId,
+      },
+    });
+
+    if (!classroom)
+      new HttpException(
+        { error: 'Classroom does not exist' },
+        HttpStatus.BAD_GATEWAY,
+      );
+
+    const people = await this.databaseService.student.findMany({
+      where: {
+        roomId: roomId,
+      },
+    });
+
+    return people;
+  }
 }

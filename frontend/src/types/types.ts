@@ -54,3 +54,13 @@ export type ClassworkProps = {
   instruction: string;
   roomId?: number;
 };
+
+export type StudentProps = {
+  userId?: number;
+  firstname: string;
+  middlename: string;
+  lastname: string;
+  roomId?: number;
+  sex: string;
+  status: string;
+};

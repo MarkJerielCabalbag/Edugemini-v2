@@ -173,4 +173,11 @@ export class InstructorController {
   async getClass(@Param('roomId', ParseIntPipe) roomId: number) {
     return this.instructorService.getClass(roomId);
   }
+
+  // @DESC   Get the list of students who join the class by room id
+  // @ROUTE  instructor/people/:roomId
+  @Get('people/:roomId')
+  async getPeople(@Param('roomId', ParseIntPipe) roomId: number) {
+    return this.instructorService.getPeople(roomId);
+  }
 }
