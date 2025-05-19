@@ -280,11 +280,14 @@ export const instructor = {
     });
   },
 
-  async acceptStudent(studentId: number) {
-    return await fetch(`${baseUrl}/instructor/approvedStudent/${studentId}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-    }).then(async (res) => {
+  async acceptStudent(studentId: number, roomId: number) {
+    return await fetch(
+      `${baseUrl}/instructor/approvedStudent/${studentId}/${roomId}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      }
+    ).then(async (res) => {
       const response = await res.json();
 
       if (!res.ok) {
@@ -295,11 +298,14 @@ export const instructor = {
     });
   },
 
-  async declineStudent(studentId: number) {
-    return await fetch(`${baseUrl}/instructor/declinedStudent/${studentId}`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-    }).then(async (res) => {
+  async declineStudent(studentId: number, roomId: number) {
+    return await fetch(
+      `${baseUrl}/instructor/declinedStudent/${studentId}/${roomId}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      }
+    ).then(async (res) => {
       const response = await res.json();
 
       if (!res.ok) {

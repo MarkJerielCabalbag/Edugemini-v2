@@ -3,6 +3,7 @@ import { AlertDialogCancel } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { usePostDeclinedStudent } from "@/hooks/instructor.hooks";
 import { ModalProps } from "@/types/types";
+import { useParams } from "next/navigation";
 
 import React from "react";
 
@@ -15,7 +16,11 @@ const DeclinedStudentModal = ({
   onOpenChange,
   studentId,
 }: DeclinedStudentProps) => {
-  const { mutateAsync, isPending } = usePostDeclinedStudent(studentId);
+  const { roomId } = useParams();
+  const { mutateAsync, isPending } = usePostDeclinedStudent(
+    studentId,
+    Number(roomId)
+  );
   return (
     <Modal
       open={open}

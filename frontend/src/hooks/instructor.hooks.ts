@@ -186,10 +186,10 @@ export const useGetPeople = (roomId: number) => {
   });
 };
 
-export const usePostApprovedStudent = (studentId: number) => {
+export const usePostApprovedStudent = (studentId: number, roomId: number) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: () => instructor.acceptStudent(studentId),
+    mutationFn: () => instructor.acceptStudent(studentId, roomId),
     onSuccess: async (data) => {
       toast.success(data.message);
       await queryClient.invalidateQueries({ queryKey: ["people"] });
@@ -200,10 +200,10 @@ export const usePostApprovedStudent = (studentId: number) => {
   });
 };
 
-export const usePostDeclinedStudent = (studentId: number) => {
+export const usePostDeclinedStudent = (studentId: number, roomId: number) => {
   const queryClient = useQueryClient();
   return useMutation({
-    mutationFn: () => instructor.declineStudent(studentId),
+    mutationFn: () => instructor.declineStudent(studentId, roomId),
     onSuccess: async (data) => {
       toast.success(data.message);
       await queryClient.invalidateQueries({ queryKey: ["people"] });

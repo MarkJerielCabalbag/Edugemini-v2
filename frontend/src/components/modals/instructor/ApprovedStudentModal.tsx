@@ -5,6 +5,7 @@ import { AlertDialogCancel } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { usePostApprovedStudent } from "@/hooks/instructor.hooks";
 import { ModalProps } from "@/types/types";
+import { useParams } from "next/navigation";
 import React from "react";
 
 type AcceptStudentProps = {
@@ -18,9 +19,12 @@ const ApprovedStudentModal = ({
   onOpenChange,
   studentId,
 }: AcceptStudentProps) => {
-  console.log(studentId);
+  const { roomId } = useParams();
 
-  const { mutateAsync, isPending } = usePostApprovedStudent(studentId);
+  const { mutateAsync, isPending } = usePostApprovedStudent(
+    studentId,
+    Number(roomId)
+  );
   return (
     <Modal
       open={open}

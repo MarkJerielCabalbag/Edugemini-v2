@@ -134,16 +134,22 @@ export class InstructorController {
 
   // @DESC   Approved student to join specific classroom
   // @ROUTE  instructor/approvedStudent/:userId
-  @Post('approvedStudent/:userId')
-  async approvedStudent(@Param('userId', ParseIntPipe) userId: number) {
-    return this.instructorService.approvedStudent(+userId);
+  @Post('approvedStudent/:userId/:roomId')
+  async approvedStudent(
+    @Param('userId', ParseIntPipe) userId: number,
+    @Param('roomId', ParseIntPipe) roomId: number,
+  ) {
+    return this.instructorService.approvedStudent(+userId, +roomId);
   }
 
   // @DESC   Declined student to join specific classroom
   // @ROUTE  instructor/declinedStudent/:userId
-  @Post('declinedStudent/:userId')
-  async declinedStudent(@Param('userId', ParseIntPipe) userId: number) {
-    return this.instructorService.declinedStudent(+userId);
+  @Post('declinedStudent/:userId/:roomId')
+  async declinedStudent(
+    @Param('userId', ParseIntPipe) userId: number,
+    @Param('roomId', ParseIntPipe) roomId: number,
+  ) {
+    return this.instructorService.declinedStudent(+userId, +roomId);
   }
 
   // @DESC   Get students associated with the classroom
@@ -179,5 +185,15 @@ export class InstructorController {
   @Get('people/:roomId')
   async getPeople(@Param('roomId', ParseIntPipe) roomId: number) {
     return this.instructorService.getPeople(roomId);
+  }
+
+  // @DESC   Get the list of students by roomId and workId
+  // @ROUTE  instructor/view/student/activity/:roomId/:workId
+  @Get('view/student/activity/:roomId/:workId')
+  async getStudentActivityStatus(
+    @Param('roomId', ParseIntPipe) roomId: number,
+    @Param('workId', ParseIntPipe) workId: number,
+  ) {
+    return this.instructorService.getStudentActivityStatus(roomId, workId);
   }
 }

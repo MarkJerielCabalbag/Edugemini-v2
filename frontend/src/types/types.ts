@@ -1,3 +1,4 @@
+import { AccessorKeyColumnDef } from "@tanstack/react-table";
 import { ReactNode } from "react";
 
 export type ModalProps = {
@@ -63,4 +64,16 @@ export type StudentProps = {
   roomId?: number;
   sex: string;
   status: string;
+};
+
+export type TableProps<T> = {
+  tableHeader?: React.ReactNode;
+  tableBody?: React.ReactNode;
+  tableFooter?: React.ReactNode;
+  onRowClick: (row: T) => void;
+  data?: T[];
+  column?: AccessorKeyColumnDef<T>[];
+
+  // setPagination: (prev: PaginationProps) => void;
+  rowLength: number;
 };
