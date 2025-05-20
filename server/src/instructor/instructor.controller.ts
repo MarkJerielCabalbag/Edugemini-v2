@@ -196,4 +196,14 @@ export class InstructorController {
   ) {
     return this.instructorService.getStudentActivityStatus(roomId, workId);
   }
+
+  // @DESC   Get student info by classroom id
+  // @ROUTE  instructor/getStudentInfo/:roomId/:studentId
+  @Get('getStudentInfo/:roomId/:studentId')
+  async getStudentInfo(
+    @Param('roomId', ParseIntPipe) roomId: number,
+    @Param('studentId', ParseIntPipe) studentId: number,
+  ) {
+    return this.instructorService.getStudentInfo(roomId, studentId);
+  }
 }

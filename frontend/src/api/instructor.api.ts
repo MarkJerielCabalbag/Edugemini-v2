@@ -1,4 +1,5 @@
 import { ClassProps } from "@/app/instructor/types";
+import { StudentProps } from "@/types/types";
 import { baseUrl } from "@/utils/baseUrl";
 
 export const instructor = {
@@ -310,6 +311,27 @@ export const instructor = {
 
       if (!res.ok) {
         throw new Error(response.error);
+      }
+
+      return response;
+    });
+  },
+
+  async getStudentInfo(
+    roomId: number,
+    studentId: number
+  ): Promise<StudentProps> {
+    return await fetch(
+      `${baseUrl}/instructor/getStudentInfo/${roomId}/${studentId}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    ).then(async (res) => {
+      const response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(response.message || "An Error Occured");
       }
 
       return response;

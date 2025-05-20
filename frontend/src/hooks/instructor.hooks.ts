@@ -213,3 +213,10 @@ export const usePostDeclinedStudent = (studentId: number, roomId: number) => {
     },
   });
 };
+
+export const useGetStudentInfo = (roomId: number, studentId: number) => {
+  return useQuery({
+    queryKey: ["student"],
+    queryFn: () => instructor.getStudentInfo(roomId, studentId),
+  });
+};

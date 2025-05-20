@@ -845,6 +845,7 @@ export class InstructorService {
       );
 
     const people = await this.databaseService.student.findMany({
+      orderBy: [{ lastname: 'asc' }],
       where: {
         roomId: roomId,
       },
@@ -879,26 +880,59 @@ export class InstructorService {
         HttpStatus.BAD_REQUEST,
       );
 
-    return await this.databaseService.files.findMany({
+    return await this.databaseService.output.findMany({
       where: {
         activityId: workId,
       },
 
-      // orderBy: {
-      //   relatedToOutput: {
-      //     relatedToStudent: {
-      //       lastname: 'asc',
-      //     },
-      //   },
-      // },
-
-      // select: {
-      //   relatedToOutput: {
-      //     include: {
-      //       relatedToStudent: true,
-      //     },
-      //   },
-      // },
+      include: {
+        relatedToStudent: true,
+      },
     });
+  }
+
+  // @DESC   Get student info by classroom id
+  // @ROUTE  instructor/getStudentInfo/:roomId/:studentId
+  async getStudentInfo(roomId: number, studentId: number) {
+    if (!roomId || !studentId)
+      new HttpException({ error: 'Id does not exist' }, HttpStatus.BAD_REQUEST);
+
+    const classroom = await this.databaseService.classroom.findUnique({
+      where: {
+        id: roomId,
+      },
+    });
+
+    const student = await this.databaseService.student.findUnique({
+      where: {
+        userId: studentId,
+        AND: {
+          roomId: roomId,
+        },
+      },
+
+      include: {
+        relatedToUser: {
+          select: {
+            email: true,
+            username: true,
+          },
+        },
+      },
+    });
+
+    if (!classroom)
+      new HttpException(
+        { error: 'Classroom does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+
+    if (!student)
+      new HttpException(
+        { error: 'Student does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+
+    return student;
   }
 }

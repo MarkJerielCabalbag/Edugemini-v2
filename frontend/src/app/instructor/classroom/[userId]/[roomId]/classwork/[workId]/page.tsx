@@ -2,14 +2,16 @@
 import DeleteClassworkModal from "@/components/modals/instructor/DeleteClassworkModal";
 import UpdateClassworkModal from "@/components/modals/instructor/UpdateClassworkModal";
 import { Button } from "@/components/ui/button";
-import { useGetClasswork } from "@/hooks/instructor.hooks";
-import { FileProps } from "@/types/types";
+import { useGetClasswork, useGetPeople } from "@/hooks/instructor.hooks";
+import { FileProps, StudentProps } from "@/types/types";
 import { formatFileSize } from "@/utils/formatFileSizes";
 import { ArrowLeft, Book, Trash } from "lucide-react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React from "react";
 import { toDate, format } from "date-fns";
+import DataTable from "@/components/table/table";
+import { columns } from "@/components/table/column";
 const page = () => {
   const { workId, userId, roomId } = useParams();
   const { data } = useGetClasswork(Number(workId));
@@ -18,6 +20,15 @@ const page = () => {
     React.useState(false);
   const [showUpdateClassworkModal, setShowUpdateClassworkModal] =
     React.useState(false);
+
+  const { data: students } = useGetPeople(Number(roomId));
+
+  const approvesStudents = students?.filter(
+    (student: StudentProps) => student.status === "APPROVED"
+  );
+
+  const router = useRouter();
+
   return (
     <div className="p-8 bg-background max-w-7xl mx-auto">
       <Link
@@ -99,6 +110,24 @@ const page = () => {
                   </Button>
                 </div>
               ))}
+            </div>
+          </div>
+        )}
+
+        {/* {students submissions part} */}
+        {approvesStudents && approvesStudents?.length > 0 && (
+          <div className="rounded-lg border p-5">
+            <h2 className="text-lg font-medium mb-4">Students Submissions</h2>
+            <div className="space-y-3">
+              <DataTable
+                data={approvesStudents}
+                columns={columns}
+                onRowClick={(row: any) =>
+                  router.push(
+                    `/instructor/classroom/${userId}/${roomId}/classwork/${workId}/${row.userId}`
+                  )
+                }
+              />
             </div>
           </div>
         )}

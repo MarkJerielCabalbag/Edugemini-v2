@@ -5,6 +5,7 @@ import {
   getSortedRowModel,
   flexRender,
   getPaginationRowModel,
+  ColumnDef,
 } from "@tanstack/react-table";
 import { TableProps } from "../../types/types";
 
@@ -19,15 +20,26 @@ import { Button } from "../ui/button";
 import { Select, SelectContent, SelectItem } from "../ui/select";
 import { Card, CardDescription, CardFooter, CardHeader } from "../ui/card";
 
-const DataTable = <T,>({
+interface DataTableProps<TData, TValue> {
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  dataSheet?: TData[];
+  tableHeader?: React.ReactNode;
+  filterInputName?: string;
+  serachFor?: string;
+  excelFilename?: string;
+  onRowClick?: (row: any) => void;
+}
+
+const DataTable = <TData, TValue>({
   tableHeader,
   data,
-  column,
+  columns,
   onRowClick,
-}: TableProps<T>) => {
+}: DataTableProps<TData, TValue>) => {
   const memoData = useMemo(() => data || [], [data]);
 
-  const columns = useMemo(() => column || [], [column]);
+  const column = useMemo(() => columns || [], [columns]);
 
   const [rowCount, setRowCount] = useState(memoData.length);
 
@@ -38,7 +50,7 @@ const DataTable = <T,>({
 
   const table = useReactTable({
     data: memoData,
-    columns,
+    columns: column,
     initialState: {
       pagination,
     },
@@ -62,76 +74,75 @@ const DataTable = <T,>({
   };
   return (
     <>
-      <Card>
-        <CardHeader className="rounded-none">{tableHeader}</CardHeader>
+      <Card className="rounded-none">
         <CardDescription>
-          <table className="w-full min-w-max table-auto text-left">
-            <thead className="border-y border-blue-gray-100 bg-blue-gray-50/50 p-2">
-              {table.getHeaderGroups().map((headerGroup) => (
-                <tr key={headerGroup.id}>
-                  {headerGroup.headers.map((header) => (
-                    <th
-                      key={header.id}
-                      className="border-b border-blue-gray-100 bg-blue-gray-50 p-4"
-                    >
-                      <h1
-                        color="blue-gray"
-                        className="font-normal flex items-center gap-2 leading-none opacity-70"
-                      >
-                        {header.column.getCanSort() ? (
-                          <Button
-                            onClick={() => {
-                              header.column.getCanSort()
-                                ? header.column.getToggleSortingHandler()
-                                : "";
-                            }}
-                          >
-                            M/
-                          </Button>
-                        ) : null}
-                        {header.isPlaceholder
-                          ? null
-                          : flexRender(
-                              header.column.columnDef.header,
-                              header.getContext()
+          <div className="min-w-full inline-block align-middle">
+            <div className="overflow-hidden">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  {table.getHeaderGroups().map((headerGroup) => (
+                    <tr key={headerGroup.id}>
+                      {headerGroup.headers.map((header) => (
+                        <th
+                          key={header.id}
+                          className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                        >
+                          <div className="flex items-center gap-2">
+                            {header.column.getCanSort() && (
+                              <LucideArrowUpDown
+                                className="h-4 w-4 cursor-pointer"
+                                onClick={
+                                  header.column.getCanSort()
+                                    ? header.column.getToggleSortingHandler()
+                                    : undefined
+                                }
+                              />
                             )}
-                        {header.column.getCanSort() && (
-                          <>
-                            <>
-                              {header.column.getIsSorted() === "desc"
-                                ? " 🔼"
-                                : ""}
-
-                              {header.column.getIsSorted() === "asc"
-                                ? "  🔽"
-                                : ""}
-                            </>
-                          </>
-                        )}
-                      </h1>
-                    </th>
+                            {header.isPlaceholder
+                              ? null
+                              : flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext()
+                                )}
+                            {header.column.getCanSort() && (
+                              <span className="ml-1">
+                                {header.column.getIsSorted() === "desc"
+                                  ? " 🔼"
+                                  : header.column.getIsSorted() === "asc"
+                                  ? " 🔽"
+                                  : ""}
+                              </span>
+                            )}
+                          </div>
+                        </th>
+                      ))}
+                    </tr>
                   ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody>
-              {table.getRowModel().rows.map((row) => (
-                <tr key={row.id} onClick={() => onRowClick?.(row.original)}>
-                  {row.getVisibleCells().map((cell) => (
-                    <td
-                      key={cell.id}
-                      className="p-4 border-b border-blue-gray-50"
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {table.getRowModel().rows.map((row) => (
+                    <tr
+                      key={row.id}
+                      onClick={() => onRowClick?.(row.original)}
+                      className="hover:bg-gray-50 cursor-pointer"
                     >
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext()
-                      )}
-                    </td>
+                      {row.getVisibleCells().map((cell) => (
+                        <td
+                          key={cell.id}
+                          className="px-4 py-3 text-sm text-gray-900 whitespace-nowrap"
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </td>
+                      ))}
+                    </tr>
                   ))}
-                </tr>
-              ))}
-            </tbody>
-          </table>
+                </tbody>
+              </table>
+            </div>
+          </div>
         </CardDescription>
         <CardFooter>
           <div className={`flex flex-col gap-2 md:flex-row`}>
@@ -171,7 +182,7 @@ const DataTable = <T,>({
               </p>
             </div>
             <div>
-              <Select
+              {/* <Select
                 value={String(selectSize)}
                 onValueChange={handlePageSizeChange}
               >
@@ -192,7 +203,7 @@ const DataTable = <T,>({
                     Show {sizeOption.label}
                   </SelectContent>
                 ))}
-              </Select>
+              </Select> */}
             </div>
           </div>
         </CardFooter>
