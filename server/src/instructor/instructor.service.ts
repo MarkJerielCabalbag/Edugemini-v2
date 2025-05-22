@@ -935,4 +935,63 @@ export class InstructorService {
 
     return student;
   }
+
+  // @DESC   Get student files by studentId
+  // @ROUTE  instructor/getStudentFiles/:studentId
+  async getStudentFiles(studentId: number, workId: number, roomId: number) {
+    if (!studentId || !workId || !roomId)
+      new HttpException({ error: 'Id does not exist' }, HttpStatus.BAD_REQUEST);
+
+    const student = await this.databaseService.student.findUnique({
+      where: {
+        userId: studentId,
+      },
+    });
+
+    const activity = await this.databaseService.activity.findUnique({
+      where: { id: workId },
+    });
+
+    const classroom = await this.databaseService.classroom.findUnique({
+      where: {
+        id: roomId,
+      },
+    });
+
+    if (!student)
+      new HttpException(
+        { error: 'The student does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+
+    if (!activity)
+      new HttpException(
+        { error: 'Activity does not exist' },
+        HttpStatus.BAD_GATEWAY,
+      );
+
+    if (!classroom)
+      new HttpException(
+        { error: 'Classroom does not exist' },
+        HttpStatus.BAD_GATEWAY,
+      );
+
+    const outputs = await this.databaseService.output.findMany({
+      where: {
+        studentId: studentId,
+        roomId: roomId,
+        activityId: workId,
+      },
+    });
+
+    const mappedOutputs = Promise.all(
+      outputs.map((file) =>
+        this.databaseService.files.findMany({
+          where: { outputId: file.id },
+        }),
+      ),
+    );
+
+    return (await mappedOutputs).flat();
+  }
 }

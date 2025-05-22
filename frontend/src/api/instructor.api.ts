@@ -337,4 +337,22 @@ export const instructor = {
       return response;
     });
   },
+
+  async getStudentFiles(studentId: number, workId: number, roomId: number) {
+    return await fetch(
+      `${baseUrl}/instructor/getStudentFiles/${studentId}/${workId}/${roomId}`,
+      {
+        method: "GET",
+        headers: { "Content-Type": "application/json" },
+      }
+    ).then(async (res) => {
+      const response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(response.message || "An Error Occured");
+      }
+
+      return response;
+    });
+  },
 };

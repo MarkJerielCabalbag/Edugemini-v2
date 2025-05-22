@@ -206,4 +206,15 @@ export class InstructorController {
   ) {
     return this.instructorService.getStudentInfo(roomId, studentId);
   }
+
+  // @DESC   Get student files by studentId
+  // @ROUTE  instructor/getStudentFiles/:studentId:/:workId/:roomId
+  @Get('getStudentFiles/:studentId/:workId/:roomId')
+  async getStudentFiles(
+    @Param('studentId', ParseIntPipe) studentId: number,
+    @Param('workId', ParseIntPipe) workId: number,
+    @Param('roomId', ParseIntPipe) roomId: number,
+  ) {
+    return this.instructorService.getStudentFiles(studentId, workId, roomId);
+  }
 }

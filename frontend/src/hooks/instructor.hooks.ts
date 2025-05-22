@@ -220,3 +220,14 @@ export const useGetStudentInfo = (roomId: number, studentId: number) => {
     queryFn: () => instructor.getStudentInfo(roomId, studentId),
   });
 };
+
+export const useGetStudentFiles = (
+  studentId: number,
+  workId: number,
+  roomId: number
+) => {
+  return useQuery({
+    queryKey: ["studentFiles"],
+    queryFn: () => instructor.getStudentFiles(studentId, workId, roomId),
+  });
+};
