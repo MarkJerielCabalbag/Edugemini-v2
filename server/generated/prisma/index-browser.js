@@ -166,7 +166,9 @@ exports.Prisma.OutputScalarFieldEnum = {
   id: 'id',
   studentId: 'studentId',
   roomId: 'roomId',
-  activityId: 'activityId'
+  activityId: 'activityId',
+  feedbackId: 'feedbackId',
+  scoreId: 'scoreId'
 };
 
 exports.Prisma.FilesScalarFieldEnum = {
@@ -179,6 +181,16 @@ exports.Prisma.FilesScalarFieldEnum = {
   activityId: 'activityId',
   announceId: 'announceId',
   outputId: 'outputId'
+};
+
+exports.Prisma.FeedbackScalarFieldEnum = {
+  id: 'id',
+  feedback: 'feedback'
+};
+
+exports.Prisma.ScoreScalarFieldEnum = {
+  id: 'id',
+  score: 'score'
 };
 
 exports.Prisma.SortOrder = {
@@ -208,7 +220,9 @@ exports.Prisma.ModelName = {
   Activity: 'Activity',
   Announcement: 'Announcement',
   Output: 'Output',
-  Files: 'Files'
+  Files: 'Files',
+  Feedback: 'Feedback',
+  Score: 'Score'
 };
 
 /**

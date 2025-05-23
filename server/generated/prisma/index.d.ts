@@ -48,6 +48,16 @@ export type Output = $Result.DefaultSelection<Prisma.$OutputPayload>
  * 
  */
 export type Files = $Result.DefaultSelection<Prisma.$FilesPayload>
+/**
+ * Model Feedback
+ * 
+ */
+export type Feedback = $Result.DefaultSelection<Prisma.$FeedbackPayload>
+/**
+ * Model Score
+ * 
+ */
+export type Score = $Result.DefaultSelection<Prisma.$ScorePayload>
 
 /**
  * Enums
@@ -261,6 +271,26 @@ export class PrismaClient<
     * ```
     */
   get files(): Prisma.FilesDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.feedback`: Exposes CRUD operations for the **Feedback** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Feedbacks
+    * const feedbacks = await prisma.feedback.findMany()
+    * ```
+    */
+  get feedback(): Prisma.FeedbackDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.score`: Exposes CRUD operations for the **Score** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Scores
+    * const scores = await prisma.score.findMany()
+    * ```
+    */
+  get score(): Prisma.ScoreDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -707,7 +737,9 @@ export namespace Prisma {
     Activity: 'Activity',
     Announcement: 'Announcement',
     Output: 'Output',
-    Files: 'Files'
+    Files: 'Files',
+    Feedback: 'Feedback',
+    Score: 'Score'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -726,7 +758,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "student" | "classroom" | "activity" | "announcement" | "output" | "files"
+      modelProps: "user" | "student" | "classroom" | "activity" | "announcement" | "output" | "files" | "feedback" | "score"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1248,6 +1280,154 @@ export namespace Prisma {
           }
         }
       }
+      Feedback: {
+        payload: Prisma.$FeedbackPayload<ExtArgs>
+        fields: Prisma.FeedbackFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.FeedbackFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeedbackPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.FeedbackFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeedbackPayload>
+          }
+          findFirst: {
+            args: Prisma.FeedbackFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeedbackPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.FeedbackFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeedbackPayload>
+          }
+          findMany: {
+            args: Prisma.FeedbackFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeedbackPayload>[]
+          }
+          create: {
+            args: Prisma.FeedbackCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeedbackPayload>
+          }
+          createMany: {
+            args: Prisma.FeedbackCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.FeedbackCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeedbackPayload>[]
+          }
+          delete: {
+            args: Prisma.FeedbackDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeedbackPayload>
+          }
+          update: {
+            args: Prisma.FeedbackUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeedbackPayload>
+          }
+          deleteMany: {
+            args: Prisma.FeedbackDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.FeedbackUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.FeedbackUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeedbackPayload>[]
+          }
+          upsert: {
+            args: Prisma.FeedbackUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$FeedbackPayload>
+          }
+          aggregate: {
+            args: Prisma.FeedbackAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateFeedback>
+          }
+          groupBy: {
+            args: Prisma.FeedbackGroupByArgs<ExtArgs>
+            result: $Utils.Optional<FeedbackGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.FeedbackCountArgs<ExtArgs>
+            result: $Utils.Optional<FeedbackCountAggregateOutputType> | number
+          }
+        }
+      }
+      Score: {
+        payload: Prisma.$ScorePayload<ExtArgs>
+        fields: Prisma.ScoreFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.ScoreFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScorePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.ScoreFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScorePayload>
+          }
+          findFirst: {
+            args: Prisma.ScoreFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScorePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.ScoreFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScorePayload>
+          }
+          findMany: {
+            args: Prisma.ScoreFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScorePayload>[]
+          }
+          create: {
+            args: Prisma.ScoreCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScorePayload>
+          }
+          createMany: {
+            args: Prisma.ScoreCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.ScoreCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScorePayload>[]
+          }
+          delete: {
+            args: Prisma.ScoreDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScorePayload>
+          }
+          update: {
+            args: Prisma.ScoreUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScorePayload>
+          }
+          deleteMany: {
+            args: Prisma.ScoreDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.ScoreUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.ScoreUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScorePayload>[]
+          }
+          upsert: {
+            args: Prisma.ScoreUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$ScorePayload>
+          }
+          aggregate: {
+            args: Prisma.ScoreAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateScore>
+          }
+          groupBy: {
+            args: Prisma.ScoreGroupByArgs<ExtArgs>
+            result: $Utils.Optional<ScoreGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.ScoreCountArgs<ExtArgs>
+            result: $Utils.Optional<ScoreCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1339,6 +1519,8 @@ export namespace Prisma {
     announcement?: AnnouncementOmit
     output?: OutputOmit
     files?: FilesOmit
+    feedback?: FeedbackOmit
+    score?: ScoreOmit
   }
 
   /* Types for Logging */
@@ -1647,6 +1829,68 @@ export namespace Prisma {
    */
   export type OutputCountOutputTypeCountListOfFilesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: FilesWhereInput
+  }
+
+
+  /**
+   * Count Type FeedbackCountOutputType
+   */
+
+  export type FeedbackCountOutputType = {
+    output: number
+  }
+
+  export type FeedbackCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    output?: boolean | FeedbackCountOutputTypeCountOutputArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * FeedbackCountOutputType without action
+   */
+  export type FeedbackCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the FeedbackCountOutputType
+     */
+    select?: FeedbackCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * FeedbackCountOutputType without action
+   */
+  export type FeedbackCountOutputTypeCountOutputArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OutputWhereInput
+  }
+
+
+  /**
+   * Count Type ScoreCountOutputType
+   */
+
+  export type ScoreCountOutputType = {
+    output: number
+  }
+
+  export type ScoreCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    output?: boolean | ScoreCountOutputTypeCountOutputArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ScoreCountOutputType without action
+   */
+  export type ScoreCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ScoreCountOutputType
+     */
+    select?: ScoreCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ScoreCountOutputType without action
+   */
+  export type ScoreCountOutputTypeCountOutputArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: OutputWhereInput
   }
 
 
@@ -7506,6 +7750,8 @@ export namespace Prisma {
     studentId: number | null
     roomId: number | null
     activityId: number | null
+    feedbackId: number | null
+    scoreId: number | null
   }
 
   export type OutputSumAggregateOutputType = {
@@ -7513,6 +7759,8 @@ export namespace Prisma {
     studentId: number | null
     roomId: number | null
     activityId: number | null
+    feedbackId: number | null
+    scoreId: number | null
   }
 
   export type OutputMinAggregateOutputType = {
@@ -7520,6 +7768,8 @@ export namespace Prisma {
     studentId: number | null
     roomId: number | null
     activityId: number | null
+    feedbackId: number | null
+    scoreId: number | null
   }
 
   export type OutputMaxAggregateOutputType = {
@@ -7527,6 +7777,8 @@ export namespace Prisma {
     studentId: number | null
     roomId: number | null
     activityId: number | null
+    feedbackId: number | null
+    scoreId: number | null
   }
 
   export type OutputCountAggregateOutputType = {
@@ -7534,6 +7786,8 @@ export namespace Prisma {
     studentId: number
     roomId: number
     activityId: number
+    feedbackId: number
+    scoreId: number
     _all: number
   }
 
@@ -7543,6 +7797,8 @@ export namespace Prisma {
     studentId?: true
     roomId?: true
     activityId?: true
+    feedbackId?: true
+    scoreId?: true
   }
 
   export type OutputSumAggregateInputType = {
@@ -7550,6 +7806,8 @@ export namespace Prisma {
     studentId?: true
     roomId?: true
     activityId?: true
+    feedbackId?: true
+    scoreId?: true
   }
 
   export type OutputMinAggregateInputType = {
@@ -7557,6 +7815,8 @@ export namespace Prisma {
     studentId?: true
     roomId?: true
     activityId?: true
+    feedbackId?: true
+    scoreId?: true
   }
 
   export type OutputMaxAggregateInputType = {
@@ -7564,6 +7824,8 @@ export namespace Prisma {
     studentId?: true
     roomId?: true
     activityId?: true
+    feedbackId?: true
+    scoreId?: true
   }
 
   export type OutputCountAggregateInputType = {
@@ -7571,6 +7833,8 @@ export namespace Prisma {
     studentId?: true
     roomId?: true
     activityId?: true
+    feedbackId?: true
+    scoreId?: true
     _all?: true
   }
 
@@ -7665,6 +7929,8 @@ export namespace Prisma {
     studentId: number | null
     roomId: number | null
     activityId: number | null
+    feedbackId: number | null
+    scoreId: number | null
     _count: OutputCountAggregateOutputType | null
     _avg: OutputAvgAggregateOutputType | null
     _sum: OutputSumAggregateOutputType | null
@@ -7691,10 +7957,14 @@ export namespace Prisma {
     studentId?: boolean
     roomId?: boolean
     activityId?: boolean
+    feedbackId?: boolean
+    scoreId?: boolean
     listOfFiles?: boolean | Output$listOfFilesArgs<ExtArgs>
     relatedToStudent?: boolean | Output$relatedToStudentArgs<ExtArgs>
     relatedToClassroom?: boolean | Output$relatedToClassroomArgs<ExtArgs>
     relatedToActivity?: boolean | Output$relatedToActivityArgs<ExtArgs>
+    relatedToFeedback?: boolean | Output$relatedToFeedbackArgs<ExtArgs>
+    relatedToScore?: boolean | Output$relatedToScoreArgs<ExtArgs>
     _count?: boolean | OutputCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["output"]>
 
@@ -7703,9 +7973,13 @@ export namespace Prisma {
     studentId?: boolean
     roomId?: boolean
     activityId?: boolean
+    feedbackId?: boolean
+    scoreId?: boolean
     relatedToStudent?: boolean | Output$relatedToStudentArgs<ExtArgs>
     relatedToClassroom?: boolean | Output$relatedToClassroomArgs<ExtArgs>
     relatedToActivity?: boolean | Output$relatedToActivityArgs<ExtArgs>
+    relatedToFeedback?: boolean | Output$relatedToFeedbackArgs<ExtArgs>
+    relatedToScore?: boolean | Output$relatedToScoreArgs<ExtArgs>
   }, ExtArgs["result"]["output"]>
 
   export type OutputSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -7713,9 +7987,13 @@ export namespace Prisma {
     studentId?: boolean
     roomId?: boolean
     activityId?: boolean
+    feedbackId?: boolean
+    scoreId?: boolean
     relatedToStudent?: boolean | Output$relatedToStudentArgs<ExtArgs>
     relatedToClassroom?: boolean | Output$relatedToClassroomArgs<ExtArgs>
     relatedToActivity?: boolean | Output$relatedToActivityArgs<ExtArgs>
+    relatedToFeedback?: boolean | Output$relatedToFeedbackArgs<ExtArgs>
+    relatedToScore?: boolean | Output$relatedToScoreArgs<ExtArgs>
   }, ExtArgs["result"]["output"]>
 
   export type OutputSelectScalar = {
@@ -7723,25 +8001,33 @@ export namespace Prisma {
     studentId?: boolean
     roomId?: boolean
     activityId?: boolean
+    feedbackId?: boolean
+    scoreId?: boolean
   }
 
-  export type OutputOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "roomId" | "activityId", ExtArgs["result"]["output"]>
+  export type OutputOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "studentId" | "roomId" | "activityId" | "feedbackId" | "scoreId", ExtArgs["result"]["output"]>
   export type OutputInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     listOfFiles?: boolean | Output$listOfFilesArgs<ExtArgs>
     relatedToStudent?: boolean | Output$relatedToStudentArgs<ExtArgs>
     relatedToClassroom?: boolean | Output$relatedToClassroomArgs<ExtArgs>
     relatedToActivity?: boolean | Output$relatedToActivityArgs<ExtArgs>
+    relatedToFeedback?: boolean | Output$relatedToFeedbackArgs<ExtArgs>
+    relatedToScore?: boolean | Output$relatedToScoreArgs<ExtArgs>
     _count?: boolean | OutputCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type OutputIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     relatedToStudent?: boolean | Output$relatedToStudentArgs<ExtArgs>
     relatedToClassroom?: boolean | Output$relatedToClassroomArgs<ExtArgs>
     relatedToActivity?: boolean | Output$relatedToActivityArgs<ExtArgs>
+    relatedToFeedback?: boolean | Output$relatedToFeedbackArgs<ExtArgs>
+    relatedToScore?: boolean | Output$relatedToScoreArgs<ExtArgs>
   }
   export type OutputIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     relatedToStudent?: boolean | Output$relatedToStudentArgs<ExtArgs>
     relatedToClassroom?: boolean | Output$relatedToClassroomArgs<ExtArgs>
     relatedToActivity?: boolean | Output$relatedToActivityArgs<ExtArgs>
+    relatedToFeedback?: boolean | Output$relatedToFeedbackArgs<ExtArgs>
+    relatedToScore?: boolean | Output$relatedToScoreArgs<ExtArgs>
   }
 
   export type $OutputPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -7751,12 +8037,16 @@ export namespace Prisma {
       relatedToStudent: Prisma.$StudentPayload<ExtArgs> | null
       relatedToClassroom: Prisma.$ClassroomPayload<ExtArgs> | null
       relatedToActivity: Prisma.$ActivityPayload<ExtArgs> | null
+      relatedToFeedback: Prisma.$FeedbackPayload<ExtArgs> | null
+      relatedToScore: Prisma.$ScorePayload<ExtArgs> | null
     }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       studentId: number | null
       roomId: number | null
       activityId: number | null
+      feedbackId: number | null
+      scoreId: number | null
     }, ExtArgs["result"]["output"]>
     composites: {}
   }
@@ -8155,6 +8445,8 @@ export namespace Prisma {
     relatedToStudent<T extends Output$relatedToStudentArgs<ExtArgs> = {}>(args?: Subset<T, Output$relatedToStudentArgs<ExtArgs>>): Prisma__StudentClient<$Result.GetResult<Prisma.$StudentPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     relatedToClassroom<T extends Output$relatedToClassroomArgs<ExtArgs> = {}>(args?: Subset<T, Output$relatedToClassroomArgs<ExtArgs>>): Prisma__ClassroomClient<$Result.GetResult<Prisma.$ClassroomPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     relatedToActivity<T extends Output$relatedToActivityArgs<ExtArgs> = {}>(args?: Subset<T, Output$relatedToActivityArgs<ExtArgs>>): Prisma__ActivityClient<$Result.GetResult<Prisma.$ActivityPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    relatedToFeedback<T extends Output$relatedToFeedbackArgs<ExtArgs> = {}>(args?: Subset<T, Output$relatedToFeedbackArgs<ExtArgs>>): Prisma__FeedbackClient<$Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    relatedToScore<T extends Output$relatedToScoreArgs<ExtArgs> = {}>(args?: Subset<T, Output$relatedToScoreArgs<ExtArgs>>): Prisma__ScoreClient<$Result.GetResult<Prisma.$ScorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -8188,6 +8480,8 @@ export namespace Prisma {
     readonly studentId: FieldRef<"Output", 'Int'>
     readonly roomId: FieldRef<"Output", 'Int'>
     readonly activityId: FieldRef<"Output", 'Int'>
+    readonly feedbackId: FieldRef<"Output", 'Int'>
+    readonly scoreId: FieldRef<"Output", 'Int'>
   }
     
 
@@ -8662,6 +8956,44 @@ export namespace Prisma {
      */
     include?: ActivityInclude<ExtArgs> | null
     where?: ActivityWhereInput
+  }
+
+  /**
+   * Output.relatedToFeedback
+   */
+  export type Output$relatedToFeedbackArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feedback
+     */
+    select?: FeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feedback
+     */
+    omit?: FeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeedbackInclude<ExtArgs> | null
+    where?: FeedbackWhereInput
+  }
+
+  /**
+   * Output.relatedToScore
+   */
+  export type Output$relatedToScoreArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Score
+     */
+    select?: ScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Score
+     */
+    omit?: ScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreInclude<ExtArgs> | null
+    where?: ScoreWhereInput
   }
 
   /**
@@ -9917,6 +10249,2140 @@ export namespace Prisma {
 
 
   /**
+   * Model Feedback
+   */
+
+  export type AggregateFeedback = {
+    _count: FeedbackCountAggregateOutputType | null
+    _avg: FeedbackAvgAggregateOutputType | null
+    _sum: FeedbackSumAggregateOutputType | null
+    _min: FeedbackMinAggregateOutputType | null
+    _max: FeedbackMaxAggregateOutputType | null
+  }
+
+  export type FeedbackAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type FeedbackSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type FeedbackMinAggregateOutputType = {
+    id: number | null
+    feedback: string | null
+  }
+
+  export type FeedbackMaxAggregateOutputType = {
+    id: number | null
+    feedback: string | null
+  }
+
+  export type FeedbackCountAggregateOutputType = {
+    id: number
+    feedback: number
+    _all: number
+  }
+
+
+  export type FeedbackAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type FeedbackSumAggregateInputType = {
+    id?: true
+  }
+
+  export type FeedbackMinAggregateInputType = {
+    id?: true
+    feedback?: true
+  }
+
+  export type FeedbackMaxAggregateInputType = {
+    id?: true
+    feedback?: true
+  }
+
+  export type FeedbackCountAggregateInputType = {
+    id?: true
+    feedback?: true
+    _all?: true
+  }
+
+  export type FeedbackAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Feedback to aggregate.
+     */
+    where?: FeedbackWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Feedbacks to fetch.
+     */
+    orderBy?: FeedbackOrderByWithRelationInput | FeedbackOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: FeedbackWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Feedbacks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Feedbacks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Feedbacks
+    **/
+    _count?: true | FeedbackCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: FeedbackAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: FeedbackSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: FeedbackMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: FeedbackMaxAggregateInputType
+  }
+
+  export type GetFeedbackAggregateType<T extends FeedbackAggregateArgs> = {
+        [P in keyof T & keyof AggregateFeedback]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateFeedback[P]>
+      : GetScalarType<T[P], AggregateFeedback[P]>
+  }
+
+
+
+
+  export type FeedbackGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: FeedbackWhereInput
+    orderBy?: FeedbackOrderByWithAggregationInput | FeedbackOrderByWithAggregationInput[]
+    by: FeedbackScalarFieldEnum[] | FeedbackScalarFieldEnum
+    having?: FeedbackScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: FeedbackCountAggregateInputType | true
+    _avg?: FeedbackAvgAggregateInputType
+    _sum?: FeedbackSumAggregateInputType
+    _min?: FeedbackMinAggregateInputType
+    _max?: FeedbackMaxAggregateInputType
+  }
+
+  export type FeedbackGroupByOutputType = {
+    id: number
+    feedback: string | null
+    _count: FeedbackCountAggregateOutputType | null
+    _avg: FeedbackAvgAggregateOutputType | null
+    _sum: FeedbackSumAggregateOutputType | null
+    _min: FeedbackMinAggregateOutputType | null
+    _max: FeedbackMaxAggregateOutputType | null
+  }
+
+  type GetFeedbackGroupByPayload<T extends FeedbackGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<FeedbackGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof FeedbackGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], FeedbackGroupByOutputType[P]>
+            : GetScalarType<T[P], FeedbackGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type FeedbackSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    feedback?: boolean
+    output?: boolean | Feedback$outputArgs<ExtArgs>
+    _count?: boolean | FeedbackCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["feedback"]>
+
+  export type FeedbackSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    feedback?: boolean
+  }, ExtArgs["result"]["feedback"]>
+
+  export type FeedbackSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    feedback?: boolean
+  }, ExtArgs["result"]["feedback"]>
+
+  export type FeedbackSelectScalar = {
+    id?: boolean
+    feedback?: boolean
+  }
+
+  export type FeedbackOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "feedback", ExtArgs["result"]["feedback"]>
+  export type FeedbackInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    output?: boolean | Feedback$outputArgs<ExtArgs>
+    _count?: boolean | FeedbackCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type FeedbackIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type FeedbackIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $FeedbackPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Feedback"
+    objects: {
+      output: Prisma.$OutputPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      feedback: string | null
+    }, ExtArgs["result"]["feedback"]>
+    composites: {}
+  }
+
+  type FeedbackGetPayload<S extends boolean | null | undefined | FeedbackDefaultArgs> = $Result.GetResult<Prisma.$FeedbackPayload, S>
+
+  type FeedbackCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<FeedbackFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: FeedbackCountAggregateInputType | true
+    }
+
+  export interface FeedbackDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Feedback'], meta: { name: 'Feedback' } }
+    /**
+     * Find zero or one Feedback that matches the filter.
+     * @param {FeedbackFindUniqueArgs} args - Arguments to find a Feedback
+     * @example
+     * // Get one Feedback
+     * const feedback = await prisma.feedback.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends FeedbackFindUniqueArgs>(args: SelectSubset<T, FeedbackFindUniqueArgs<ExtArgs>>): Prisma__FeedbackClient<$Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Feedback that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {FeedbackFindUniqueOrThrowArgs} args - Arguments to find a Feedback
+     * @example
+     * // Get one Feedback
+     * const feedback = await prisma.feedback.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends FeedbackFindUniqueOrThrowArgs>(args: SelectSubset<T, FeedbackFindUniqueOrThrowArgs<ExtArgs>>): Prisma__FeedbackClient<$Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Feedback that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeedbackFindFirstArgs} args - Arguments to find a Feedback
+     * @example
+     * // Get one Feedback
+     * const feedback = await prisma.feedback.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends FeedbackFindFirstArgs>(args?: SelectSubset<T, FeedbackFindFirstArgs<ExtArgs>>): Prisma__FeedbackClient<$Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Feedback that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeedbackFindFirstOrThrowArgs} args - Arguments to find a Feedback
+     * @example
+     * // Get one Feedback
+     * const feedback = await prisma.feedback.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends FeedbackFindFirstOrThrowArgs>(args?: SelectSubset<T, FeedbackFindFirstOrThrowArgs<ExtArgs>>): Prisma__FeedbackClient<$Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Feedbacks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeedbackFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Feedbacks
+     * const feedbacks = await prisma.feedback.findMany()
+     * 
+     * // Get first 10 Feedbacks
+     * const feedbacks = await prisma.feedback.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const feedbackWithIdOnly = await prisma.feedback.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends FeedbackFindManyArgs>(args?: SelectSubset<T, FeedbackFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Feedback.
+     * @param {FeedbackCreateArgs} args - Arguments to create a Feedback.
+     * @example
+     * // Create one Feedback
+     * const Feedback = await prisma.feedback.create({
+     *   data: {
+     *     // ... data to create a Feedback
+     *   }
+     * })
+     * 
+     */
+    create<T extends FeedbackCreateArgs>(args: SelectSubset<T, FeedbackCreateArgs<ExtArgs>>): Prisma__FeedbackClient<$Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Feedbacks.
+     * @param {FeedbackCreateManyArgs} args - Arguments to create many Feedbacks.
+     * @example
+     * // Create many Feedbacks
+     * const feedback = await prisma.feedback.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends FeedbackCreateManyArgs>(args?: SelectSubset<T, FeedbackCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Feedbacks and returns the data saved in the database.
+     * @param {FeedbackCreateManyAndReturnArgs} args - Arguments to create many Feedbacks.
+     * @example
+     * // Create many Feedbacks
+     * const feedback = await prisma.feedback.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Feedbacks and only return the `id`
+     * const feedbackWithIdOnly = await prisma.feedback.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends FeedbackCreateManyAndReturnArgs>(args?: SelectSubset<T, FeedbackCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Feedback.
+     * @param {FeedbackDeleteArgs} args - Arguments to delete one Feedback.
+     * @example
+     * // Delete one Feedback
+     * const Feedback = await prisma.feedback.delete({
+     *   where: {
+     *     // ... filter to delete one Feedback
+     *   }
+     * })
+     * 
+     */
+    delete<T extends FeedbackDeleteArgs>(args: SelectSubset<T, FeedbackDeleteArgs<ExtArgs>>): Prisma__FeedbackClient<$Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Feedback.
+     * @param {FeedbackUpdateArgs} args - Arguments to update one Feedback.
+     * @example
+     * // Update one Feedback
+     * const feedback = await prisma.feedback.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends FeedbackUpdateArgs>(args: SelectSubset<T, FeedbackUpdateArgs<ExtArgs>>): Prisma__FeedbackClient<$Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Feedbacks.
+     * @param {FeedbackDeleteManyArgs} args - Arguments to filter Feedbacks to delete.
+     * @example
+     * // Delete a few Feedbacks
+     * const { count } = await prisma.feedback.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends FeedbackDeleteManyArgs>(args?: SelectSubset<T, FeedbackDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Feedbacks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeedbackUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Feedbacks
+     * const feedback = await prisma.feedback.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends FeedbackUpdateManyArgs>(args: SelectSubset<T, FeedbackUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Feedbacks and returns the data updated in the database.
+     * @param {FeedbackUpdateManyAndReturnArgs} args - Arguments to update many Feedbacks.
+     * @example
+     * // Update many Feedbacks
+     * const feedback = await prisma.feedback.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Feedbacks and only return the `id`
+     * const feedbackWithIdOnly = await prisma.feedback.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends FeedbackUpdateManyAndReturnArgs>(args: SelectSubset<T, FeedbackUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Feedback.
+     * @param {FeedbackUpsertArgs} args - Arguments to update or create a Feedback.
+     * @example
+     * // Update or create a Feedback
+     * const feedback = await prisma.feedback.upsert({
+     *   create: {
+     *     // ... data to create a Feedback
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Feedback we want to update
+     *   }
+     * })
+     */
+    upsert<T extends FeedbackUpsertArgs>(args: SelectSubset<T, FeedbackUpsertArgs<ExtArgs>>): Prisma__FeedbackClient<$Result.GetResult<Prisma.$FeedbackPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Feedbacks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeedbackCountArgs} args - Arguments to filter Feedbacks to count.
+     * @example
+     * // Count the number of Feedbacks
+     * const count = await prisma.feedback.count({
+     *   where: {
+     *     // ... the filter for the Feedbacks we want to count
+     *   }
+     * })
+    **/
+    count<T extends FeedbackCountArgs>(
+      args?: Subset<T, FeedbackCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], FeedbackCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Feedback.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeedbackAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends FeedbackAggregateArgs>(args: Subset<T, FeedbackAggregateArgs>): Prisma.PrismaPromise<GetFeedbackAggregateType<T>>
+
+    /**
+     * Group by Feedback.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {FeedbackGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends FeedbackGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: FeedbackGroupByArgs['orderBy'] }
+        : { orderBy?: FeedbackGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, FeedbackGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetFeedbackGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Feedback model
+   */
+  readonly fields: FeedbackFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Feedback.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__FeedbackClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    output<T extends Feedback$outputArgs<ExtArgs> = {}>(args?: Subset<T, Feedback$outputArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OutputPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Feedback model
+   */
+  interface FeedbackFieldRefs {
+    readonly id: FieldRef<"Feedback", 'Int'>
+    readonly feedback: FieldRef<"Feedback", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Feedback findUnique
+   */
+  export type FeedbackFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feedback
+     */
+    select?: FeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feedback
+     */
+    omit?: FeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeedbackInclude<ExtArgs> | null
+    /**
+     * Filter, which Feedback to fetch.
+     */
+    where: FeedbackWhereUniqueInput
+  }
+
+  /**
+   * Feedback findUniqueOrThrow
+   */
+  export type FeedbackFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feedback
+     */
+    select?: FeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feedback
+     */
+    omit?: FeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeedbackInclude<ExtArgs> | null
+    /**
+     * Filter, which Feedback to fetch.
+     */
+    where: FeedbackWhereUniqueInput
+  }
+
+  /**
+   * Feedback findFirst
+   */
+  export type FeedbackFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feedback
+     */
+    select?: FeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feedback
+     */
+    omit?: FeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeedbackInclude<ExtArgs> | null
+    /**
+     * Filter, which Feedback to fetch.
+     */
+    where?: FeedbackWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Feedbacks to fetch.
+     */
+    orderBy?: FeedbackOrderByWithRelationInput | FeedbackOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Feedbacks.
+     */
+    cursor?: FeedbackWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Feedbacks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Feedbacks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Feedbacks.
+     */
+    distinct?: FeedbackScalarFieldEnum | FeedbackScalarFieldEnum[]
+  }
+
+  /**
+   * Feedback findFirstOrThrow
+   */
+  export type FeedbackFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feedback
+     */
+    select?: FeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feedback
+     */
+    omit?: FeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeedbackInclude<ExtArgs> | null
+    /**
+     * Filter, which Feedback to fetch.
+     */
+    where?: FeedbackWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Feedbacks to fetch.
+     */
+    orderBy?: FeedbackOrderByWithRelationInput | FeedbackOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Feedbacks.
+     */
+    cursor?: FeedbackWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Feedbacks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Feedbacks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Feedbacks.
+     */
+    distinct?: FeedbackScalarFieldEnum | FeedbackScalarFieldEnum[]
+  }
+
+  /**
+   * Feedback findMany
+   */
+  export type FeedbackFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feedback
+     */
+    select?: FeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feedback
+     */
+    omit?: FeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeedbackInclude<ExtArgs> | null
+    /**
+     * Filter, which Feedbacks to fetch.
+     */
+    where?: FeedbackWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Feedbacks to fetch.
+     */
+    orderBy?: FeedbackOrderByWithRelationInput | FeedbackOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Feedbacks.
+     */
+    cursor?: FeedbackWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Feedbacks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Feedbacks.
+     */
+    skip?: number
+    distinct?: FeedbackScalarFieldEnum | FeedbackScalarFieldEnum[]
+  }
+
+  /**
+   * Feedback create
+   */
+  export type FeedbackCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feedback
+     */
+    select?: FeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feedback
+     */
+    omit?: FeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeedbackInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Feedback.
+     */
+    data?: XOR<FeedbackCreateInput, FeedbackUncheckedCreateInput>
+  }
+
+  /**
+   * Feedback createMany
+   */
+  export type FeedbackCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Feedbacks.
+     */
+    data: FeedbackCreateManyInput | FeedbackCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Feedback createManyAndReturn
+   */
+  export type FeedbackCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feedback
+     */
+    select?: FeedbackSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feedback
+     */
+    omit?: FeedbackOmit<ExtArgs> | null
+    /**
+     * The data used to create many Feedbacks.
+     */
+    data: FeedbackCreateManyInput | FeedbackCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Feedback update
+   */
+  export type FeedbackUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feedback
+     */
+    select?: FeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feedback
+     */
+    omit?: FeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeedbackInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Feedback.
+     */
+    data: XOR<FeedbackUpdateInput, FeedbackUncheckedUpdateInput>
+    /**
+     * Choose, which Feedback to update.
+     */
+    where: FeedbackWhereUniqueInput
+  }
+
+  /**
+   * Feedback updateMany
+   */
+  export type FeedbackUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Feedbacks.
+     */
+    data: XOR<FeedbackUpdateManyMutationInput, FeedbackUncheckedUpdateManyInput>
+    /**
+     * Filter which Feedbacks to update
+     */
+    where?: FeedbackWhereInput
+    /**
+     * Limit how many Feedbacks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Feedback updateManyAndReturn
+   */
+  export type FeedbackUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feedback
+     */
+    select?: FeedbackSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feedback
+     */
+    omit?: FeedbackOmit<ExtArgs> | null
+    /**
+     * The data used to update Feedbacks.
+     */
+    data: XOR<FeedbackUpdateManyMutationInput, FeedbackUncheckedUpdateManyInput>
+    /**
+     * Filter which Feedbacks to update
+     */
+    where?: FeedbackWhereInput
+    /**
+     * Limit how many Feedbacks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Feedback upsert
+   */
+  export type FeedbackUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feedback
+     */
+    select?: FeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feedback
+     */
+    omit?: FeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeedbackInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Feedback to update in case it exists.
+     */
+    where: FeedbackWhereUniqueInput
+    /**
+     * In case the Feedback found by the `where` argument doesn't exist, create a new Feedback with this data.
+     */
+    create: XOR<FeedbackCreateInput, FeedbackUncheckedCreateInput>
+    /**
+     * In case the Feedback was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<FeedbackUpdateInput, FeedbackUncheckedUpdateInput>
+  }
+
+  /**
+   * Feedback delete
+   */
+  export type FeedbackDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feedback
+     */
+    select?: FeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feedback
+     */
+    omit?: FeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeedbackInclude<ExtArgs> | null
+    /**
+     * Filter which Feedback to delete.
+     */
+    where: FeedbackWhereUniqueInput
+  }
+
+  /**
+   * Feedback deleteMany
+   */
+  export type FeedbackDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Feedbacks to delete
+     */
+    where?: FeedbackWhereInput
+    /**
+     * Limit how many Feedbacks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Feedback.output
+   */
+  export type Feedback$outputArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Output
+     */
+    select?: OutputSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Output
+     */
+    omit?: OutputOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OutputInclude<ExtArgs> | null
+    where?: OutputWhereInput
+    orderBy?: OutputOrderByWithRelationInput | OutputOrderByWithRelationInput[]
+    cursor?: OutputWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OutputScalarFieldEnum | OutputScalarFieldEnum[]
+  }
+
+  /**
+   * Feedback without action
+   */
+  export type FeedbackDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Feedback
+     */
+    select?: FeedbackSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Feedback
+     */
+    omit?: FeedbackOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: FeedbackInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Score
+   */
+
+  export type AggregateScore = {
+    _count: ScoreCountAggregateOutputType | null
+    _avg: ScoreAvgAggregateOutputType | null
+    _sum: ScoreSumAggregateOutputType | null
+    _min: ScoreMinAggregateOutputType | null
+    _max: ScoreMaxAggregateOutputType | null
+  }
+
+  export type ScoreAvgAggregateOutputType = {
+    id: number | null
+    score: number | null
+  }
+
+  export type ScoreSumAggregateOutputType = {
+    id: number | null
+    score: number | null
+  }
+
+  export type ScoreMinAggregateOutputType = {
+    id: number | null
+    score: number | null
+  }
+
+  export type ScoreMaxAggregateOutputType = {
+    id: number | null
+    score: number | null
+  }
+
+  export type ScoreCountAggregateOutputType = {
+    id: number
+    score: number
+    _all: number
+  }
+
+
+  export type ScoreAvgAggregateInputType = {
+    id?: true
+    score?: true
+  }
+
+  export type ScoreSumAggregateInputType = {
+    id?: true
+    score?: true
+  }
+
+  export type ScoreMinAggregateInputType = {
+    id?: true
+    score?: true
+  }
+
+  export type ScoreMaxAggregateInputType = {
+    id?: true
+    score?: true
+  }
+
+  export type ScoreCountAggregateInputType = {
+    id?: true
+    score?: true
+    _all?: true
+  }
+
+  export type ScoreAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Score to aggregate.
+     */
+    where?: ScoreWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Scores to fetch.
+     */
+    orderBy?: ScoreOrderByWithRelationInput | ScoreOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: ScoreWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Scores from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Scores.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Scores
+    **/
+    _count?: true | ScoreCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: ScoreAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ScoreSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: ScoreMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: ScoreMaxAggregateInputType
+  }
+
+  export type GetScoreAggregateType<T extends ScoreAggregateArgs> = {
+        [P in keyof T & keyof AggregateScore]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateScore[P]>
+      : GetScalarType<T[P], AggregateScore[P]>
+  }
+
+
+
+
+  export type ScoreGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ScoreWhereInput
+    orderBy?: ScoreOrderByWithAggregationInput | ScoreOrderByWithAggregationInput[]
+    by: ScoreScalarFieldEnum[] | ScoreScalarFieldEnum
+    having?: ScoreScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: ScoreCountAggregateInputType | true
+    _avg?: ScoreAvgAggregateInputType
+    _sum?: ScoreSumAggregateInputType
+    _min?: ScoreMinAggregateInputType
+    _max?: ScoreMaxAggregateInputType
+  }
+
+  export type ScoreGroupByOutputType = {
+    id: number
+    score: number | null
+    _count: ScoreCountAggregateOutputType | null
+    _avg: ScoreAvgAggregateOutputType | null
+    _sum: ScoreSumAggregateOutputType | null
+    _min: ScoreMinAggregateOutputType | null
+    _max: ScoreMaxAggregateOutputType | null
+  }
+
+  type GetScoreGroupByPayload<T extends ScoreGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<ScoreGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof ScoreGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], ScoreGroupByOutputType[P]>
+            : GetScalarType<T[P], ScoreGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type ScoreSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    score?: boolean
+    output?: boolean | Score$outputArgs<ExtArgs>
+    _count?: boolean | ScoreCountOutputTypeDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["score"]>
+
+  export type ScoreSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    score?: boolean
+  }, ExtArgs["result"]["score"]>
+
+  export type ScoreSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    score?: boolean
+  }, ExtArgs["result"]["score"]>
+
+  export type ScoreSelectScalar = {
+    id?: boolean
+    score?: boolean
+  }
+
+  export type ScoreOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "score", ExtArgs["result"]["score"]>
+  export type ScoreInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    output?: boolean | Score$outputArgs<ExtArgs>
+    _count?: boolean | ScoreCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type ScoreIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ScoreIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+
+  export type $ScorePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Score"
+    objects: {
+      output: Prisma.$OutputPayload<ExtArgs>[]
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: number
+      score: number | null
+    }, ExtArgs["result"]["score"]>
+    composites: {}
+  }
+
+  type ScoreGetPayload<S extends boolean | null | undefined | ScoreDefaultArgs> = $Result.GetResult<Prisma.$ScorePayload, S>
+
+  type ScoreCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<ScoreFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: ScoreCountAggregateInputType | true
+    }
+
+  export interface ScoreDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Score'], meta: { name: 'Score' } }
+    /**
+     * Find zero or one Score that matches the filter.
+     * @param {ScoreFindUniqueArgs} args - Arguments to find a Score
+     * @example
+     * // Get one Score
+     * const score = await prisma.score.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends ScoreFindUniqueArgs>(args: SelectSubset<T, ScoreFindUniqueArgs<ExtArgs>>): Prisma__ScoreClient<$Result.GetResult<Prisma.$ScorePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Score that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {ScoreFindUniqueOrThrowArgs} args - Arguments to find a Score
+     * @example
+     * // Get one Score
+     * const score = await prisma.score.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends ScoreFindUniqueOrThrowArgs>(args: SelectSubset<T, ScoreFindUniqueOrThrowArgs<ExtArgs>>): Prisma__ScoreClient<$Result.GetResult<Prisma.$ScorePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Score that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreFindFirstArgs} args - Arguments to find a Score
+     * @example
+     * // Get one Score
+     * const score = await prisma.score.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends ScoreFindFirstArgs>(args?: SelectSubset<T, ScoreFindFirstArgs<ExtArgs>>): Prisma__ScoreClient<$Result.GetResult<Prisma.$ScorePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Score that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreFindFirstOrThrowArgs} args - Arguments to find a Score
+     * @example
+     * // Get one Score
+     * const score = await prisma.score.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends ScoreFindFirstOrThrowArgs>(args?: SelectSubset<T, ScoreFindFirstOrThrowArgs<ExtArgs>>): Prisma__ScoreClient<$Result.GetResult<Prisma.$ScorePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Scores that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Scores
+     * const scores = await prisma.score.findMany()
+     * 
+     * // Get first 10 Scores
+     * const scores = await prisma.score.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const scoreWithIdOnly = await prisma.score.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends ScoreFindManyArgs>(args?: SelectSubset<T, ScoreFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScorePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Score.
+     * @param {ScoreCreateArgs} args - Arguments to create a Score.
+     * @example
+     * // Create one Score
+     * const Score = await prisma.score.create({
+     *   data: {
+     *     // ... data to create a Score
+     *   }
+     * })
+     * 
+     */
+    create<T extends ScoreCreateArgs>(args: SelectSubset<T, ScoreCreateArgs<ExtArgs>>): Prisma__ScoreClient<$Result.GetResult<Prisma.$ScorePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Scores.
+     * @param {ScoreCreateManyArgs} args - Arguments to create many Scores.
+     * @example
+     * // Create many Scores
+     * const score = await prisma.score.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends ScoreCreateManyArgs>(args?: SelectSubset<T, ScoreCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Scores and returns the data saved in the database.
+     * @param {ScoreCreateManyAndReturnArgs} args - Arguments to create many Scores.
+     * @example
+     * // Create many Scores
+     * const score = await prisma.score.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Scores and only return the `id`
+     * const scoreWithIdOnly = await prisma.score.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends ScoreCreateManyAndReturnArgs>(args?: SelectSubset<T, ScoreCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScorePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Score.
+     * @param {ScoreDeleteArgs} args - Arguments to delete one Score.
+     * @example
+     * // Delete one Score
+     * const Score = await prisma.score.delete({
+     *   where: {
+     *     // ... filter to delete one Score
+     *   }
+     * })
+     * 
+     */
+    delete<T extends ScoreDeleteArgs>(args: SelectSubset<T, ScoreDeleteArgs<ExtArgs>>): Prisma__ScoreClient<$Result.GetResult<Prisma.$ScorePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Score.
+     * @param {ScoreUpdateArgs} args - Arguments to update one Score.
+     * @example
+     * // Update one Score
+     * const score = await prisma.score.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends ScoreUpdateArgs>(args: SelectSubset<T, ScoreUpdateArgs<ExtArgs>>): Prisma__ScoreClient<$Result.GetResult<Prisma.$ScorePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Scores.
+     * @param {ScoreDeleteManyArgs} args - Arguments to filter Scores to delete.
+     * @example
+     * // Delete a few Scores
+     * const { count } = await prisma.score.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends ScoreDeleteManyArgs>(args?: SelectSubset<T, ScoreDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Scores.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Scores
+     * const score = await prisma.score.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends ScoreUpdateManyArgs>(args: SelectSubset<T, ScoreUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Scores and returns the data updated in the database.
+     * @param {ScoreUpdateManyAndReturnArgs} args - Arguments to update many Scores.
+     * @example
+     * // Update many Scores
+     * const score = await prisma.score.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Scores and only return the `id`
+     * const scoreWithIdOnly = await prisma.score.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends ScoreUpdateManyAndReturnArgs>(args: SelectSubset<T, ScoreUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ScorePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Score.
+     * @param {ScoreUpsertArgs} args - Arguments to update or create a Score.
+     * @example
+     * // Update or create a Score
+     * const score = await prisma.score.upsert({
+     *   create: {
+     *     // ... data to create a Score
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Score we want to update
+     *   }
+     * })
+     */
+    upsert<T extends ScoreUpsertArgs>(args: SelectSubset<T, ScoreUpsertArgs<ExtArgs>>): Prisma__ScoreClient<$Result.GetResult<Prisma.$ScorePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Scores.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreCountArgs} args - Arguments to filter Scores to count.
+     * @example
+     * // Count the number of Scores
+     * const count = await prisma.score.count({
+     *   where: {
+     *     // ... the filter for the Scores we want to count
+     *   }
+     * })
+    **/
+    count<T extends ScoreCountArgs>(
+      args?: Subset<T, ScoreCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], ScoreCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Score.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends ScoreAggregateArgs>(args: Subset<T, ScoreAggregateArgs>): Prisma.PrismaPromise<GetScoreAggregateType<T>>
+
+    /**
+     * Group by Score.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {ScoreGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends ScoreGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: ScoreGroupByArgs['orderBy'] }
+        : { orderBy?: ScoreGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, ScoreGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetScoreGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Score model
+   */
+  readonly fields: ScoreFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Score.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__ScoreClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    output<T extends Score$outputArgs<ExtArgs> = {}>(args?: Subset<T, Score$outputArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$OutputPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Score model
+   */
+  interface ScoreFieldRefs {
+    readonly id: FieldRef<"Score", 'Int'>
+    readonly score: FieldRef<"Score", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Score findUnique
+   */
+  export type ScoreFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Score
+     */
+    select?: ScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Score
+     */
+    omit?: ScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreInclude<ExtArgs> | null
+    /**
+     * Filter, which Score to fetch.
+     */
+    where: ScoreWhereUniqueInput
+  }
+
+  /**
+   * Score findUniqueOrThrow
+   */
+  export type ScoreFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Score
+     */
+    select?: ScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Score
+     */
+    omit?: ScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreInclude<ExtArgs> | null
+    /**
+     * Filter, which Score to fetch.
+     */
+    where: ScoreWhereUniqueInput
+  }
+
+  /**
+   * Score findFirst
+   */
+  export type ScoreFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Score
+     */
+    select?: ScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Score
+     */
+    omit?: ScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreInclude<ExtArgs> | null
+    /**
+     * Filter, which Score to fetch.
+     */
+    where?: ScoreWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Scores to fetch.
+     */
+    orderBy?: ScoreOrderByWithRelationInput | ScoreOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Scores.
+     */
+    cursor?: ScoreWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Scores from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Scores.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Scores.
+     */
+    distinct?: ScoreScalarFieldEnum | ScoreScalarFieldEnum[]
+  }
+
+  /**
+   * Score findFirstOrThrow
+   */
+  export type ScoreFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Score
+     */
+    select?: ScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Score
+     */
+    omit?: ScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreInclude<ExtArgs> | null
+    /**
+     * Filter, which Score to fetch.
+     */
+    where?: ScoreWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Scores to fetch.
+     */
+    orderBy?: ScoreOrderByWithRelationInput | ScoreOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Scores.
+     */
+    cursor?: ScoreWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Scores from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Scores.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Scores.
+     */
+    distinct?: ScoreScalarFieldEnum | ScoreScalarFieldEnum[]
+  }
+
+  /**
+   * Score findMany
+   */
+  export type ScoreFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Score
+     */
+    select?: ScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Score
+     */
+    omit?: ScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreInclude<ExtArgs> | null
+    /**
+     * Filter, which Scores to fetch.
+     */
+    where?: ScoreWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Scores to fetch.
+     */
+    orderBy?: ScoreOrderByWithRelationInput | ScoreOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Scores.
+     */
+    cursor?: ScoreWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Scores from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Scores.
+     */
+    skip?: number
+    distinct?: ScoreScalarFieldEnum | ScoreScalarFieldEnum[]
+  }
+
+  /**
+   * Score create
+   */
+  export type ScoreCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Score
+     */
+    select?: ScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Score
+     */
+    omit?: ScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Score.
+     */
+    data?: XOR<ScoreCreateInput, ScoreUncheckedCreateInput>
+  }
+
+  /**
+   * Score createMany
+   */
+  export type ScoreCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Scores.
+     */
+    data: ScoreCreateManyInput | ScoreCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Score createManyAndReturn
+   */
+  export type ScoreCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Score
+     */
+    select?: ScoreSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Score
+     */
+    omit?: ScoreOmit<ExtArgs> | null
+    /**
+     * The data used to create many Scores.
+     */
+    data: ScoreCreateManyInput | ScoreCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Score update
+   */
+  export type ScoreUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Score
+     */
+    select?: ScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Score
+     */
+    omit?: ScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Score.
+     */
+    data: XOR<ScoreUpdateInput, ScoreUncheckedUpdateInput>
+    /**
+     * Choose, which Score to update.
+     */
+    where: ScoreWhereUniqueInput
+  }
+
+  /**
+   * Score updateMany
+   */
+  export type ScoreUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Scores.
+     */
+    data: XOR<ScoreUpdateManyMutationInput, ScoreUncheckedUpdateManyInput>
+    /**
+     * Filter which Scores to update
+     */
+    where?: ScoreWhereInput
+    /**
+     * Limit how many Scores to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Score updateManyAndReturn
+   */
+  export type ScoreUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Score
+     */
+    select?: ScoreSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Score
+     */
+    omit?: ScoreOmit<ExtArgs> | null
+    /**
+     * The data used to update Scores.
+     */
+    data: XOR<ScoreUpdateManyMutationInput, ScoreUncheckedUpdateManyInput>
+    /**
+     * Filter which Scores to update
+     */
+    where?: ScoreWhereInput
+    /**
+     * Limit how many Scores to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Score upsert
+   */
+  export type ScoreUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Score
+     */
+    select?: ScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Score
+     */
+    omit?: ScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Score to update in case it exists.
+     */
+    where: ScoreWhereUniqueInput
+    /**
+     * In case the Score found by the `where` argument doesn't exist, create a new Score with this data.
+     */
+    create: XOR<ScoreCreateInput, ScoreUncheckedCreateInput>
+    /**
+     * In case the Score was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<ScoreUpdateInput, ScoreUncheckedUpdateInput>
+  }
+
+  /**
+   * Score delete
+   */
+  export type ScoreDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Score
+     */
+    select?: ScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Score
+     */
+    omit?: ScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreInclude<ExtArgs> | null
+    /**
+     * Filter which Score to delete.
+     */
+    where: ScoreWhereUniqueInput
+  }
+
+  /**
+   * Score deleteMany
+   */
+  export type ScoreDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Scores to delete
+     */
+    where?: ScoreWhereInput
+    /**
+     * Limit how many Scores to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Score.output
+   */
+  export type Score$outputArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Output
+     */
+    select?: OutputSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Output
+     */
+    omit?: OutputOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: OutputInclude<ExtArgs> | null
+    where?: OutputWhereInput
+    orderBy?: OutputOrderByWithRelationInput | OutputOrderByWithRelationInput[]
+    cursor?: OutputWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: OutputScalarFieldEnum | OutputScalarFieldEnum[]
+  }
+
+  /**
+   * Score without action
+   */
+  export type ScoreDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Score
+     */
+    select?: ScoreSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Score
+     */
+    omit?: ScoreOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ScoreInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -9994,7 +12460,9 @@ export namespace Prisma {
     id: 'id',
     studentId: 'studentId',
     roomId: 'roomId',
-    activityId: 'activityId'
+    activityId: 'activityId',
+    feedbackId: 'feedbackId',
+    scoreId: 'scoreId'
   };
 
   export type OutputScalarFieldEnum = (typeof OutputScalarFieldEnum)[keyof typeof OutputScalarFieldEnum]
@@ -10013,6 +12481,22 @@ export namespace Prisma {
   };
 
   export type FilesScalarFieldEnum = (typeof FilesScalarFieldEnum)[keyof typeof FilesScalarFieldEnum]
+
+
+  export const FeedbackScalarFieldEnum: {
+    id: 'id',
+    feedback: 'feedback'
+  };
+
+  export type FeedbackScalarFieldEnum = (typeof FeedbackScalarFieldEnum)[keyof typeof FeedbackScalarFieldEnum]
+
+
+  export const ScoreScalarFieldEnum: {
+    id: 'id',
+    score: 'score'
+  };
+
+  export type ScoreScalarFieldEnum = (typeof ScoreScalarFieldEnum)[keyof typeof ScoreScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -10465,10 +12949,14 @@ export namespace Prisma {
     studentId?: IntNullableFilter<"Output"> | number | null
     roomId?: IntNullableFilter<"Output"> | number | null
     activityId?: IntNullableFilter<"Output"> | number | null
+    feedbackId?: IntNullableFilter<"Output"> | number | null
+    scoreId?: IntNullableFilter<"Output"> | number | null
     listOfFiles?: FilesListRelationFilter
     relatedToStudent?: XOR<StudentNullableScalarRelationFilter, StudentWhereInput> | null
     relatedToClassroom?: XOR<ClassroomNullableScalarRelationFilter, ClassroomWhereInput> | null
     relatedToActivity?: XOR<ActivityNullableScalarRelationFilter, ActivityWhereInput> | null
+    relatedToFeedback?: XOR<FeedbackNullableScalarRelationFilter, FeedbackWhereInput> | null
+    relatedToScore?: XOR<ScoreNullableScalarRelationFilter, ScoreWhereInput> | null
   }
 
   export type OutputOrderByWithRelationInput = {
@@ -10476,10 +12964,14 @@ export namespace Prisma {
     studentId?: SortOrderInput | SortOrder
     roomId?: SortOrderInput | SortOrder
     activityId?: SortOrderInput | SortOrder
+    feedbackId?: SortOrderInput | SortOrder
+    scoreId?: SortOrderInput | SortOrder
     listOfFiles?: FilesOrderByRelationAggregateInput
     relatedToStudent?: StudentOrderByWithRelationInput
     relatedToClassroom?: ClassroomOrderByWithRelationInput
     relatedToActivity?: ActivityOrderByWithRelationInput
+    relatedToFeedback?: FeedbackOrderByWithRelationInput
+    relatedToScore?: ScoreOrderByWithRelationInput
   }
 
   export type OutputWhereUniqueInput = Prisma.AtLeast<{
@@ -10490,10 +12982,14 @@ export namespace Prisma {
     studentId?: IntNullableFilter<"Output"> | number | null
     roomId?: IntNullableFilter<"Output"> | number | null
     activityId?: IntNullableFilter<"Output"> | number | null
+    feedbackId?: IntNullableFilter<"Output"> | number | null
+    scoreId?: IntNullableFilter<"Output"> | number | null
     listOfFiles?: FilesListRelationFilter
     relatedToStudent?: XOR<StudentNullableScalarRelationFilter, StudentWhereInput> | null
     relatedToClassroom?: XOR<ClassroomNullableScalarRelationFilter, ClassroomWhereInput> | null
     relatedToActivity?: XOR<ActivityNullableScalarRelationFilter, ActivityWhereInput> | null
+    relatedToFeedback?: XOR<FeedbackNullableScalarRelationFilter, FeedbackWhereInput> | null
+    relatedToScore?: XOR<ScoreNullableScalarRelationFilter, ScoreWhereInput> | null
   }, "id">
 
   export type OutputOrderByWithAggregationInput = {
@@ -10501,6 +12997,8 @@ export namespace Prisma {
     studentId?: SortOrderInput | SortOrder
     roomId?: SortOrderInput | SortOrder
     activityId?: SortOrderInput | SortOrder
+    feedbackId?: SortOrderInput | SortOrder
+    scoreId?: SortOrderInput | SortOrder
     _count?: OutputCountOrderByAggregateInput
     _avg?: OutputAvgOrderByAggregateInput
     _max?: OutputMaxOrderByAggregateInput
@@ -10516,6 +13014,8 @@ export namespace Prisma {
     studentId?: IntNullableWithAggregatesFilter<"Output"> | number | null
     roomId?: IntNullableWithAggregatesFilter<"Output"> | number | null
     activityId?: IntNullableWithAggregatesFilter<"Output"> | number | null
+    feedbackId?: IntNullableWithAggregatesFilter<"Output"> | number | null
+    scoreId?: IntNullableWithAggregatesFilter<"Output"> | number | null
   }
 
   export type FilesWhereInput = {
@@ -10599,6 +13099,90 @@ export namespace Prisma {
     activityId?: IntNullableWithAggregatesFilter<"Files"> | number | null
     announceId?: IntNullableWithAggregatesFilter<"Files"> | number | null
     outputId?: IntNullableWithAggregatesFilter<"Files"> | number | null
+  }
+
+  export type FeedbackWhereInput = {
+    AND?: FeedbackWhereInput | FeedbackWhereInput[]
+    OR?: FeedbackWhereInput[]
+    NOT?: FeedbackWhereInput | FeedbackWhereInput[]
+    id?: IntFilter<"Feedback"> | number
+    feedback?: StringNullableFilter<"Feedback"> | string | null
+    output?: OutputListRelationFilter
+  }
+
+  export type FeedbackOrderByWithRelationInput = {
+    id?: SortOrder
+    feedback?: SortOrderInput | SortOrder
+    output?: OutputOrderByRelationAggregateInput
+  }
+
+  export type FeedbackWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: FeedbackWhereInput | FeedbackWhereInput[]
+    OR?: FeedbackWhereInput[]
+    NOT?: FeedbackWhereInput | FeedbackWhereInput[]
+    feedback?: StringNullableFilter<"Feedback"> | string | null
+    output?: OutputListRelationFilter
+  }, "id">
+
+  export type FeedbackOrderByWithAggregationInput = {
+    id?: SortOrder
+    feedback?: SortOrderInput | SortOrder
+    _count?: FeedbackCountOrderByAggregateInput
+    _avg?: FeedbackAvgOrderByAggregateInput
+    _max?: FeedbackMaxOrderByAggregateInput
+    _min?: FeedbackMinOrderByAggregateInput
+    _sum?: FeedbackSumOrderByAggregateInput
+  }
+
+  export type FeedbackScalarWhereWithAggregatesInput = {
+    AND?: FeedbackScalarWhereWithAggregatesInput | FeedbackScalarWhereWithAggregatesInput[]
+    OR?: FeedbackScalarWhereWithAggregatesInput[]
+    NOT?: FeedbackScalarWhereWithAggregatesInput | FeedbackScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Feedback"> | number
+    feedback?: StringNullableWithAggregatesFilter<"Feedback"> | string | null
+  }
+
+  export type ScoreWhereInput = {
+    AND?: ScoreWhereInput | ScoreWhereInput[]
+    OR?: ScoreWhereInput[]
+    NOT?: ScoreWhereInput | ScoreWhereInput[]
+    id?: IntFilter<"Score"> | number
+    score?: IntNullableFilter<"Score"> | number | null
+    output?: OutputListRelationFilter
+  }
+
+  export type ScoreOrderByWithRelationInput = {
+    id?: SortOrder
+    score?: SortOrderInput | SortOrder
+    output?: OutputOrderByRelationAggregateInput
+  }
+
+  export type ScoreWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: ScoreWhereInput | ScoreWhereInput[]
+    OR?: ScoreWhereInput[]
+    NOT?: ScoreWhereInput | ScoreWhereInput[]
+    score?: IntNullableFilter<"Score"> | number | null
+    output?: OutputListRelationFilter
+  }, "id">
+
+  export type ScoreOrderByWithAggregationInput = {
+    id?: SortOrder
+    score?: SortOrderInput | SortOrder
+    _count?: ScoreCountOrderByAggregateInput
+    _avg?: ScoreAvgOrderByAggregateInput
+    _max?: ScoreMaxOrderByAggregateInput
+    _min?: ScoreMinOrderByAggregateInput
+    _sum?: ScoreSumOrderByAggregateInput
+  }
+
+  export type ScoreScalarWhereWithAggregatesInput = {
+    AND?: ScoreScalarWhereWithAggregatesInput | ScoreScalarWhereWithAggregatesInput[]
+    OR?: ScoreScalarWhereWithAggregatesInput[]
+    NOT?: ScoreScalarWhereWithAggregatesInput | ScoreScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Score"> | number
+    score?: IntNullableWithAggregatesFilter<"Score"> | number | null
   }
 
   export type UserCreateInput = {
@@ -10944,6 +13528,8 @@ export namespace Prisma {
     relatedToStudent?: StudentCreateNestedOneWithoutListOfOutputsInput
     relatedToClassroom?: ClassroomCreateNestedOneWithoutListOfOutputsInput
     relatedToActivity?: ActivityCreateNestedOneWithoutOutputsInput
+    relatedToFeedback?: FeedbackCreateNestedOneWithoutOutputInput
+    relatedToScore?: ScoreCreateNestedOneWithoutOutputInput
   }
 
   export type OutputUncheckedCreateInput = {
@@ -10951,6 +13537,8 @@ export namespace Prisma {
     studentId?: number | null
     roomId?: number | null
     activityId?: number | null
+    feedbackId?: number | null
+    scoreId?: number | null
     listOfFiles?: FilesUncheckedCreateNestedManyWithoutRelatedToOutputInput
   }
 
@@ -10959,6 +13547,8 @@ export namespace Prisma {
     relatedToStudent?: StudentUpdateOneWithoutListOfOutputsNestedInput
     relatedToClassroom?: ClassroomUpdateOneWithoutListOfOutputsNestedInput
     relatedToActivity?: ActivityUpdateOneWithoutOutputsNestedInput
+    relatedToFeedback?: FeedbackUpdateOneWithoutOutputNestedInput
+    relatedToScore?: ScoreUpdateOneWithoutOutputNestedInput
   }
 
   export type OutputUncheckedUpdateInput = {
@@ -10966,6 +13556,8 @@ export namespace Prisma {
     studentId?: NullableIntFieldUpdateOperationsInput | number | null
     roomId?: NullableIntFieldUpdateOperationsInput | number | null
     activityId?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackId?: NullableIntFieldUpdateOperationsInput | number | null
+    scoreId?: NullableIntFieldUpdateOperationsInput | number | null
     listOfFiles?: FilesUncheckedUpdateManyWithoutRelatedToOutputNestedInput
   }
 
@@ -10974,6 +13566,8 @@ export namespace Prisma {
     studentId?: number | null
     roomId?: number | null
     activityId?: number | null
+    feedbackId?: number | null
+    scoreId?: number | null
   }
 
   export type OutputUpdateManyMutationInput = {
@@ -10985,6 +13579,8 @@ export namespace Prisma {
     studentId?: NullableIntFieldUpdateOperationsInput | number | null
     roomId?: NullableIntFieldUpdateOperationsInput | number | null
     activityId?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackId?: NullableIntFieldUpdateOperationsInput | number | null
+    scoreId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type FilesCreateInput = {
@@ -11063,6 +13659,78 @@ export namespace Prisma {
     activityId?: NullableIntFieldUpdateOperationsInput | number | null
     announceId?: NullableIntFieldUpdateOperationsInput | number | null
     outputId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type FeedbackCreateInput = {
+    feedback?: string | null
+    output?: OutputCreateNestedManyWithoutRelatedToFeedbackInput
+  }
+
+  export type FeedbackUncheckedCreateInput = {
+    id?: number
+    feedback?: string | null
+    output?: OutputUncheckedCreateNestedManyWithoutRelatedToFeedbackInput
+  }
+
+  export type FeedbackUpdateInput = {
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    output?: OutputUpdateManyWithoutRelatedToFeedbackNestedInput
+  }
+
+  export type FeedbackUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+    output?: OutputUncheckedUpdateManyWithoutRelatedToFeedbackNestedInput
+  }
+
+  export type FeedbackCreateManyInput = {
+    id?: number
+    feedback?: string | null
+  }
+
+  export type FeedbackUpdateManyMutationInput = {
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type FeedbackUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ScoreCreateInput = {
+    score?: number | null
+    output?: OutputCreateNestedManyWithoutRelatedToScoreInput
+  }
+
+  export type ScoreUncheckedCreateInput = {
+    id?: number
+    score?: number | null
+    output?: OutputUncheckedCreateNestedManyWithoutRelatedToScoreInput
+  }
+
+  export type ScoreUpdateInput = {
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    output?: OutputUpdateManyWithoutRelatedToScoreNestedInput
+  }
+
+  export type ScoreUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+    output?: OutputUncheckedUpdateManyWithoutRelatedToScoreNestedInput
+  }
+
+  export type ScoreCreateManyInput = {
+    id?: number
+    score?: number | null
+  }
+
+  export type ScoreUpdateManyMutationInput = {
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type ScoreUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    score?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -11500,11 +14168,23 @@ export namespace Prisma {
     isNot?: ActivityWhereInput | null
   }
 
+  export type FeedbackNullableScalarRelationFilter = {
+    is?: FeedbackWhereInput | null
+    isNot?: FeedbackWhereInput | null
+  }
+
+  export type ScoreNullableScalarRelationFilter = {
+    is?: ScoreWhereInput | null
+    isNot?: ScoreWhereInput | null
+  }
+
   export type OutputCountOrderByAggregateInput = {
     id?: SortOrder
     studentId?: SortOrder
     roomId?: SortOrder
     activityId?: SortOrder
+    feedbackId?: SortOrder
+    scoreId?: SortOrder
   }
 
   export type OutputAvgOrderByAggregateInput = {
@@ -11512,6 +14192,8 @@ export namespace Prisma {
     studentId?: SortOrder
     roomId?: SortOrder
     activityId?: SortOrder
+    feedbackId?: SortOrder
+    scoreId?: SortOrder
   }
 
   export type OutputMaxOrderByAggregateInput = {
@@ -11519,6 +14201,8 @@ export namespace Prisma {
     studentId?: SortOrder
     roomId?: SortOrder
     activityId?: SortOrder
+    feedbackId?: SortOrder
+    scoreId?: SortOrder
   }
 
   export type OutputMinOrderByAggregateInput = {
@@ -11526,6 +14210,8 @@ export namespace Prisma {
     studentId?: SortOrder
     roomId?: SortOrder
     activityId?: SortOrder
+    feedbackId?: SortOrder
+    scoreId?: SortOrder
   }
 
   export type OutputSumOrderByAggregateInput = {
@@ -11533,6 +14219,8 @@ export namespace Prisma {
     studentId?: SortOrder
     roomId?: SortOrder
     activityId?: SortOrder
+    feedbackId?: SortOrder
+    scoreId?: SortOrder
   }
 
   export type AnnouncementNullableScalarRelationFilter = {
@@ -11595,6 +14283,54 @@ export namespace Prisma {
     activityId?: SortOrder
     announceId?: SortOrder
     outputId?: SortOrder
+  }
+
+  export type FeedbackCountOrderByAggregateInput = {
+    id?: SortOrder
+    feedback?: SortOrder
+  }
+
+  export type FeedbackAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type FeedbackMaxOrderByAggregateInput = {
+    id?: SortOrder
+    feedback?: SortOrder
+  }
+
+  export type FeedbackMinOrderByAggregateInput = {
+    id?: SortOrder
+    feedback?: SortOrder
+  }
+
+  export type FeedbackSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type ScoreCountOrderByAggregateInput = {
+    id?: SortOrder
+    score?: SortOrder
+  }
+
+  export type ScoreAvgOrderByAggregateInput = {
+    id?: SortOrder
+    score?: SortOrder
+  }
+
+  export type ScoreMaxOrderByAggregateInput = {
+    id?: SortOrder
+    score?: SortOrder
+  }
+
+  export type ScoreMinOrderByAggregateInput = {
+    id?: SortOrder
+    score?: SortOrder
+  }
+
+  export type ScoreSumOrderByAggregateInput = {
+    id?: SortOrder
+    score?: SortOrder
   }
 
   export type ClassroomCreateNestedManyWithoutRelatedToUserInput = {
@@ -12136,6 +14872,18 @@ export namespace Prisma {
     connect?: ActivityWhereUniqueInput
   }
 
+  export type FeedbackCreateNestedOneWithoutOutputInput = {
+    create?: XOR<FeedbackCreateWithoutOutputInput, FeedbackUncheckedCreateWithoutOutputInput>
+    connectOrCreate?: FeedbackCreateOrConnectWithoutOutputInput
+    connect?: FeedbackWhereUniqueInput
+  }
+
+  export type ScoreCreateNestedOneWithoutOutputInput = {
+    create?: XOR<ScoreCreateWithoutOutputInput, ScoreUncheckedCreateWithoutOutputInput>
+    connectOrCreate?: ScoreCreateOrConnectWithoutOutputInput
+    connect?: ScoreWhereUniqueInput
+  }
+
   export type FilesUncheckedCreateNestedManyWithoutRelatedToOutputInput = {
     create?: XOR<FilesCreateWithoutRelatedToOutputInput, FilesUncheckedCreateWithoutRelatedToOutputInput> | FilesCreateWithoutRelatedToOutputInput[] | FilesUncheckedCreateWithoutRelatedToOutputInput[]
     connectOrCreate?: FilesCreateOrConnectWithoutRelatedToOutputInput | FilesCreateOrConnectWithoutRelatedToOutputInput[]
@@ -12185,6 +14933,26 @@ export namespace Prisma {
     delete?: ActivityWhereInput | boolean
     connect?: ActivityWhereUniqueInput
     update?: XOR<XOR<ActivityUpdateToOneWithWhereWithoutOutputsInput, ActivityUpdateWithoutOutputsInput>, ActivityUncheckedUpdateWithoutOutputsInput>
+  }
+
+  export type FeedbackUpdateOneWithoutOutputNestedInput = {
+    create?: XOR<FeedbackCreateWithoutOutputInput, FeedbackUncheckedCreateWithoutOutputInput>
+    connectOrCreate?: FeedbackCreateOrConnectWithoutOutputInput
+    upsert?: FeedbackUpsertWithoutOutputInput
+    disconnect?: FeedbackWhereInput | boolean
+    delete?: FeedbackWhereInput | boolean
+    connect?: FeedbackWhereUniqueInput
+    update?: XOR<XOR<FeedbackUpdateToOneWithWhereWithoutOutputInput, FeedbackUpdateWithoutOutputInput>, FeedbackUncheckedUpdateWithoutOutputInput>
+  }
+
+  export type ScoreUpdateOneWithoutOutputNestedInput = {
+    create?: XOR<ScoreCreateWithoutOutputInput, ScoreUncheckedCreateWithoutOutputInput>
+    connectOrCreate?: ScoreCreateOrConnectWithoutOutputInput
+    upsert?: ScoreUpsertWithoutOutputInput
+    disconnect?: ScoreWhereInput | boolean
+    delete?: ScoreWhereInput | boolean
+    connect?: ScoreWhereUniqueInput
+    update?: XOR<XOR<ScoreUpdateToOneWithWhereWithoutOutputInput, ScoreUpdateWithoutOutputInput>, ScoreUncheckedUpdateWithoutOutputInput>
   }
 
   export type FilesUncheckedUpdateManyWithoutRelatedToOutputNestedInput = {
@@ -12247,6 +15015,90 @@ export namespace Prisma {
     delete?: OutputWhereInput | boolean
     connect?: OutputWhereUniqueInput
     update?: XOR<XOR<OutputUpdateToOneWithWhereWithoutListOfFilesInput, OutputUpdateWithoutListOfFilesInput>, OutputUncheckedUpdateWithoutListOfFilesInput>
+  }
+
+  export type OutputCreateNestedManyWithoutRelatedToFeedbackInput = {
+    create?: XOR<OutputCreateWithoutRelatedToFeedbackInput, OutputUncheckedCreateWithoutRelatedToFeedbackInput> | OutputCreateWithoutRelatedToFeedbackInput[] | OutputUncheckedCreateWithoutRelatedToFeedbackInput[]
+    connectOrCreate?: OutputCreateOrConnectWithoutRelatedToFeedbackInput | OutputCreateOrConnectWithoutRelatedToFeedbackInput[]
+    createMany?: OutputCreateManyRelatedToFeedbackInputEnvelope
+    connect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+  }
+
+  export type OutputUncheckedCreateNestedManyWithoutRelatedToFeedbackInput = {
+    create?: XOR<OutputCreateWithoutRelatedToFeedbackInput, OutputUncheckedCreateWithoutRelatedToFeedbackInput> | OutputCreateWithoutRelatedToFeedbackInput[] | OutputUncheckedCreateWithoutRelatedToFeedbackInput[]
+    connectOrCreate?: OutputCreateOrConnectWithoutRelatedToFeedbackInput | OutputCreateOrConnectWithoutRelatedToFeedbackInput[]
+    createMany?: OutputCreateManyRelatedToFeedbackInputEnvelope
+    connect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+  }
+
+  export type OutputUpdateManyWithoutRelatedToFeedbackNestedInput = {
+    create?: XOR<OutputCreateWithoutRelatedToFeedbackInput, OutputUncheckedCreateWithoutRelatedToFeedbackInput> | OutputCreateWithoutRelatedToFeedbackInput[] | OutputUncheckedCreateWithoutRelatedToFeedbackInput[]
+    connectOrCreate?: OutputCreateOrConnectWithoutRelatedToFeedbackInput | OutputCreateOrConnectWithoutRelatedToFeedbackInput[]
+    upsert?: OutputUpsertWithWhereUniqueWithoutRelatedToFeedbackInput | OutputUpsertWithWhereUniqueWithoutRelatedToFeedbackInput[]
+    createMany?: OutputCreateManyRelatedToFeedbackInputEnvelope
+    set?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    disconnect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    delete?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    connect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    update?: OutputUpdateWithWhereUniqueWithoutRelatedToFeedbackInput | OutputUpdateWithWhereUniqueWithoutRelatedToFeedbackInput[]
+    updateMany?: OutputUpdateManyWithWhereWithoutRelatedToFeedbackInput | OutputUpdateManyWithWhereWithoutRelatedToFeedbackInput[]
+    deleteMany?: OutputScalarWhereInput | OutputScalarWhereInput[]
+  }
+
+  export type OutputUncheckedUpdateManyWithoutRelatedToFeedbackNestedInput = {
+    create?: XOR<OutputCreateWithoutRelatedToFeedbackInput, OutputUncheckedCreateWithoutRelatedToFeedbackInput> | OutputCreateWithoutRelatedToFeedbackInput[] | OutputUncheckedCreateWithoutRelatedToFeedbackInput[]
+    connectOrCreate?: OutputCreateOrConnectWithoutRelatedToFeedbackInput | OutputCreateOrConnectWithoutRelatedToFeedbackInput[]
+    upsert?: OutputUpsertWithWhereUniqueWithoutRelatedToFeedbackInput | OutputUpsertWithWhereUniqueWithoutRelatedToFeedbackInput[]
+    createMany?: OutputCreateManyRelatedToFeedbackInputEnvelope
+    set?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    disconnect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    delete?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    connect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    update?: OutputUpdateWithWhereUniqueWithoutRelatedToFeedbackInput | OutputUpdateWithWhereUniqueWithoutRelatedToFeedbackInput[]
+    updateMany?: OutputUpdateManyWithWhereWithoutRelatedToFeedbackInput | OutputUpdateManyWithWhereWithoutRelatedToFeedbackInput[]
+    deleteMany?: OutputScalarWhereInput | OutputScalarWhereInput[]
+  }
+
+  export type OutputCreateNestedManyWithoutRelatedToScoreInput = {
+    create?: XOR<OutputCreateWithoutRelatedToScoreInput, OutputUncheckedCreateWithoutRelatedToScoreInput> | OutputCreateWithoutRelatedToScoreInput[] | OutputUncheckedCreateWithoutRelatedToScoreInput[]
+    connectOrCreate?: OutputCreateOrConnectWithoutRelatedToScoreInput | OutputCreateOrConnectWithoutRelatedToScoreInput[]
+    createMany?: OutputCreateManyRelatedToScoreInputEnvelope
+    connect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+  }
+
+  export type OutputUncheckedCreateNestedManyWithoutRelatedToScoreInput = {
+    create?: XOR<OutputCreateWithoutRelatedToScoreInput, OutputUncheckedCreateWithoutRelatedToScoreInput> | OutputCreateWithoutRelatedToScoreInput[] | OutputUncheckedCreateWithoutRelatedToScoreInput[]
+    connectOrCreate?: OutputCreateOrConnectWithoutRelatedToScoreInput | OutputCreateOrConnectWithoutRelatedToScoreInput[]
+    createMany?: OutputCreateManyRelatedToScoreInputEnvelope
+    connect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+  }
+
+  export type OutputUpdateManyWithoutRelatedToScoreNestedInput = {
+    create?: XOR<OutputCreateWithoutRelatedToScoreInput, OutputUncheckedCreateWithoutRelatedToScoreInput> | OutputCreateWithoutRelatedToScoreInput[] | OutputUncheckedCreateWithoutRelatedToScoreInput[]
+    connectOrCreate?: OutputCreateOrConnectWithoutRelatedToScoreInput | OutputCreateOrConnectWithoutRelatedToScoreInput[]
+    upsert?: OutputUpsertWithWhereUniqueWithoutRelatedToScoreInput | OutputUpsertWithWhereUniqueWithoutRelatedToScoreInput[]
+    createMany?: OutputCreateManyRelatedToScoreInputEnvelope
+    set?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    disconnect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    delete?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    connect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    update?: OutputUpdateWithWhereUniqueWithoutRelatedToScoreInput | OutputUpdateWithWhereUniqueWithoutRelatedToScoreInput[]
+    updateMany?: OutputUpdateManyWithWhereWithoutRelatedToScoreInput | OutputUpdateManyWithWhereWithoutRelatedToScoreInput[]
+    deleteMany?: OutputScalarWhereInput | OutputScalarWhereInput[]
+  }
+
+  export type OutputUncheckedUpdateManyWithoutRelatedToScoreNestedInput = {
+    create?: XOR<OutputCreateWithoutRelatedToScoreInput, OutputUncheckedCreateWithoutRelatedToScoreInput> | OutputCreateWithoutRelatedToScoreInput[] | OutputUncheckedCreateWithoutRelatedToScoreInput[]
+    connectOrCreate?: OutputCreateOrConnectWithoutRelatedToScoreInput | OutputCreateOrConnectWithoutRelatedToScoreInput[]
+    upsert?: OutputUpsertWithWhereUniqueWithoutRelatedToScoreInput | OutputUpsertWithWhereUniqueWithoutRelatedToScoreInput[]
+    createMany?: OutputCreateManyRelatedToScoreInputEnvelope
+    set?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    disconnect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    delete?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    connect?: OutputWhereUniqueInput | OutputWhereUniqueInput[]
+    update?: OutputUpdateWithWhereUniqueWithoutRelatedToScoreInput | OutputUpdateWithWhereUniqueWithoutRelatedToScoreInput[]
+    updateMany?: OutputUpdateManyWithWhereWithoutRelatedToScoreInput | OutputUpdateManyWithWhereWithoutRelatedToScoreInput[]
+    deleteMany?: OutputScalarWhereInput | OutputScalarWhereInput[]
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -12576,12 +15428,16 @@ export namespace Prisma {
     listOfFiles?: FilesCreateNestedManyWithoutRelatedToOutputInput
     relatedToClassroom?: ClassroomCreateNestedOneWithoutListOfOutputsInput
     relatedToActivity?: ActivityCreateNestedOneWithoutOutputsInput
+    relatedToFeedback?: FeedbackCreateNestedOneWithoutOutputInput
+    relatedToScore?: ScoreCreateNestedOneWithoutOutputInput
   }
 
   export type OutputUncheckedCreateWithoutRelatedToStudentInput = {
     id?: number
     roomId?: number | null
     activityId?: number | null
+    feedbackId?: number | null
+    scoreId?: number | null
     listOfFiles?: FilesUncheckedCreateNestedManyWithoutRelatedToOutputInput
   }
 
@@ -12677,6 +15533,8 @@ export namespace Prisma {
     studentId?: IntNullableFilter<"Output"> | number | null
     roomId?: IntNullableFilter<"Output"> | number | null
     activityId?: IntNullableFilter<"Output"> | number | null
+    feedbackId?: IntNullableFilter<"Output"> | number | null
+    scoreId?: IntNullableFilter<"Output"> | number | null
   }
 
   export type ClassroomUpsertWithoutListOfStudentsInput = {
@@ -12825,12 +15683,16 @@ export namespace Prisma {
     listOfFiles?: FilesCreateNestedManyWithoutRelatedToOutputInput
     relatedToStudent?: StudentCreateNestedOneWithoutListOfOutputsInput
     relatedToActivity?: ActivityCreateNestedOneWithoutOutputsInput
+    relatedToFeedback?: FeedbackCreateNestedOneWithoutOutputInput
+    relatedToScore?: ScoreCreateNestedOneWithoutOutputInput
   }
 
   export type OutputUncheckedCreateWithoutRelatedToClassroomInput = {
     id?: number
     studentId?: number | null
     activityId?: number | null
+    feedbackId?: number | null
+    scoreId?: number | null
     listOfFiles?: FilesUncheckedCreateNestedManyWithoutRelatedToOutputInput
   }
 
@@ -13005,12 +15867,16 @@ export namespace Prisma {
     listOfFiles?: FilesCreateNestedManyWithoutRelatedToOutputInput
     relatedToStudent?: StudentCreateNestedOneWithoutListOfOutputsInput
     relatedToClassroom?: ClassroomCreateNestedOneWithoutListOfOutputsInput
+    relatedToFeedback?: FeedbackCreateNestedOneWithoutOutputInput
+    relatedToScore?: ScoreCreateNestedOneWithoutOutputInput
   }
 
   export type OutputUncheckedCreateWithoutRelatedToActivityInput = {
     id?: number
     studentId?: number | null
     roomId?: number | null
+    feedbackId?: number | null
+    scoreId?: number | null
     listOfFiles?: FilesUncheckedCreateNestedManyWithoutRelatedToOutputInput
   }
 
@@ -13370,6 +16236,34 @@ export namespace Prisma {
     create: XOR<ActivityCreateWithoutOutputsInput, ActivityUncheckedCreateWithoutOutputsInput>
   }
 
+  export type FeedbackCreateWithoutOutputInput = {
+    feedback?: string | null
+  }
+
+  export type FeedbackUncheckedCreateWithoutOutputInput = {
+    id?: number
+    feedback?: string | null
+  }
+
+  export type FeedbackCreateOrConnectWithoutOutputInput = {
+    where: FeedbackWhereUniqueInput
+    create: XOR<FeedbackCreateWithoutOutputInput, FeedbackUncheckedCreateWithoutOutputInput>
+  }
+
+  export type ScoreCreateWithoutOutputInput = {
+    score?: number | null
+  }
+
+  export type ScoreUncheckedCreateWithoutOutputInput = {
+    id?: number
+    score?: number | null
+  }
+
+  export type ScoreCreateOrConnectWithoutOutputInput = {
+    where: ScoreWhereUniqueInput
+    create: XOR<ScoreCreateWithoutOutputInput, ScoreUncheckedCreateWithoutOutputInput>
+  }
+
   export type FilesUpsertWithWhereUniqueWithoutRelatedToOutputInput = {
     where: FilesWhereUniqueInput
     update: XOR<FilesUpdateWithoutRelatedToOutputInput, FilesUncheckedUpdateWithoutRelatedToOutputInput>
@@ -13485,6 +16379,46 @@ export namespace Prisma {
     criteria?: FilesUncheckedUpdateManyWithoutRelatedToActivityNestedInput
   }
 
+  export type FeedbackUpsertWithoutOutputInput = {
+    update: XOR<FeedbackUpdateWithoutOutputInput, FeedbackUncheckedUpdateWithoutOutputInput>
+    create: XOR<FeedbackCreateWithoutOutputInput, FeedbackUncheckedCreateWithoutOutputInput>
+    where?: FeedbackWhereInput
+  }
+
+  export type FeedbackUpdateToOneWithWhereWithoutOutputInput = {
+    where?: FeedbackWhereInput
+    data: XOR<FeedbackUpdateWithoutOutputInput, FeedbackUncheckedUpdateWithoutOutputInput>
+  }
+
+  export type FeedbackUpdateWithoutOutputInput = {
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type FeedbackUncheckedUpdateWithoutOutputInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    feedback?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type ScoreUpsertWithoutOutputInput = {
+    update: XOR<ScoreUpdateWithoutOutputInput, ScoreUncheckedUpdateWithoutOutputInput>
+    create: XOR<ScoreCreateWithoutOutputInput, ScoreUncheckedCreateWithoutOutputInput>
+    where?: ScoreWhereInput
+  }
+
+  export type ScoreUpdateToOneWithWhereWithoutOutputInput = {
+    where?: ScoreWhereInput
+    data: XOR<ScoreUpdateWithoutOutputInput, ScoreUncheckedUpdateWithoutOutputInput>
+  }
+
+  export type ScoreUpdateWithoutOutputInput = {
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type ScoreUncheckedUpdateWithoutOutputInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    score?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
   export type ActivityCreateWithoutCriteriaInput = {
     title: string
     date: string
@@ -13533,6 +16467,8 @@ export namespace Prisma {
     relatedToStudent?: StudentCreateNestedOneWithoutListOfOutputsInput
     relatedToClassroom?: ClassroomCreateNestedOneWithoutListOfOutputsInput
     relatedToActivity?: ActivityCreateNestedOneWithoutOutputsInput
+    relatedToFeedback?: FeedbackCreateNestedOneWithoutOutputInput
+    relatedToScore?: ScoreCreateNestedOneWithoutOutputInput
   }
 
   export type OutputUncheckedCreateWithoutListOfFilesInput = {
@@ -13540,6 +16476,8 @@ export namespace Prisma {
     studentId?: number | null
     roomId?: number | null
     activityId?: number | null
+    feedbackId?: number | null
+    scoreId?: number | null
   }
 
   export type OutputCreateOrConnectWithoutListOfFilesInput = {
@@ -13618,6 +16556,8 @@ export namespace Prisma {
     relatedToStudent?: StudentUpdateOneWithoutListOfOutputsNestedInput
     relatedToClassroom?: ClassroomUpdateOneWithoutListOfOutputsNestedInput
     relatedToActivity?: ActivityUpdateOneWithoutOutputsNestedInput
+    relatedToFeedback?: FeedbackUpdateOneWithoutOutputNestedInput
+    relatedToScore?: ScoreUpdateOneWithoutOutputNestedInput
   }
 
   export type OutputUncheckedUpdateWithoutListOfFilesInput = {
@@ -13625,6 +16565,94 @@ export namespace Prisma {
     studentId?: NullableIntFieldUpdateOperationsInput | number | null
     roomId?: NullableIntFieldUpdateOperationsInput | number | null
     activityId?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackId?: NullableIntFieldUpdateOperationsInput | number | null
+    scoreId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type OutputCreateWithoutRelatedToFeedbackInput = {
+    listOfFiles?: FilesCreateNestedManyWithoutRelatedToOutputInput
+    relatedToStudent?: StudentCreateNestedOneWithoutListOfOutputsInput
+    relatedToClassroom?: ClassroomCreateNestedOneWithoutListOfOutputsInput
+    relatedToActivity?: ActivityCreateNestedOneWithoutOutputsInput
+    relatedToScore?: ScoreCreateNestedOneWithoutOutputInput
+  }
+
+  export type OutputUncheckedCreateWithoutRelatedToFeedbackInput = {
+    id?: number
+    studentId?: number | null
+    roomId?: number | null
+    activityId?: number | null
+    scoreId?: number | null
+    listOfFiles?: FilesUncheckedCreateNestedManyWithoutRelatedToOutputInput
+  }
+
+  export type OutputCreateOrConnectWithoutRelatedToFeedbackInput = {
+    where: OutputWhereUniqueInput
+    create: XOR<OutputCreateWithoutRelatedToFeedbackInput, OutputUncheckedCreateWithoutRelatedToFeedbackInput>
+  }
+
+  export type OutputCreateManyRelatedToFeedbackInputEnvelope = {
+    data: OutputCreateManyRelatedToFeedbackInput | OutputCreateManyRelatedToFeedbackInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OutputUpsertWithWhereUniqueWithoutRelatedToFeedbackInput = {
+    where: OutputWhereUniqueInput
+    update: XOR<OutputUpdateWithoutRelatedToFeedbackInput, OutputUncheckedUpdateWithoutRelatedToFeedbackInput>
+    create: XOR<OutputCreateWithoutRelatedToFeedbackInput, OutputUncheckedCreateWithoutRelatedToFeedbackInput>
+  }
+
+  export type OutputUpdateWithWhereUniqueWithoutRelatedToFeedbackInput = {
+    where: OutputWhereUniqueInput
+    data: XOR<OutputUpdateWithoutRelatedToFeedbackInput, OutputUncheckedUpdateWithoutRelatedToFeedbackInput>
+  }
+
+  export type OutputUpdateManyWithWhereWithoutRelatedToFeedbackInput = {
+    where: OutputScalarWhereInput
+    data: XOR<OutputUpdateManyMutationInput, OutputUncheckedUpdateManyWithoutRelatedToFeedbackInput>
+  }
+
+  export type OutputCreateWithoutRelatedToScoreInput = {
+    listOfFiles?: FilesCreateNestedManyWithoutRelatedToOutputInput
+    relatedToStudent?: StudentCreateNestedOneWithoutListOfOutputsInput
+    relatedToClassroom?: ClassroomCreateNestedOneWithoutListOfOutputsInput
+    relatedToActivity?: ActivityCreateNestedOneWithoutOutputsInput
+    relatedToFeedback?: FeedbackCreateNestedOneWithoutOutputInput
+  }
+
+  export type OutputUncheckedCreateWithoutRelatedToScoreInput = {
+    id?: number
+    studentId?: number | null
+    roomId?: number | null
+    activityId?: number | null
+    feedbackId?: number | null
+    listOfFiles?: FilesUncheckedCreateNestedManyWithoutRelatedToOutputInput
+  }
+
+  export type OutputCreateOrConnectWithoutRelatedToScoreInput = {
+    where: OutputWhereUniqueInput
+    create: XOR<OutputCreateWithoutRelatedToScoreInput, OutputUncheckedCreateWithoutRelatedToScoreInput>
+  }
+
+  export type OutputCreateManyRelatedToScoreInputEnvelope = {
+    data: OutputCreateManyRelatedToScoreInput | OutputCreateManyRelatedToScoreInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type OutputUpsertWithWhereUniqueWithoutRelatedToScoreInput = {
+    where: OutputWhereUniqueInput
+    update: XOR<OutputUpdateWithoutRelatedToScoreInput, OutputUncheckedUpdateWithoutRelatedToScoreInput>
+    create: XOR<OutputCreateWithoutRelatedToScoreInput, OutputUncheckedCreateWithoutRelatedToScoreInput>
+  }
+
+  export type OutputUpdateWithWhereUniqueWithoutRelatedToScoreInput = {
+    where: OutputWhereUniqueInput
+    data: XOR<OutputUpdateWithoutRelatedToScoreInput, OutputUncheckedUpdateWithoutRelatedToScoreInput>
+  }
+
+  export type OutputUpdateManyWithWhereWithoutRelatedToScoreInput = {
+    where: OutputScalarWhereInput
+    data: XOR<OutputUpdateManyMutationInput, OutputUncheckedUpdateManyWithoutRelatedToScoreInput>
   }
 
   export type ClassroomCreateManyRelatedToUserInput = {
@@ -13678,18 +16706,24 @@ export namespace Prisma {
     id?: number
     roomId?: number | null
     activityId?: number | null
+    feedbackId?: number | null
+    scoreId?: number | null
   }
 
   export type OutputUpdateWithoutRelatedToStudentInput = {
     listOfFiles?: FilesUpdateManyWithoutRelatedToOutputNestedInput
     relatedToClassroom?: ClassroomUpdateOneWithoutListOfOutputsNestedInput
     relatedToActivity?: ActivityUpdateOneWithoutOutputsNestedInput
+    relatedToFeedback?: FeedbackUpdateOneWithoutOutputNestedInput
+    relatedToScore?: ScoreUpdateOneWithoutOutputNestedInput
   }
 
   export type OutputUncheckedUpdateWithoutRelatedToStudentInput = {
     id?: IntFieldUpdateOperationsInput | number
     roomId?: NullableIntFieldUpdateOperationsInput | number | null
     activityId?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackId?: NullableIntFieldUpdateOperationsInput | number | null
+    scoreId?: NullableIntFieldUpdateOperationsInput | number | null
     listOfFiles?: FilesUncheckedUpdateManyWithoutRelatedToOutputNestedInput
   }
 
@@ -13697,6 +16731,8 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     roomId?: NullableIntFieldUpdateOperationsInput | number | null
     activityId?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackId?: NullableIntFieldUpdateOperationsInput | number | null
+    scoreId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type AnnouncementCreateManyRelatedToClassroomInput = {
@@ -13727,6 +16763,8 @@ export namespace Prisma {
     id?: number
     studentId?: number | null
     activityId?: number | null
+    feedbackId?: number | null
+    scoreId?: number | null
   }
 
   export type AnnouncementUpdateWithoutRelatedToClassroomInput = {
@@ -13811,12 +16849,16 @@ export namespace Prisma {
     listOfFiles?: FilesUpdateManyWithoutRelatedToOutputNestedInput
     relatedToStudent?: StudentUpdateOneWithoutListOfOutputsNestedInput
     relatedToActivity?: ActivityUpdateOneWithoutOutputsNestedInput
+    relatedToFeedback?: FeedbackUpdateOneWithoutOutputNestedInput
+    relatedToScore?: ScoreUpdateOneWithoutOutputNestedInput
   }
 
   export type OutputUncheckedUpdateWithoutRelatedToClassroomInput = {
     id?: IntFieldUpdateOperationsInput | number
     studentId?: NullableIntFieldUpdateOperationsInput | number | null
     activityId?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackId?: NullableIntFieldUpdateOperationsInput | number | null
+    scoreId?: NullableIntFieldUpdateOperationsInput | number | null
     listOfFiles?: FilesUncheckedUpdateManyWithoutRelatedToOutputNestedInput
   }
 
@@ -13824,6 +16866,8 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     studentId?: NullableIntFieldUpdateOperationsInput | number | null
     activityId?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackId?: NullableIntFieldUpdateOperationsInput | number | null
+    scoreId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type FilesCreateManyRelatedToActivityInput = {
@@ -13841,6 +16885,8 @@ export namespace Prisma {
     id?: number
     studentId?: number | null
     roomId?: number | null
+    feedbackId?: number | null
+    scoreId?: number | null
   }
 
   export type FilesUpdateWithoutRelatedToActivityInput = {
@@ -13879,12 +16925,16 @@ export namespace Prisma {
     listOfFiles?: FilesUpdateManyWithoutRelatedToOutputNestedInput
     relatedToStudent?: StudentUpdateOneWithoutListOfOutputsNestedInput
     relatedToClassroom?: ClassroomUpdateOneWithoutListOfOutputsNestedInput
+    relatedToFeedback?: FeedbackUpdateOneWithoutOutputNestedInput
+    relatedToScore?: ScoreUpdateOneWithoutOutputNestedInput
   }
 
   export type OutputUncheckedUpdateWithoutRelatedToActivityInput = {
     id?: IntFieldUpdateOperationsInput | number
     studentId?: NullableIntFieldUpdateOperationsInput | number | null
     roomId?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackId?: NullableIntFieldUpdateOperationsInput | number | null
+    scoreId?: NullableIntFieldUpdateOperationsInput | number | null
     listOfFiles?: FilesUncheckedUpdateManyWithoutRelatedToOutputNestedInput
   }
 
@@ -13892,6 +16942,8 @@ export namespace Prisma {
     id?: IntFieldUpdateOperationsInput | number
     studentId?: NullableIntFieldUpdateOperationsInput | number | null
     roomId?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackId?: NullableIntFieldUpdateOperationsInput | number | null
+    scoreId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
   export type FilesCreateManyRelatedToAnnouncementInput = {
@@ -13978,6 +17030,72 @@ export namespace Prisma {
     filePath?: NullableStringFieldUpdateOperationsInput | string | null
     activityId?: NullableIntFieldUpdateOperationsInput | number | null
     announceId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type OutputCreateManyRelatedToFeedbackInput = {
+    id?: number
+    studentId?: number | null
+    roomId?: number | null
+    activityId?: number | null
+    scoreId?: number | null
+  }
+
+  export type OutputUpdateWithoutRelatedToFeedbackInput = {
+    listOfFiles?: FilesUpdateManyWithoutRelatedToOutputNestedInput
+    relatedToStudent?: StudentUpdateOneWithoutListOfOutputsNestedInput
+    relatedToClassroom?: ClassroomUpdateOneWithoutListOfOutputsNestedInput
+    relatedToActivity?: ActivityUpdateOneWithoutOutputsNestedInput
+    relatedToScore?: ScoreUpdateOneWithoutOutputNestedInput
+  }
+
+  export type OutputUncheckedUpdateWithoutRelatedToFeedbackInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    studentId?: NullableIntFieldUpdateOperationsInput | number | null
+    roomId?: NullableIntFieldUpdateOperationsInput | number | null
+    activityId?: NullableIntFieldUpdateOperationsInput | number | null
+    scoreId?: NullableIntFieldUpdateOperationsInput | number | null
+    listOfFiles?: FilesUncheckedUpdateManyWithoutRelatedToOutputNestedInput
+  }
+
+  export type OutputUncheckedUpdateManyWithoutRelatedToFeedbackInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    studentId?: NullableIntFieldUpdateOperationsInput | number | null
+    roomId?: NullableIntFieldUpdateOperationsInput | number | null
+    activityId?: NullableIntFieldUpdateOperationsInput | number | null
+    scoreId?: NullableIntFieldUpdateOperationsInput | number | null
+  }
+
+  export type OutputCreateManyRelatedToScoreInput = {
+    id?: number
+    studentId?: number | null
+    roomId?: number | null
+    activityId?: number | null
+    feedbackId?: number | null
+  }
+
+  export type OutputUpdateWithoutRelatedToScoreInput = {
+    listOfFiles?: FilesUpdateManyWithoutRelatedToOutputNestedInput
+    relatedToStudent?: StudentUpdateOneWithoutListOfOutputsNestedInput
+    relatedToClassroom?: ClassroomUpdateOneWithoutListOfOutputsNestedInput
+    relatedToActivity?: ActivityUpdateOneWithoutOutputsNestedInput
+    relatedToFeedback?: FeedbackUpdateOneWithoutOutputNestedInput
+  }
+
+  export type OutputUncheckedUpdateWithoutRelatedToScoreInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    studentId?: NullableIntFieldUpdateOperationsInput | number | null
+    roomId?: NullableIntFieldUpdateOperationsInput | number | null
+    activityId?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackId?: NullableIntFieldUpdateOperationsInput | number | null
+    listOfFiles?: FilesUncheckedUpdateManyWithoutRelatedToOutputNestedInput
+  }
+
+  export type OutputUncheckedUpdateManyWithoutRelatedToScoreInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    studentId?: NullableIntFieldUpdateOperationsInput | number | null
+    roomId?: NullableIntFieldUpdateOperationsInput | number | null
+    activityId?: NullableIntFieldUpdateOperationsInput | number | null
+    feedbackId?: NullableIntFieldUpdateOperationsInput | number | null
   }
 
 

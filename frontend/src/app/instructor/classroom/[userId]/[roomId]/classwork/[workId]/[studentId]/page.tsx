@@ -5,12 +5,13 @@ import {
 } from "@/hooks/instructor.hooks";
 import { FileProps } from "@/types/types";
 import { formatFileSize } from "@/utils/formatFileSizes";
-import { Book } from "lucide-react";
+import { ArrowLeft, Book } from "lucide-react";
 import { useParams } from "next/navigation";
 import React from "react";
-
+import { useRouter } from "next/navigation";
+import Link from "next/link";
 const page = () => {
-  const { studentId, roomId, workId } = useParams();
+  const { studentId, roomId, workId, userId } = useParams();
   const { data: student } = useGetStudentInfo(
     Number(roomId),
     Number(studentId)
@@ -22,12 +23,20 @@ const page = () => {
     Number(roomId)
   );
 
-  console.log(studentFiles);
+  const router = useRouter();
+
   return (
     <div className="p-8 bg-background max-w-7xl mx-auto">
+      <Link
+        href={`/instructor/classroom/${userId}/${roomId}/classwork/${workId}`}
+        className="inline-flex items-center text-gray-600 hover:text-primary mb-6 transition-all"
+      >
+        <ArrowLeft className="w-4 h-4 mr-2" />
+        Back
+      </Link>
       <div className="space-y-4">
         {/* Student Header - Simplified and prominent */}
-        <div className="flex items-center gap-3 bg-card p-4 rounded-lg">
+        <div className="flex items-center gap-3 bg-card rounded-lg">
           <h1 className="text-xl font-semibold">
             {student?.lastname}, {student?.firstname}{" "}
             {student?.middlename.charAt(0)}.
@@ -53,29 +62,61 @@ const page = () => {
               <p className="font-medium">Pending</p>
             </div>
             <div>
-              <p className="text-muted-foreground">Last Updated</p>
+              <p className="text-muted-foreground">Score</p>
               <p className="font-medium">N/A</p>
             </div>
           </div>
         </div>
 
+        {studentFiles?.length === 0 && (
+          <div className="space-y-3">
+            <h2 className="text-lg font-semibold">Submitted Files</h2>
+            <div className="flex flex-col items-center justify-center p-8 border-2 border-dashed rounded-lg bg-muted/50">
+              <Book className="w-12 h-12 text-muted-foreground mb-4" />
+              <h3 className="text-lg font-semibold text-muted-foreground">
+                No Submissions Found
+              </h3>
+              <p className="text-sm text-muted-foreground mt-1">
+                {student?.firstname} {student?.lastname} hasn't uploaded any
+                files yet.
+              </p>
+            </div>
+          </div>
+        )}
+
         {studentFiles?.length > 0 && studentFiles && (
           <div className="space-y-3">
+            <h2 className="text-lg font-semibold">Submitted Files</h2>
             {studentFiles.map((file: FileProps) => (
               <div
                 key={file.outputId}
-                className="flex items-center justify-between p-4 rounded-lg border bg-gray-50 hover:bg-gray-100 transition-all duration-200"
+                className="flex items-center justify-between p-4 rounded-lg border bg-card hover:bg-accent/10 transition-all duration-200"
               >
                 <div className="flex items-center space-x-4">
                   <div className="p-2 rounded-full bg-primary/10">
                     <Book className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                    <p className="font-medium text-gray-900">{file.filename}</p>
-                    <p className="text-sm text-gray-500">
-                      {formatFileSize(file.fileSize as number)}
+                    <p className="font-medium">{file.filename}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {formatFileSize(file.fileSize as number)} • Submitted on{" "}
+                      {new Date().toLocaleDateString()}
                     </p>
                   </div>
+                </div>
+                <div className="flex gap-2">
+                  <button
+                    className="px-3 py-1 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
+                    // onClick={() => window.open(file.outputURL, "_blank")}
+                  >
+                    View
+                  </button>
+                  <button
+                    className="px-3 py-1 text-sm border border-input bg-background hover:bg-accent rounded-md"
+                    // onClick={() => window.open(file.outputURL, "_blank")}
+                  >
+                    Download
+                  </button>
                 </div>
               </div>
             ))}

@@ -73,116 +73,115 @@ const DataTable = <TData, TValue>({
     table.setPageSize(Number(value));
   };
   return (
-    <>
-      <Card className="rounded-none">
-        <CardDescription>
-          <div className="min-w-full inline-block align-middle">
-            <div className="overflow-hidden">
-              <table className="min-w-full divide-y divide-gray-200">
-                <thead className="bg-gray-50">
-                  {table.getHeaderGroups().map((headerGroup) => (
-                    <tr key={headerGroup.id}>
-                      {headerGroup.headers.map((header) => (
-                        <th
-                          key={header.id}
-                          className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
-                        >
-                          <div className="flex items-center gap-2">
-                            {header.column.getCanSort() && (
-                              <LucideArrowUpDown
-                                className="h-4 w-4 cursor-pointer"
-                                onClick={
-                                  header.column.getCanSort()
-                                    ? header.column.getToggleSortingHandler()
-                                    : undefined
-                                }
-                              />
-                            )}
-                            {header.isPlaceholder
-                              ? null
-                              : flexRender(
-                                  header.column.columnDef.header,
-                                  header.getContext()
-                                )}
-                            {header.column.getCanSort() && (
-                              <span className="ml-1">
-                                {header.column.getIsSorted() === "desc"
-                                  ? " 🔼"
-                                  : header.column.getIsSorted() === "asc"
-                                  ? " 🔽"
-                                  : ""}
-                              </span>
-                            )}
-                          </div>
-                        </th>
-                      ))}
-                    </tr>
-                  ))}
-                </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  {table.getRowModel().rows.map((row) => (
-                    <tr
-                      key={row.id}
-                      onClick={() => onRowClick?.(row.original)}
-                      className="hover:bg-gray-50 cursor-pointer"
-                    >
-                      {row.getVisibleCells().map((cell) => (
-                        <td
-                          key={cell.id}
-                          className="px-4 py-3 text-sm text-gray-900 whitespace-nowrap"
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
+    <Card className="shadow-none rounded-sm">
+      <CardDescription>
+        <div className="min-w-full inline-block align-middle">
+          <div className="overflow-hidden">
+            <table className="min-w-full divide-y divide-gray-200">
+              <thead className="bg-gray-50">
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <tr key={headerGroup.id}>
+                    {headerGroup.headers.map((header) => (
+                      <th
+                        key={header.id}
+                        className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider whitespace-nowrap"
+                      >
+                        <div className="flex items-center gap-2">
+                          {header.column.getCanSort() && (
+                            <LucideArrowUpDown
+                              className="h-4 w-4 cursor-pointer"
+                              onClick={
+                                header.column.getCanSort()
+                                  ? header.column.getToggleSortingHandler()
+                                  : undefined
+                              }
+                            />
                           )}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                          {header.isPlaceholder
+                            ? null
+                            : flexRender(
+                                header.column.columnDef.header,
+                                header.getContext()
+                              )}
+                          {header.column.getCanSort() && (
+                            <span className="ml-1">
+                              {header.column.getIsSorted() === "desc"
+                                ? " 🔼"
+                                : header.column.getIsSorted() === "asc"
+                                ? " 🔽"
+                                : ""}
+                            </span>
+                          )}
+                        </div>
+                      </th>
+                    ))}
+                  </tr>
+                ))}
+              </thead>
+              <tbody className="bg-white divide-y divide-gray-200">
+                {table.getRowModel().rows.map((row) => (
+                  <tr
+                    key={row.id}
+                    onClick={() => onRowClick?.(row.original)}
+                    className="hover:bg-gray-50 cursor-pointer"
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <td
+                        key={cell.id}
+                        className="px-4 py-3 text-sm text-gray-900 whitespace-nowrap"
+                      >
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext()
+                        )}
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           </div>
-        </CardDescription>
-        <CardFooter>
-          <div className={`flex flex-col gap-2 md:flex-row`}>
-            <div className="flex flex-col gap-2 items-center md:flex-row">
-              <Button
-                className="w-full md:w-auto"
-                onClick={() => table.setPageIndex(0)}
-                disabled={!table.getCanPreviousPage()}
-              >
-                <ChevronsLeft className="h-4 w-4" />
-              </Button>
-              <Button
-                className="w-full md:w-auto"
-                onClick={() => table.previousPage()}
-                disabled={!table.getCanPreviousPage()}
-              >
-                <ChevronLeft className="h-4 w-4" />
-              </Button>
-              <Button
-                className="w-full md:w-auto"
-                onClick={() => table.nextPage()}
-                disabled={!table.getCanNextPage()}
-              >
-                <ChevronRight className="h-4 w-4" />
-              </Button>
-              <Button
-                className="w-full md:w-auto"
-                onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-                disabled={!table.getCanNextPage()}
-              >
-                <ChevronsRight className="h-4 w-4" />
-              </Button>
+        </div>
+      </CardDescription>
+      <CardFooter>
+        <div className={`flex flex-col gap-2 md:flex-row`}>
+          <div className="flex flex-col gap-2 items-center md:flex-row">
+            <Button
+              className="w-full md:w-auto"
+              onClick={() => table.setPageIndex(0)}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <ChevronsLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              className="w-full md:w-auto"
+              onClick={() => table.previousPage()}
+              disabled={!table.getCanPreviousPage()}
+            >
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+            <Button
+              className="w-full md:w-auto"
+              onClick={() => table.nextPage()}
+              disabled={!table.getCanNextPage()}
+            >
+              <ChevronRight className="h-4 w-4" />
+            </Button>
+            <Button
+              className="w-full md:w-auto"
+              onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+              disabled={!table.getCanNextPage()}
+            >
+              <ChevronsRight className="h-4 w-4" />
+            </Button>
 
-              <p>
-                Page {table.getState().pagination.pageIndex + 1} of{" "}
-                {table.getPageCount()}
-              </p>
-            </div>
-            <div>
-              {/* <Select
+            <p>
+              Page {table.getState().pagination.pageIndex + 1} of{" "}
+              {table.getPageCount()}
+            </p>
+          </div>
+          <div>
+            {/* <Select
                 value={String(selectSize)}
                 onValueChange={handlePageSizeChange}
               >
@@ -204,11 +203,10 @@ const DataTable = <TData, TValue>({
                   </SelectContent>
                 ))}
               </Select> */}
-            </div>
           </div>
-        </CardFooter>
-      </Card>
-    </>
+        </div>
+      </CardFooter>
+    </Card>
   );
 };
 

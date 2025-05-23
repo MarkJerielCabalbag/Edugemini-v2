@@ -8,6 +8,9 @@ import { AdminModule } from './admin/admin.module';
 import { SupabaseModule } from 'nestjs-supabase-js';
 import { StudentModule } from './student/student.module';
 import { ConfigModule } from '@nestjs/config';
+import { GeminiController } from './gemini/gemini.controller';
+import { GeminiService } from './gemini/gemini.service';
+import { GeminiModule } from './gemini/gemini.module';
 @Module({
   imports: [
     DatabaseModule,
@@ -20,8 +23,9 @@ import { ConfigModule } from '@nestjs/config';
       supabaseUrl: process.env.SUPABASE_URL as string,
     }),
     StudentModule,
+    GeminiModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [AppController, GeminiController],
+  providers: [AppService, GeminiService],
 })
 export class AppModule {}

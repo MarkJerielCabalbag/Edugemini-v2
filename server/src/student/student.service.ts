@@ -324,4 +324,37 @@ export class StudentService {
       );
     }
   }
+
+  //@DECS   Submits the outputs in relation to the workId
+  //@Route  Post student/submit/:workId/:roomId
+  async submit(workId: number, roomId: number, time: string, date: string) {
+    if (!workId || !roomId)
+      new HttpException({ error: 'Id does not exist' }, HttpStatus.BAD_REQUEST);
+
+    const classroom = await this.databaseService.classroom.findUnique({
+      where: { id: roomId },
+    });
+
+    const activity = await this.databaseService.activity.findUnique({
+      where: { id: workId },
+    });
+
+    if (!classroom)
+      new HttpException(
+        { error: 'Classroom does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+
+    if (!activity)
+      new HttpException(
+        { error: 'Activity does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+
+    if (!date)
+      new HttpException({ error: 'Date is needed' }, HttpStatus.BAD_REQUEST);
+
+    if (!time)
+      new HttpException({ error: 'Time is needed' }, HttpStatus.BAD_REQUEST);
+  }
 }

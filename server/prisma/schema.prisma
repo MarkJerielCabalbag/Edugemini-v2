@@ -94,14 +94,18 @@ enum ClassroomStatus {
 }
 
 model Output {
-  id                  Int         @id   @default(autoincrement())
+  id                  Int         @id     @default(autoincrement())
   listOfFiles         Files[]  
-  relatedToStudent    Student?           @relation(fields: [studentId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
+  relatedToStudent    Student?            @relation(fields: [studentId], references: [userId], onDelete: Cascade, onUpdate: Cascade)
   studentId           Int?
   relatedToClassroom  Classroom?          @relation(fields: [roomId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   roomId              Int?
   relatedToActivity   Activity?           @relation(fields: [activityId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   activityId          Int?
+  relatedToFeedback   Feedback?           @relation(fields: [feedbackId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  feedbackId          Int?
+  relatedToScore      Score?              @relation(fields: [scoreId], references: [id], onDelete: Cascade, onUpdate: Cascade)
+  scoreId             Int?
 }
 
 model Files {
@@ -120,4 +124,16 @@ model Files {
 
   relatedToOutput       Output?                     @relation(fields: [outputId], references: [id], onDelete: Cascade, onUpdate: Cascade )
   outputId              Int?
+}
+
+model Feedback { 
+  id                    Int             @id         @default(autoincrement())
+  feedback              String?
+  output                Output[]
+}
+
+model Score {
+  id                    Int             @id          @default(autoincrement())
+  score                 Int?
+  output                Output[]
 }
