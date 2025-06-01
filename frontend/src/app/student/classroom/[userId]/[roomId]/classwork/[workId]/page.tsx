@@ -8,7 +8,7 @@ import { ArrowLeft, Book, Loader, LoaderCircle } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
-import { toDate, format } from "date-fns";
+import { toDate, format, isAfter, isPast, isSameHour } from "date-fns";
 import {
   useGetFiles,
   usePostRemoveFile,
@@ -50,6 +50,9 @@ const page = () => {
     usePostRemoveFile();
 
   const queryClient = useQueryClient();
+
+  const isOverdueDate = isAfter(date, data?.date);
+  const isOverdueTime = isSameHour(data?.time, time);
 
   return (
     <div className="p-8 bg-background max-w-7xl mx-auto">
@@ -215,7 +218,6 @@ const page = () => {
             type="file"
             multiple
             className="w-full"
-            disabled={date === data?.date && time === data?.time}
             style={{ display: "none" }}
             onChange={async (e) => {
               try {
@@ -233,7 +235,7 @@ const page = () => {
         {files?.length !== 0 && (
           <Button
             className="w-full rounded-sm"
-            disabled={date === data?.date && time === data?.time}
+            disabled={isOverdueDate || (time === data?.time && isOverdueDate)}
           >
             Submit
           </Button>
