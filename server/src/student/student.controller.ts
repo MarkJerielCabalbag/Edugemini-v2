@@ -69,14 +69,15 @@ export class StudentController {
   }
 
   //@DECS   Submits the outputs in relation to the workId
-  //@Route  Post student/submit/:workId/:roomId
-  @Post('submit/:workId/:roomId')
+  //@Route  Post student/submit/:workId/:roomId/:studentId
+  @Post('submit/:workId/:roomId/:studentId')
   async submit(
     @Param('workId', ParseIntPipe) workId: number,
     @Param('roomId', ParseIntPipe) roomId: number,
+    @Param('studentId', ParseIntPipe) studentId: number,
     @Body('time') time: string,
     @Body('date') date: string,
   ) {
-    return this.studentService.submit(workId, roomId, time, date);
+    return this.studentService.submit(workId, roomId, studentId, time, date);
   }
 }

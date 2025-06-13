@@ -2,12 +2,14 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { SupabaseClient } from '@supabase/supabase-js';
 import { Output, Prisma, Student } from 'generated/prisma';
 import { DatabaseService } from 'src/database/database.service';
+import { GeminiService } from 'src/gemini/gemini.service';
 
 @Injectable()
 export class StudentService {
   constructor(
     private readonly supabase: SupabaseClient,
     private readonly databaseService: DatabaseService,
+    private readonly geminiService: GeminiService,
   ) {}
 
   //@DESC    Join Classroom
@@ -326,8 +328,14 @@ export class StudentService {
   }
 
   //@DECS   Submits the outputs in relation to the workId
-  //@Route  Post student/submit/:workId/:roomId
-  async submit(workId: number, roomId: number, time: string, date: string) {
+  //@Route  Post student/submit/:workId/:roomId/:studentId
+  async submit(
+    workId: number,
+    roomId: number,
+    studentId: number,
+    time: string,
+    date: string,
+  ) {
     if (!workId || !roomId)
       new HttpException({ error: 'Id does not exist' }, HttpStatus.BAD_REQUEST);
 
@@ -356,5 +364,15 @@ export class StudentService {
 
     if (!time)
       new HttpException({ error: 'Time is needed' }, HttpStatus.BAD_REQUEST);
+
+    try {
+      const output = await this.geminiService.submit('hello', studentId);
+    } catch (error) {
+      console.error('Error submitting work:', error);
+      throw new HttpException(
+        { error: 'Failed to submit work' },
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
 }
