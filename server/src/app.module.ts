@@ -25,7 +25,7 @@ import { GeminiModule } from './gemini/gemini.module';
     StudentModule,
     GeminiModule,
   ],
-  controllers: [AppController, GeminiController],
-  providers: [AppService, GeminiService],
+  controllers: [AppController],
+  providers: [AppService],
 })
 export class AppModule {}
