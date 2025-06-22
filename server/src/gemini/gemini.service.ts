@@ -1,12 +1,12 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
-import {
-  createPartFromUri,
-  createUserContent,
-  GoogleGenAI,
-} from '@google/genai';
+import { GoogleGenAI } from '@google/genai';
+import { GoogleAIFileManager, FileState } from '@google/generative-ai/server';
 import { SupabaseClient } from '@supabase/supabase-js';
 import * as fs from 'fs';
+
+import officeParser, { parseOffice, parseOfficeAsync } from 'officeparser';
+
 @Injectable()
 export class GeminiService {
   constructor(
@@ -49,7 +49,46 @@ export class GeminiService {
       },
     });
 
-    console.log('Output:', output);
+    const instructionFilePath = await this.dataService.files.findFirst({
+      where: {
+        activityId: workId,
+      },
+    });
+
+    //extract first the instruction file - docx - pdf - txt - png - jpg - jpeg
+    let instructionBlob;
+
+    if (instructionFilePath?.filePath) {
+      const { data, error } = await this.supabase.storage
+        .from(process.env.SUPABASE_BUCKET as string)
+        .download(instructionFilePath?.filePath);
+
+      if (error) {
+        throw new HttpException(
+          { message: 'Error downloading instruction file', error },
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+
+      instructionBlob = Buffer.from(await data.arrayBuffer());
+    } else {
+      throw new HttpException(
+        { message: 'Instruction file not found' },
+        HttpStatus.NOT_FOUND,
+      );
+    }
+
+    if (
+      instructionFilePath?.filename?.split('.').pop() === 'docx' ||
+      instructionFilePath?.filename?.split('.').pop() === 'pdf' ||
+      instructionFilePath?.filename?.split('.').pop() === 'txt'
+    ) {
+      const parsedBufferToFile = await parseOfficeAsync(instructionBlob)
+        .then((data) => data)
+        .catch((err) => err);
+
+      console.log('Parsed Instruction:', parsedBufferToFile);
+    }
 
     const outputData = await Promise.all(
       output.map(async (item) => {
@@ -61,35 +100,38 @@ export class GeminiService {
       }),
     );
 
-    const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_KEY });
+    // const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_KEY });
+    // const filemanager = new GoogleAIFileManager(
+    //   process.env.GEMINI_API_KEY as string,
+    // );
+    // for (const item of outputData) {
+    //   for (const file of item.files) {
+    //     const { data, error } = await this.supabase.storage
+    //       .from('edugemini')
+    //       .download(file.filepath as string);
 
-    for (const item of outputData) {
-      for (const file of item.files) {
-        const { data, error } = await this.supabase.storage
-          .from('edugemini')
-          .download(file.filepath as string);
+    //     if (error) {
+    //       console.error(`Error downloading ${file.filename}`, error);
+    //       continue;
+    //     }
 
-        if (error) {
-          console.error(`Error downloading ${file.filename}`, error);
-          continue;
-        }
+    //     const uploadedFile = await filemanager.uploadFile({
+    //       file: data,
+    //       filename: file.filename,
+    //     });
+    //     const result = await ai.models.generateContent({
+    //       model: process.env.GEMINI_MODEL as string,
+    //       contents: [
+    //         {
+    //           text: `This is the content of file "${file.filename}":\n\n${uploadedFile}\n\nPlease summarize it.`,
+    //         },
+    //       ],
+    //     });
 
-        const arrayBuffer = await data.arrayBuffer();
-        const buffer = Buffer.from(arrayBuffer);
-
-        const result = await ai.models.generateContent({
-          model: process.env.GEMINI_MODEL as string,
-          contents: [
-            {
-              text: `This is the content of file "${file.filename}":\n\n${buffer}\n\nPlease summarize it.`,
-            },
-          ],
-        });
-
-        const output = result.text;
-        console.log(`Summary for ${file.filename}:\n`, output);
-      }
-    }
+    //     const output = result.text;
+    //     console.log(`Summary for ${file.filename}:\n`, output);
+    //   }
+    // }
 
     if (!student)
       throw new HttpException(
