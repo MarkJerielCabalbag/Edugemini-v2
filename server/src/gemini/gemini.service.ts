@@ -6,6 +6,7 @@ import { SupabaseClient } from '@supabase/supabase-js';
 import * as fs from 'fs';
 
 import officeParser, { parseOffice, parseOfficeAsync } from 'officeparser';
+import { bufferToParseOfficeDocument } from 'src/utils/utils-blobToText';
 
 @Injectable()
 export class GeminiService {
@@ -87,7 +88,14 @@ export class GeminiService {
         .then((data) => data)
         .catch((err) => err);
 
-      console.log('Parsed Instruction:', parsedBufferToFile);
+      instructionBlob = parsedBufferToFile;
+    } else if (instructionFilePath?.filename?.split('.').pop() === 'png') {
+      const response = await bufferToParseOfficeDocument(
+        instructionBlob,
+        'image/png',
+      );
+
+      instructionBlob = response;
     }
 
     const outputData = await Promise.all(
