@@ -268,11 +268,42 @@ export class StudentService {
           activityId: workId,
         },
       },
+      select: {
+        id: true,
+        relatedToFeedback: {
+          select: {
+            feedback: true,
+          },
+        },
+        relatedToScore: {
+          select: {
+            score: true,
+          },
+        },
+      },
     });
 
     const files = await Promise.all(
       outputs.map((file) =>
-        this.databaseService.files.findMany({ where: { outputId: file.id } }),
+        this.databaseService.files.findMany({
+          where: { outputId: file?.id },
+          include: {
+            relatedToOutput: {
+              select: {
+                relatedToFeedback: {
+                  select: {
+                    feedback: true,
+                  },
+                },
+                relatedToScore: {
+                  select: {
+                    score: true,
+                  },
+                },
+              },
+            },
+          },
+        }),
       ),
     );
 

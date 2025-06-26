@@ -7,6 +7,7 @@ import * as fs from 'fs';
 
 import officeParser, { parseOffice, parseOfficeAsync } from 'officeparser';
 import { bufferToParseOfficeDocument } from 'src/utils/utils-blobToText';
+import { geminiPrompt } from 'src/utils/gemini-prompt';
 
 @Injectable()
 export class GeminiService {
@@ -21,23 +22,15 @@ export class GeminiService {
     workId: number,
     roomId: number,
   ) {
-    const genAI = new GoogleGenAI({
-      apiKey: process.env.GEMINI_KEY,
-    });
-
-    // const response = await genAI.models.generateContent({
-    //   model: process.env.GEMINI_MODEL || 'gemini-2.0-flash',
-    //   contents: {
-    //     text: prompt,
-    //   },
-    // });
-
-    // console.log('Gemini response:', response.text);
-    // console.log('Student ID:', studentId);
-
     const student = await this.dataService.student.findUnique({
       where: { userId: studentId },
     });
+
+    if (!student)
+      throw new HttpException(
+        { message: 'Student does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
 
     const output = await this.dataService.output.findMany({
       where: {
@@ -47,6 +40,7 @@ export class GeminiService {
       },
       select: {
         listOfFiles: true,
+        id: true,
       },
     });
 
@@ -79,6 +73,7 @@ export class GeminiService {
       );
     }
 
+    // parse the instruction file based on its mimetype
     if (
       instructionFilePath?.filename?.split('.').pop() === 'docx' ||
       instructionFilePath?.filename?.split('.').pop() === 'pdf' ||
@@ -96,55 +91,124 @@ export class GeminiService {
       );
 
       instructionBlob = response;
+    } else if (instructionFilePath?.filename?.split('.').pop() === 'jpg') {
+      const response = await bufferToParseOfficeDocument(
+        instructionBlob,
+        'image/png',
+      );
+
+      instructionBlob = response;
+    } else if (instructionFilePath?.filename?.split('.').pop() === 'jpeg') {
+      const response = await bufferToParseOfficeDocument(
+        instructionBlob,
+        'image/png',
+      );
+
+      instructionBlob = response;
     }
 
-    const outputData = await Promise.all(
+    // parse the student's output files based on their mimetype
+
+    const studentFiles = await Promise.all(
       output.map(async (item) => {
-        const files = item.listOfFiles.map((file) => ({
-          filename: file.filename,
-          filepath: file.filePath,
-        }));
-        return { files };
+        return Promise.all(
+          item.listOfFiles.map(async (file) => {
+            const { data, error } = await this.supabase.storage
+              .from(process.env.SUPABASE_BUCKET as string)
+              .download(file?.filePath as string);
+
+            if (error) {
+              throw new HttpException(
+                { message: 'Error downloading student file', error },
+                HttpStatus.BAD_REQUEST,
+              );
+            }
+
+            let studentfileContent;
+            const blob = Buffer.from(await data.arrayBuffer());
+
+            if (file?.filename) {
+              const ext = file.filename.split('.').pop();
+              if (ext === 'docx' || ext === 'pdf' || ext === 'txt') {
+                studentfileContent = await parseOfficeAsync(blob);
+              } else if (ext === 'png') {
+                studentfileContent = await bufferToParseOfficeDocument(
+                  blob,
+                  'image/png',
+                );
+              } else if (ext === 'jpg' || ext === 'jpeg') {
+                studentfileContent = await bufferToParseOfficeDocument(
+                  blob,
+                  'image/jpg',
+                );
+              } else {
+                studentfileContent = blob.toString('utf-8');
+              }
+            }
+            return studentfileContent;
+          }),
+        );
       }),
     );
 
-    // const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_KEY });
-    // const filemanager = new GoogleAIFileManager(
-    //   process.env.GEMINI_API_KEY as string,
-    // );
-    // for (const item of outputData) {
-    //   for (const file of item.files) {
-    //     const { data, error } = await this.supabase.storage
-    //       .from('edugemini')
-    //       .download(file.filepath as string);
+    // prompt to generate the feedback for student
+    const studentFeedbackPrompt = await geminiPrompt(
+      `Evaluate the submissions [${studentFiles.toString()}] against the guidelines set in the instruction file [${instructionBlob}]. Highlight effective elements and provide recommendations for improving coherence and argumentation.`,
+    );
 
-    //     if (error) {
-    //       console.error(`Error downloading ${file.filename}`, error);
-    //       continue;
-    //     }
+    // prompt to generate the feedback for instructor
+    const instructorFeedbackPrompt = await geminiPrompt(
+      `Evaluate the submissions [${studentFiles.toString()}] against the guidelines set in the instruction file [${instructionBlob}]. Provide a detailed analysis of the student's work, including strengths and areas for improvement.`,
+    );
+    // prompt to generate the feedback score
+    const feedbackScorePrompt = await geminiPrompt(
+      `Based on the evaluation of the submissions [${studentFiles.toString()}] and the guidelines set in the instruction file [${instructionBlob}]. Return only a number, dont include any explanations, i just want the exact number or total score.`,
+    );
 
-    //     const uploadedFile = await filemanager.uploadFile({
-    //       file: data,
-    //       filename: file.filename,
-    //     });
-    //     const result = await ai.models.generateContent({
-    //       model: process.env.GEMINI_MODEL as string,
-    //       contents: [
-    //         {
-    //           text: `This is the content of file "${file.filename}":\n\n${uploadedFile}\n\nPlease summarize it.`,
-    //         },
-    //       ],
-    //     });
+    console.log(
+      'Student Feedback Prompt:',
+      studentFeedbackPrompt,
+      'Instructor Feedback Prompt:',
+      instructorFeedbackPrompt,
+      'Feedback Score Prompt:',
+      feedbackScorePrompt,
+    );
 
-    //     const output = result.text;
-    //     console.log(`Summary for ${file.filename}:\n`, output);
-    //   }
-    // }
+    if (feedbackScorePrompt && feedbackScorePrompt && output) {
+      const feedback = await this.dataService.feedback.create({
+        data: {
+          feedback: studentFeedbackPrompt,
+        },
+      });
 
-    if (!student)
-      throw new HttpException(
-        { message: 'Student does not exist' },
-        HttpStatus.BAD_REQUEST,
-      );
+      const score = await this.dataService.score.create({
+        data: {
+          score: parseInt(feedbackScorePrompt),
+        },
+      });
+
+      await this.dataService.output.upsert({
+        where: {
+          roomId_activityId_studentId: {
+            roomId: roomId,
+            activityId: workId,
+            studentId: studentId,
+          },
+        },
+        update: {},
+        create: {
+          relatedToScore: {
+            connect: {
+              id: score.id,
+            },
+          },
+          relatedToFeedback: {
+            connect: {
+              id: feedback.id,
+            },
+          },
+        },
+      });
+    }
   }
 }

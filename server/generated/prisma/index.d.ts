@@ -12976,6 +12976,7 @@ export namespace Prisma {
 
   export type OutputWhereUniqueInput = Prisma.AtLeast<{
     id?: number
+    roomId_activityId_studentId?: OutputRoomId_activityId_studentIdCompoundUniqueInput
     AND?: OutputWhereInput | OutputWhereInput[]
     OR?: OutputWhereInput[]
     NOT?: OutputWhereInput | OutputWhereInput[]
@@ -12990,7 +12991,7 @@ export namespace Prisma {
     relatedToActivity?: XOR<ActivityNullableScalarRelationFilter, ActivityWhereInput> | null
     relatedToFeedback?: XOR<FeedbackNullableScalarRelationFilter, FeedbackWhereInput> | null
     relatedToScore?: XOR<ScoreNullableScalarRelationFilter, ScoreWhereInput> | null
-  }, "id">
+  }, "id" | "roomId_activityId_studentId">
 
   export type OutputOrderByWithAggregationInput = {
     id?: SortOrder
@@ -14176,6 +14177,12 @@ export namespace Prisma {
   export type ScoreNullableScalarRelationFilter = {
     is?: ScoreWhereInput | null
     isNot?: ScoreWhereInput | null
+  }
+
+  export type OutputRoomId_activityId_studentIdCompoundUniqueInput = {
+    roomId: number
+    activityId: number
+    studentId: number
   }
 
   export type OutputCountOrderByAggregateInput = {

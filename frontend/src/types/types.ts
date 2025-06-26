@@ -21,6 +21,15 @@ type RelatedToUser = {
   username: string;
 };
 
+type RelatedToOutput = {
+  relatedToFeedback: {
+    feedback: string;
+  };
+  relatedToScore: {
+    score: number;
+  };
+};
+
 export type ClassroomProps = {
   userId?: number;
   room: string;
@@ -40,6 +49,8 @@ export type FileProps = {
   filename?: string;
   folderPath?: string;
   mimetype?: string;
+
+  relatedToOutput?: RelatedToOutput;
 };
 
 export type AnnouncementProps = {

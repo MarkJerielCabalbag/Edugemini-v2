@@ -53,7 +53,7 @@ const page = () => {
 
   const isOverdueDate = isAfter(date, data?.date);
   const isOverdueTime = isSameHour(data?.time, time);
-
+  console.log(files);
   return (
     <div className="p-8 bg-background max-w-7xl mx-auto">
       <Link
@@ -241,15 +241,45 @@ const page = () => {
           </Button>
         )}
 
-        <div className="rounded-lg border p-6 bg-white shadow-sm">
-          <h2 className="text-lg font-semibold mb-4">Score</h2>
-          <p>90</p>
-        </div>
+        {files?.map((feedback: FileProps) => {
+          return (
+            <>
+              {feedback.relatedToOutput?.relatedToScore?.score && (
+                <div
+                  key={feedback.outputId}
+                  className="rounded-lg border p-6 bg-white shadow-sm"
+                >
+                  <h2 className="text-lg font-semibold mb-4">Score</h2>
+                  <div>
+                    <h2 className="text-lg font-semibold mb-4">
+                      {feedback.relatedToOutput?.relatedToScore?.score}
+                    </h2>
+                  </div>
+                </div>
+              )}
+            </>
+          );
+        })}
 
-        <div className="rounded-lg border p-6 bg-white shadow-sm">
-          <h2 className="text-lg font-semibold mb-4">Feedback</h2>
-          <p>here is the feedback</p>
-        </div>
+        {files?.map((feedback: FileProps) => {
+          return (
+            <>
+              {feedback.relatedToOutput?.relatedToFeedback?.feedback && (
+                <div
+                  key={feedback.outputId}
+                  className="rounded-lg border p-6 bg-white shadow-sm"
+                >
+                  <h2 className="text-lg font-semibold mb-4">Feedback</h2>
+                  <div>
+                    <h2 className="text-lg font-semibold mb-4">
+                      {feedback.relatedToOutput?.relatedToFeedback?.feedback}
+                    </h2>
+                  </div>
+                </div>
+              )}
+            </>
+          );
+        })}
       </div>
     </div>
   );
