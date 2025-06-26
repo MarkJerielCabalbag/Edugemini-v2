@@ -187,7 +187,7 @@ export class GeminiService {
         },
       });
 
-      await this.dataService.output.upsert({
+      await this.dataService.output.update({
         where: {
           roomId_activityId_studentId: {
             roomId: roomId,
@@ -195,8 +195,7 @@ export class GeminiService {
             studentId: studentId,
           },
         },
-        update: {},
-        create: {
+        data: {
           relatedToScore: {
             connect: {
               id: score.id,

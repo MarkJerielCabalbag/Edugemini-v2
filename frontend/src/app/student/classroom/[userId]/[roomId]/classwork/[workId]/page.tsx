@@ -241,45 +241,35 @@ const page = () => {
           </Button>
         )}
 
-        {files?.map((feedback: FileProps) => {
-          return (
-            <>
-              {feedback.relatedToOutput?.relatedToScore?.score && (
-                <div
-                  key={feedback.outputId}
-                  className="rounded-lg border p-6 bg-white shadow-sm"
-                >
-                  <h2 className="text-lg font-semibold mb-4">Score</h2>
-                  <div>
-                    <h2 className="text-lg font-semibold mb-4">
-                      {feedback.relatedToOutput?.relatedToScore?.score}
-                    </h2>
-                  </div>
+        {files?.map((feedback: FileProps) => (
+          <div key={feedback.outputId}>
+            {feedback.relatedToOutput?.relatedToScore?.score !== null && (
+              <div className="rounded-lg border p-6 bg-white shadow-sm">
+                <h2 className="text-lg font-semibold mb-4">Score</h2>
+                <div>
+                  <h2 className="text-lg font-semibold mb-4">
+                    {feedback.relatedToOutput?.relatedToScore?.score}
+                  </h2>
                 </div>
-              )}
-            </>
-          );
-        })}
+              </div>
+            )}
+          </div>
+        ))}
 
-        {files?.map((feedback: FileProps) => {
-          return (
-            <>
-              {feedback.relatedToOutput?.relatedToFeedback?.feedback && (
-                <div
-                  key={feedback.outputId}
-                  className="rounded-lg border p-6 bg-white shadow-sm"
-                >
-                  <h2 className="text-lg font-semibold mb-4">Feedback</h2>
-                  <div>
-                    <h2 className="text-lg font-semibold mb-4">
-                      {feedback.relatedToOutput?.relatedToFeedback?.feedback}
-                    </h2>
-                  </div>
+        {files?.map((feedback: FileProps) => (
+          <div key={feedback.outputId}>
+            {feedback.relatedToOutput?.relatedToFeedback?.feedback !== null && (
+              <div className="rounded-lg border p-6 bg-white shadow-sm">
+                <h2 className="text-lg font-semibold mb-4">Feedback</h2>
+                <div>
+                  <pre className="w-full h-full  text-pretty text-justify opacity-80 leading-9">
+                    {feedback.relatedToOutput?.relatedToFeedback?.feedback}
+                  </pre>
                 </div>
-              )}
-            </>
-          );
-        })}
+              </div>
+            )}
+          </div>
+        ))}
       </div>
     </div>
   );
