@@ -397,11 +397,15 @@ export class StudentService {
       new HttpException({ error: 'Time is needed' }, HttpStatus.BAD_REQUEST);
 
     try {
-      const output = await this.geminiService.submit(
+      await this.geminiService.submit(
         'Can you explain the content from just the file uri?',
         studentId,
         workId,
         roomId,
+      );
+      return new HttpException(
+        { message: 'Successfully submitted' },
+        HttpStatus.ACCEPTED,
       );
     } catch (error) {
       console.error('Error submitting work:', error);

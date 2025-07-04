@@ -107,4 +107,28 @@ export const student = {
       return response;
     });
   },
+
+  async submit(
+    workId: number,
+    roomId: number,
+    studentId: number,
+    time: string,
+    date: string
+  ) {
+    return await fetch(
+      `${baseUrl}/student/submit/${workId}/${roomId}/${studentId}`,
+      {
+        method: "POST",
+        body: JSON.stringify({ time, date }),
+      }
+    ).then(async (res) => {
+      const response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(response.error);
+      }
+
+      return response;
+    });
+  },
 };

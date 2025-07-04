@@ -13,6 +13,7 @@ import {
   useGetFiles,
   usePostRemoveFile,
   usePostSelectedFiles,
+  usePostSubmit,
 } from "@/hooks/student.hooks";
 
 import { useQueryClient } from "@tanstack/react-query";
@@ -48,6 +49,12 @@ const page = () => {
 
   const { mutateAsync: removeFile, isPending: isPendingRemovingFile } =
     usePostRemoveFile();
+
+  const {
+    mutateAsync: submitFile,
+    isPending: isPendingSubmit,
+    isSuccess: isSuccessSubmitted,
+  } = usePostSubmit(Number(workId), Number(roomId), Number(userId), time, date);
 
   const queryClient = useQueryClient();
 
@@ -235,9 +242,21 @@ const page = () => {
         {files?.length !== 0 && (
           <Button
             className="w-full rounded-sm"
-            disabled={isOverdueDate || (time === data?.time && isOverdueDate)}
+            disabled={
+              isOverdueDate ||
+              (time === data?.time && isOverdueDate) ||
+              isPendingSubmit
+            }
+            onClick={async () => {
+              try {
+                await submitFile();
+                await queryClient.invalidateQueries({ queryKey: ["files"] });
+              } catch (error) {
+                console.log(error);
+              }
+            }}
           >
-            Submit
+            {isPendingSubmit ? "Submitting..." : "Submit"}
           </Button>
         )}
 

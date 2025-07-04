@@ -76,3 +76,21 @@ export const usePostRemoveFile = () => {
     },
   });
 };
+
+export const usePostSubmit = (
+  workId: number,
+  roomId: number,
+  studentId: number,
+  time: string,
+  date: string
+) => {
+  return useMutation({
+    mutationFn: () => student.submit(workId, roomId, studentId, time, date),
+    onSuccess: (data) => {
+      toast.success(data.message);
+    },
+    onError: (error) => {
+      toast.error(error?.message);
+    },
+  });
+};

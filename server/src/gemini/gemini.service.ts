@@ -165,14 +165,14 @@ export class GeminiService {
       `Based on the evaluation of the submissions [${studentFiles.toString()}] and the guidelines set in the instruction file [${instructionBlob}]. Return only a number, dont include any explanations, i just want the exact number or total score.`,
     );
 
-    console.log(
-      'Student Feedback Prompt:',
-      studentFeedbackPrompt,
-      'Instructor Feedback Prompt:',
-      instructorFeedbackPrompt,
-      'Feedback Score Prompt:',
-      feedbackScorePrompt,
-    );
+    // console.log(
+    //   'Student Feedback Prompt:',
+    //   studentFeedbackPrompt,
+    //   'Instructor Feedback Prompt:',
+    //   instructorFeedbackPrompt,
+    //   'Feedback Score Prompt:',
+    //   feedbackScorePrompt,
+    // );
 
     if (feedbackScorePrompt && feedbackScorePrompt && output) {
       const feedback = await this.dataService.feedback.create({
@@ -208,6 +208,10 @@ export class GeminiService {
           },
         },
       });
+
+      return {
+        message: 'Feedback and score generated successfully',
+      };
     }
   }
 }
