@@ -168,7 +168,8 @@ exports.Prisma.OutputScalarFieldEnum = {
   roomId: 'roomId',
   activityId: 'activityId',
   feedbackId: 'feedbackId',
-  scoreId: 'scoreId'
+  scoreId: 'scoreId',
+  status: 'status'
 };
 
 exports.Prisma.FilesScalarFieldEnum = {
@@ -211,6 +212,11 @@ exports.ClassroomStatus = exports.$Enums.ClassroomStatus = {
   PENDING: 'PENDING',
   DECLINED: 'DECLINED',
   APPROVED: 'APPROVED'
+};
+
+exports.OutputStatus = exports.$Enums.OutputStatus = {
+  PENDING: 'PENDING',
+  SUBMITTED: 'SUBMITTED'
 };
 
 exports.Prisma.ModelName = {

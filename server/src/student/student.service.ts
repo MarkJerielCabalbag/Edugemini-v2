@@ -415,4 +415,96 @@ export class StudentService {
       );
     }
   }
+
+  //@DECS   Cancel submition of the outputs in relation to the workId
+  //@Route  Post student/cancel/:workId/:roomId/:studentId
+  async cancel(workId: number, roomId: number, studentId: number) {
+    if (!workId || !roomId || !studentId)
+      new HttpException({ error: 'Id does not exist' }, HttpStatus.BAD_REQUEST);
+
+    const classroom = await this.databaseService.classroom.findUnique({
+      where: { id: roomId },
+    });
+
+    const activity = await this.databaseService.activity.findUnique({
+      where: { id: workId },
+    });
+
+    const student = await this.databaseService.student.findUnique({
+      where: { userId: studentId },
+    });
+
+    if (!classroom)
+      new HttpException(
+        { error: 'Classroom does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+
+    if (!activity)
+      new HttpException(
+        { error: 'Activity does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+
+    if (!student)
+      new HttpException(
+        { error: 'Student does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+
+    const output = await this.databaseService.output.findMany({
+      where: {
+        AND: {
+          roomId: roomId,
+          studentId: studentId,
+          activityId: workId,
+        },
+      },
+    });
+
+    if (!output)
+      new HttpException(
+        { error: 'Student output does not exist' },
+        HttpStatus.BAD_REQUEST,
+      );
+
+    try {
+      output.forEach(async (output) => {
+        const files = await this.databaseService.files.findMany({
+          where: { outputId: output.id },
+        });
+
+        files.forEach(async (file) => {
+          const { data, error } = await this.supabase.storage
+            .from(process.env.SUPABASE_BUCKET as string)
+            .remove([file.filePath as string]);
+
+          if (data) {
+            await this.databaseService.files.deleteMany({
+              where: { outputId: output?.id },
+            });
+
+            await this.databaseService.output.updateMany({
+              where: {
+                AND: {
+                  roomId: roomId,
+                  studentId: studentId,
+                  activityId: workId,
+                },
+              },
+              data: {
+                status: 'PENDING',
+              },
+            });
+
+            return {
+              message: 'Successfully removed files',
+            };
+          }
+        });
+      });
+    } catch (error) {
+      return error;
+    }
+  }
 }

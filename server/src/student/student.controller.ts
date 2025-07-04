@@ -80,4 +80,15 @@ export class StudentController {
   ) {
     return this.studentService.submit(workId, roomId, studentId, time, date);
   }
+
+  //@DECS   Cancel submition of the outputs in relation to the workId
+  //@Route  Post student/cancel/:workId/:roomId/:studentId
+  @Post('cancel/:workId/:roomId/:studentId')
+  async cancel(
+    @Param('workId', ParseIntPipe) workId: number,
+    @Param('roomId', ParseIntPipe) roomId: number,
+    @Param('studentId', ParseIntPipe) studentId: number,
+  ) {
+    return this.studentService.cancel(workId, roomId, studentId);
+  }
 }

@@ -240,29 +240,35 @@ const page = () => {
         </label>
 
         {files?.length !== 0 && (
-          <Button
-            className="w-full rounded-sm"
-            disabled={
-              isOverdueDate ||
-              (time === data?.time && isOverdueDate) ||
-              isPendingSubmit
-            }
-            onClick={async () => {
-              try {
-                await submitFile();
-                await queryClient.invalidateQueries({ queryKey: ["files"] });
-              } catch (error) {
-                console.log(error);
+          <div className="flex w-full gap-2 items-center">
+            <Button
+              className="w-1/2 rounded-sm bg-transparent border border-primary text-primary hover:bg-primary/10"
+              disabled={
+                isOverdueDate ||
+                (time === data?.time && isOverdueDate) ||
+                isPendingSubmit ||
+                !files?.length
               }
-            }}
-          >
-            {isPendingSubmit ? "Submitting..." : "Submit"}
-          </Button>
+              onClick={async () => {
+                try {
+                  await submitFile();
+                  await queryClient.invalidateQueries({ queryKey: ["files"] });
+                } catch (error) {
+                  console.log(error);
+                }
+              }}
+            >
+              {isPendingSubmit ? "Submitting..." : "Submit"}
+            </Button>
+            <Button className="w-1/2" variant={"destructive"}>
+              Cancel
+            </Button>
+          </div>
         )}
 
         {files?.map((feedback: FileProps) => (
           <div key={feedback.outputId}>
-            {feedback.relatedToOutput?.relatedToScore?.score !== null && (
+            {feedback.relatedToOutput?.relatedToScore?.score ? (
               <div className="rounded-lg border p-6 bg-white shadow-sm">
                 <h2 className="text-lg font-semibold mb-4">Score</h2>
                 <div>
@@ -271,13 +277,13 @@ const page = () => {
                   </h2>
                 </div>
               </div>
-            )}
+            ) : null}
           </div>
         ))}
 
         {files?.map((feedback: FileProps) => (
           <div key={feedback.outputId}>
-            {feedback.relatedToOutput?.relatedToFeedback?.feedback !== null && (
+            {feedback.relatedToOutput?.relatedToFeedback?.feedback ? (
               <div className="rounded-lg border p-6 bg-white shadow-sm">
                 <h2 className="text-lg font-semibold mb-4">Feedback</h2>
                 <div>
@@ -286,7 +292,7 @@ const page = () => {
                   </pre>
                 </div>
               </div>
-            )}
+            ) : null}
           </div>
         ))}
       </div>
