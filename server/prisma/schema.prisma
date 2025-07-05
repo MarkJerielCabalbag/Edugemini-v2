@@ -111,7 +111,7 @@ model Output {
   feedbackId          Int?
   relatedToScore      Score?              @relation(fields: [scoreId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   scoreId             Int?
-  status              OutputStatus         @default(PENDING)  
+  
 
     @@unique([roomId, activityId, studentId], name: "roomId_activityId_studentId")
 }
@@ -132,6 +132,8 @@ model Files {
 
   relatedToOutput       Output?                     @relation(fields: [outputId], references: [id], onDelete: Cascade, onUpdate: Cascade )
   outputId              Int?
+
+    status              OutputStatus         @default(PENDING) 
 }
 
 model Feedback { 

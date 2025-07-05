@@ -131,4 +131,22 @@ export const student = {
       return response;
     });
   },
+
+  async cancel(workId: number, roomId: number, studentId: number) {
+    return await fetch(
+      `${baseUrl}/student/cancel/${workId}/${roomId}/${studentId}`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+      }
+    ).then(async (res) => {
+      const response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(response.error);
+      }
+
+      return response;
+    });
+  },
 };

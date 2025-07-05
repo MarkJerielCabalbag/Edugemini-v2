@@ -187,7 +187,7 @@ export class GeminiService {
         },
       });
 
-      await this.dataService.output.upsert({
+      const output = await this.dataService.output.upsert({
         where: {
           roomId_activityId_studentId: {
             roomId: roomId,
@@ -196,7 +196,6 @@ export class GeminiService {
           },
         },
         update: {
-          status: 'SUBMITTED',
           relatedToScore: {
             connect: {
               id: score.id,
@@ -209,7 +208,6 @@ export class GeminiService {
           },
         },
         create: {
-          status: 'SUBMITTED',
           relatedToScore: {
             connect: {
               id: score.id,
@@ -220,6 +218,19 @@ export class GeminiService {
               id: feedback.id,
             },
           },
+        },
+      });
+
+      if (!output) {
+        return {
+          message: 'Output not found or created successfully',
+        };
+      }
+
+      await this.dataService.files.updateMany({
+        where: { outputId: output.id },
+        data: {
+          status: 'SUBMITTED',
         },
       });
 

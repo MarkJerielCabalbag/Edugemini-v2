@@ -11,6 +11,7 @@ import React, { useState } from "react";
 import { toDate, format, isAfter, isPast, isSameHour } from "date-fns";
 import {
   useGetFiles,
+  usePostCancelSubmition,
   usePostRemoveFile,
   usePostSelectedFiles,
   usePostSubmit,
@@ -56,7 +57,15 @@ const page = () => {
     isSuccess: isSuccessSubmitted,
   } = usePostSubmit(Number(workId), Number(roomId), Number(userId), time, date);
 
+  const { mutateAsync: cancel, isPending: isPendingCancel } =
+    usePostCancelSubmition(Number(workId), Number(roomId), Number(userId));
+
   const queryClient = useQueryClient();
+
+  // console.log(
+  //   "Files: ",
+  //   files?.flatMap((file: FileProps) => file.status === "SUBMITTED")
+  // );
 
   const isOverdueDate = isAfter(date, data?.date);
   const isOverdueTime = isSameHour(data?.time, time);
@@ -247,7 +256,8 @@ const page = () => {
                 isOverdueDate ||
                 (time === data?.time && isOverdueDate) ||
                 isPendingSubmit ||
-                !files?.length
+                !files?.length ||
+                files?.some((file: FileProps) => file.status === "SUBMITTED")
               }
               onClick={async () => {
                 try {
@@ -260,8 +270,26 @@ const page = () => {
             >
               {isPendingSubmit ? "Submitting..." : "Submit"}
             </Button>
-            <Button className="w-1/2" variant={"destructive"}>
-              Cancel
+            <Button
+              className="w-1/2"
+              variant={"destructive"}
+              disabled={
+                isOverdueDate ||
+                (time === data?.time && isOverdueDate) ||
+                isPendingSubmit ||
+                !files?.length ||
+                isPendingCancel
+              }
+              onClick={async () => {
+                try {
+                  await cancel();
+                  await queryClient.invalidateQueries({ queryKey: ["files"] });
+                } catch (error) {
+                  console.log(error);
+                }
+              }}
+            >
+              {isPendingCancel ? "Cancelling..." : "Cancel"}
             </Button>
           </div>
         )}

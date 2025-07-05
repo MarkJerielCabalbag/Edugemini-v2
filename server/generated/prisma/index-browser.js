@@ -168,8 +168,7 @@ exports.Prisma.OutputScalarFieldEnum = {
   roomId: 'roomId',
   activityId: 'activityId',
   feedbackId: 'feedbackId',
-  scoreId: 'scoreId',
-  status: 'status'
+  scoreId: 'scoreId'
 };
 
 exports.Prisma.FilesScalarFieldEnum = {
@@ -181,7 +180,8 @@ exports.Prisma.FilesScalarFieldEnum = {
   filePath: 'filePath',
   activityId: 'activityId',
   announceId: 'announceId',
-  outputId: 'outputId'
+  outputId: 'outputId',
+  status: 'status'
 };
 
 exports.Prisma.FeedbackScalarFieldEnum = {

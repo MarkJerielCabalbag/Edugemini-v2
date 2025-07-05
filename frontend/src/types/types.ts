@@ -51,6 +51,7 @@ export type FileProps = {
   mimetype?: string;
 
   relatedToOutput?: RelatedToOutput;
+  status?: string;
 };
 
 export type AnnouncementProps = {

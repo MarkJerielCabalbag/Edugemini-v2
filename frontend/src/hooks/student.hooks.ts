@@ -94,3 +94,19 @@ export const usePostSubmit = (
     },
   });
 };
+
+export const usePostCancelSubmition = (
+  workId: number,
+  roomId: number,
+  studentId: number
+) => {
+  return useMutation({
+    mutationFn: () => student.cancel(workId, roomId, studentId),
+    onSuccess: (data) => {
+      toast.success(data.message);
+    },
+    onError: (error) => {
+      toast.error(error?.message);
+    },
+  });
+};

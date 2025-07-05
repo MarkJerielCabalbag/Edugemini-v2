@@ -462,47 +462,47 @@ export class StudentService {
       },
     });
 
-    if (!output)
-      new HttpException(
-        { error: 'Student output does not exist' },
-        HttpStatus.BAD_REQUEST,
-      );
-
     try {
       output.forEach(async (output) => {
-        const files = await this.databaseService.files.findMany({
-          where: { outputId: output.id },
+        await this.databaseService.files.updateMany({
+          where: {
+            outputId: output?.id,
+          },
+          data: {
+            status: 'PENDING',
+          },
         });
 
-        files.forEach(async (file) => {
-          const { data, error } = await this.supabase.storage
-            .from(process.env.SUPABASE_BUCKET as string)
-            .remove([file.filePath as string]);
+        await this.databaseService.output.update({
+          where: {
+            id: output?.id,
+          },
+          data: {
+            relatedToScore: {
+              disconnect: true,
+            },
+            relatedToFeedback: {
+              disconnect: true,
+            },
+          },
+        });
 
-          if (data) {
-            await this.databaseService.files.deleteMany({
-              where: { outputId: output?.id },
-            });
+        await this.databaseService.score.delete({
+          where: {
+            id: output?.scoreId as number,
+          },
+        });
 
-            await this.databaseService.output.updateMany({
-              where: {
-                AND: {
-                  roomId: roomId,
-                  studentId: studentId,
-                  activityId: workId,
-                },
-              },
-              data: {
-                status: 'PENDING',
-              },
-            });
-
-            return {
-              message: 'Successfully removed files',
-            };
-          }
+        await this.databaseService.feedback.delete({
+          where: {
+            id: output?.feedbackId as number,
+          },
         });
       });
+
+      return {
+        message: 'Successfully cancelled submission',
+      };
     } catch (error) {
       return error;
     }
