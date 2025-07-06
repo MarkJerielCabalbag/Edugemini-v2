@@ -96,6 +96,7 @@ enum ClassroomStatus {
 enum OutputStatus {
  PENDING
  SUBMITTED
+ LATE
 }
 
 model Output {
@@ -132,6 +133,7 @@ model Files {
 
   relatedToOutput       Output?                     @relation(fields: [outputId], references: [id], onDelete: Cascade, onUpdate: Cascade )
   outputId              Int?
+  publicFileUrl         String?
 
     status              OutputStatus         @default(PENDING) 
 }

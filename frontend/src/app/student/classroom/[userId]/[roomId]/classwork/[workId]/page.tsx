@@ -69,7 +69,7 @@ const page = () => {
 
   const isOverdueDate = isAfter(date, data?.date);
   const isOverdueTime = isSameHour(data?.time, time);
-  console.log(files);
+  console.log(data);
   return (
     <div className="p-8 bg-background max-w-7xl mx-auto">
       <Link
@@ -126,6 +126,7 @@ const page = () => {
                     variant="ghost"
                     size="sm"
                     className="hover:bg-primary/10"
+                    onClick={() => window.open(file.publicFileUrl, "_blank")}
                   >
                     Download
                   </Button>
@@ -191,7 +192,10 @@ const page = () => {
                         className="hover:bg-red-50 hover:text-red-600 transition-colors"
                         disabled={
                           isPendingRemovingFile ||
-                          (date === data?.date && time === data?.time)
+                          (date === data?.date && time === data?.time) ||
+                          files?.some(
+                            (file: FileProps) => file.status === "SUBMITTED"
+                          )
                         }
                         onClick={async () => {
                           try {

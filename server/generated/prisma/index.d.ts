@@ -74,7 +74,8 @@ export type ClassroomStatus = (typeof ClassroomStatus)[keyof typeof ClassroomSta
 
 export const OutputStatus: {
   PENDING: 'PENDING',
-  SUBMITTED: 'SUBMITTED'
+  SUBMITTED: 'SUBMITTED',
+  LATE: 'LATE'
 };
 
 export type OutputStatus = (typeof OutputStatus)[keyof typeof OutputStatus]
@@ -9065,6 +9066,7 @@ export namespace Prisma {
     activityId: number | null
     announceId: number | null
     outputId: number | null
+    publicFileUrl: string | null
     status: $Enums.OutputStatus | null
   }
 
@@ -9078,6 +9080,7 @@ export namespace Prisma {
     activityId: number | null
     announceId: number | null
     outputId: number | null
+    publicFileUrl: string | null
     status: $Enums.OutputStatus | null
   }
 
@@ -9091,6 +9094,7 @@ export namespace Prisma {
     activityId: number
     announceId: number
     outputId: number
+    publicFileUrl: number
     status: number
     _all: number
   }
@@ -9122,6 +9126,7 @@ export namespace Prisma {
     activityId?: true
     announceId?: true
     outputId?: true
+    publicFileUrl?: true
     status?: true
   }
 
@@ -9135,6 +9140,7 @@ export namespace Prisma {
     activityId?: true
     announceId?: true
     outputId?: true
+    publicFileUrl?: true
     status?: true
   }
 
@@ -9148,6 +9154,7 @@ export namespace Prisma {
     activityId?: true
     announceId?: true
     outputId?: true
+    publicFileUrl?: true
     status?: true
     _all?: true
   }
@@ -9248,6 +9255,7 @@ export namespace Prisma {
     activityId: number | null
     announceId: number | null
     outputId: number | null
+    publicFileUrl: string | null
     status: $Enums.OutputStatus
     _count: FilesCountAggregateOutputType | null
     _avg: FilesAvgAggregateOutputType | null
@@ -9280,6 +9288,7 @@ export namespace Prisma {
     activityId?: boolean
     announceId?: boolean
     outputId?: boolean
+    publicFileUrl?: boolean
     status?: boolean
     relatedToActivity?: boolean | Files$relatedToActivityArgs<ExtArgs>
     relatedToAnnouncement?: boolean | Files$relatedToAnnouncementArgs<ExtArgs>
@@ -9296,6 +9305,7 @@ export namespace Prisma {
     activityId?: boolean
     announceId?: boolean
     outputId?: boolean
+    publicFileUrl?: boolean
     status?: boolean
     relatedToActivity?: boolean | Files$relatedToActivityArgs<ExtArgs>
     relatedToAnnouncement?: boolean | Files$relatedToAnnouncementArgs<ExtArgs>
@@ -9312,6 +9322,7 @@ export namespace Prisma {
     activityId?: boolean
     announceId?: boolean
     outputId?: boolean
+    publicFileUrl?: boolean
     status?: boolean
     relatedToActivity?: boolean | Files$relatedToActivityArgs<ExtArgs>
     relatedToAnnouncement?: boolean | Files$relatedToAnnouncementArgs<ExtArgs>
@@ -9328,10 +9339,11 @@ export namespace Prisma {
     activityId?: boolean
     announceId?: boolean
     outputId?: boolean
+    publicFileUrl?: boolean
     status?: boolean
   }
 
-  export type FilesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "filename" | "mimetype" | "fileSize" | "folderPath" | "filePath" | "activityId" | "announceId" | "outputId" | "status", ExtArgs["result"]["files"]>
+  export type FilesOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "filename" | "mimetype" | "fileSize" | "folderPath" | "filePath" | "activityId" | "announceId" | "outputId" | "publicFileUrl" | "status", ExtArgs["result"]["files"]>
   export type FilesInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     relatedToActivity?: boolean | Files$relatedToActivityArgs<ExtArgs>
     relatedToAnnouncement?: boolean | Files$relatedToAnnouncementArgs<ExtArgs>
@@ -9365,6 +9377,7 @@ export namespace Prisma {
       activityId: number | null
       announceId: number | null
       outputId: number | null
+      publicFileUrl: string | null
       status: $Enums.OutputStatus
     }, ExtArgs["result"]["files"]>
     composites: {}
@@ -9801,6 +9814,7 @@ export namespace Prisma {
     readonly activityId: FieldRef<"Files", 'Int'>
     readonly announceId: FieldRef<"Files", 'Int'>
     readonly outputId: FieldRef<"Files", 'Int'>
+    readonly publicFileUrl: FieldRef<"Files", 'String'>
     readonly status: FieldRef<"Files", 'OutputStatus'>
   }
     
@@ -12503,6 +12517,7 @@ export namespace Prisma {
     activityId: 'activityId',
     announceId: 'announceId',
     outputId: 'outputId',
+    publicFileUrl: 'publicFileUrl',
     status: 'status'
   };
 
@@ -13072,6 +13087,7 @@ export namespace Prisma {
     activityId?: IntNullableFilter<"Files"> | number | null
     announceId?: IntNullableFilter<"Files"> | number | null
     outputId?: IntNullableFilter<"Files"> | number | null
+    publicFileUrl?: StringNullableFilter<"Files"> | string | null
     status?: EnumOutputStatusFilter<"Files"> | $Enums.OutputStatus
     relatedToActivity?: XOR<ActivityNullableScalarRelationFilter, ActivityWhereInput> | null
     relatedToAnnouncement?: XOR<AnnouncementNullableScalarRelationFilter, AnnouncementWhereInput> | null
@@ -13088,6 +13104,7 @@ export namespace Prisma {
     activityId?: SortOrderInput | SortOrder
     announceId?: SortOrderInput | SortOrder
     outputId?: SortOrderInput | SortOrder
+    publicFileUrl?: SortOrderInput | SortOrder
     status?: SortOrder
     relatedToActivity?: ActivityOrderByWithRelationInput
     relatedToAnnouncement?: AnnouncementOrderByWithRelationInput
@@ -13107,6 +13124,7 @@ export namespace Prisma {
     activityId?: IntNullableFilter<"Files"> | number | null
     announceId?: IntNullableFilter<"Files"> | number | null
     outputId?: IntNullableFilter<"Files"> | number | null
+    publicFileUrl?: StringNullableFilter<"Files"> | string | null
     status?: EnumOutputStatusFilter<"Files"> | $Enums.OutputStatus
     relatedToActivity?: XOR<ActivityNullableScalarRelationFilter, ActivityWhereInput> | null
     relatedToAnnouncement?: XOR<AnnouncementNullableScalarRelationFilter, AnnouncementWhereInput> | null
@@ -13123,6 +13141,7 @@ export namespace Prisma {
     activityId?: SortOrderInput | SortOrder
     announceId?: SortOrderInput | SortOrder
     outputId?: SortOrderInput | SortOrder
+    publicFileUrl?: SortOrderInput | SortOrder
     status?: SortOrder
     _count?: FilesCountOrderByAggregateInput
     _avg?: FilesAvgOrderByAggregateInput
@@ -13144,6 +13163,7 @@ export namespace Prisma {
     activityId?: IntNullableWithAggregatesFilter<"Files"> | number | null
     announceId?: IntNullableWithAggregatesFilter<"Files"> | number | null
     outputId?: IntNullableWithAggregatesFilter<"Files"> | number | null
+    publicFileUrl?: StringNullableWithAggregatesFilter<"Files"> | string | null
     status?: EnumOutputStatusWithAggregatesFilter<"Files"> | $Enums.OutputStatus
   }
 
@@ -13635,6 +13655,7 @@ export namespace Prisma {
     fileSize: number
     folderPath?: string | null
     filePath?: string | null
+    publicFileUrl?: string | null
     status?: $Enums.OutputStatus
     relatedToActivity?: ActivityCreateNestedOneWithoutCriteriaInput
     relatedToAnnouncement?: AnnouncementCreateNestedOneWithoutListOfFilesInput
@@ -13651,6 +13672,7 @@ export namespace Prisma {
     activityId?: number | null
     announceId?: number | null
     outputId?: number | null
+    publicFileUrl?: string | null
     status?: $Enums.OutputStatus
   }
 
@@ -13660,6 +13682,7 @@ export namespace Prisma {
     fileSize?: IntFieldUpdateOperationsInput | number
     folderPath?: NullableStringFieldUpdateOperationsInput | string | null
     filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    publicFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOutputStatusFieldUpdateOperationsInput | $Enums.OutputStatus
     relatedToActivity?: ActivityUpdateOneWithoutCriteriaNestedInput
     relatedToAnnouncement?: AnnouncementUpdateOneWithoutListOfFilesNestedInput
@@ -13676,6 +13699,7 @@ export namespace Prisma {
     activityId?: NullableIntFieldUpdateOperationsInput | number | null
     announceId?: NullableIntFieldUpdateOperationsInput | number | null
     outputId?: NullableIntFieldUpdateOperationsInput | number | null
+    publicFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOutputStatusFieldUpdateOperationsInput | $Enums.OutputStatus
   }
 
@@ -13689,6 +13713,7 @@ export namespace Prisma {
     activityId?: number | null
     announceId?: number | null
     outputId?: number | null
+    publicFileUrl?: string | null
     status?: $Enums.OutputStatus
   }
 
@@ -13698,6 +13723,7 @@ export namespace Prisma {
     fileSize?: IntFieldUpdateOperationsInput | number
     folderPath?: NullableStringFieldUpdateOperationsInput | string | null
     filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    publicFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOutputStatusFieldUpdateOperationsInput | $Enums.OutputStatus
   }
 
@@ -13711,6 +13737,7 @@ export namespace Prisma {
     activityId?: NullableIntFieldUpdateOperationsInput | number | null
     announceId?: NullableIntFieldUpdateOperationsInput | number | null
     outputId?: NullableIntFieldUpdateOperationsInput | number | null
+    publicFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOutputStatusFieldUpdateOperationsInput | $Enums.OutputStatus
   }
 
@@ -14309,6 +14336,7 @@ export namespace Prisma {
     activityId?: SortOrder
     announceId?: SortOrder
     outputId?: SortOrder
+    publicFileUrl?: SortOrder
     status?: SortOrder
   }
 
@@ -14330,6 +14358,7 @@ export namespace Prisma {
     activityId?: SortOrder
     announceId?: SortOrder
     outputId?: SortOrder
+    publicFileUrl?: SortOrder
     status?: SortOrder
   }
 
@@ -14343,6 +14372,7 @@ export namespace Prisma {
     activityId?: SortOrder
     announceId?: SortOrder
     outputId?: SortOrder
+    publicFileUrl?: SortOrder
     status?: SortOrder
   }
 
@@ -15938,6 +15968,7 @@ export namespace Prisma {
     fileSize: number
     folderPath?: string | null
     filePath?: string | null
+    publicFileUrl?: string | null
     status?: $Enums.OutputStatus
     relatedToAnnouncement?: AnnouncementCreateNestedOneWithoutListOfFilesInput
     relatedToOutput?: OutputCreateNestedOneWithoutListOfFilesInput
@@ -15952,6 +15983,7 @@ export namespace Prisma {
     filePath?: string | null
     announceId?: number | null
     outputId?: number | null
+    publicFileUrl?: string | null
     status?: $Enums.OutputStatus
   }
 
@@ -16053,6 +16085,7 @@ export namespace Prisma {
     activityId?: IntNullableFilter<"Files"> | number | null
     announceId?: IntNullableFilter<"Files"> | number | null
     outputId?: IntNullableFilter<"Files"> | number | null
+    publicFileUrl?: StringNullableFilter<"Files"> | string | null
     status?: EnumOutputStatusFilter<"Files"> | $Enums.OutputStatus
   }
 
@@ -16148,6 +16181,7 @@ export namespace Prisma {
     fileSize: number
     folderPath?: string | null
     filePath?: string | null
+    publicFileUrl?: string | null
     status?: $Enums.OutputStatus
     relatedToActivity?: ActivityCreateNestedOneWithoutCriteriaInput
     relatedToOutput?: OutputCreateNestedOneWithoutListOfFilesInput
@@ -16162,6 +16196,7 @@ export namespace Prisma {
     filePath?: string | null
     activityId?: number | null
     outputId?: number | null
+    publicFileUrl?: string | null
     status?: $Enums.OutputStatus
   }
 
@@ -16235,6 +16270,7 @@ export namespace Prisma {
     fileSize: number
     folderPath?: string | null
     filePath?: string | null
+    publicFileUrl?: string | null
     status?: $Enums.OutputStatus
     relatedToActivity?: ActivityCreateNestedOneWithoutCriteriaInput
     relatedToAnnouncement?: AnnouncementCreateNestedOneWithoutListOfFilesInput
@@ -16249,6 +16285,7 @@ export namespace Prisma {
     filePath?: string | null
     activityId?: number | null
     announceId?: number | null
+    publicFileUrl?: string | null
     status?: $Enums.OutputStatus
   }
 
@@ -16986,6 +17023,7 @@ export namespace Prisma {
     filePath?: string | null
     announceId?: number | null
     outputId?: number | null
+    publicFileUrl?: string | null
     status?: $Enums.OutputStatus
   }
 
@@ -17003,6 +17041,7 @@ export namespace Prisma {
     fileSize?: IntFieldUpdateOperationsInput | number
     folderPath?: NullableStringFieldUpdateOperationsInput | string | null
     filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    publicFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOutputStatusFieldUpdateOperationsInput | $Enums.OutputStatus
     relatedToAnnouncement?: AnnouncementUpdateOneWithoutListOfFilesNestedInput
     relatedToOutput?: OutputUpdateOneWithoutListOfFilesNestedInput
@@ -17017,6 +17056,7 @@ export namespace Prisma {
     filePath?: NullableStringFieldUpdateOperationsInput | string | null
     announceId?: NullableIntFieldUpdateOperationsInput | number | null
     outputId?: NullableIntFieldUpdateOperationsInput | number | null
+    publicFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOutputStatusFieldUpdateOperationsInput | $Enums.OutputStatus
   }
 
@@ -17029,6 +17069,7 @@ export namespace Prisma {
     filePath?: NullableStringFieldUpdateOperationsInput | string | null
     announceId?: NullableIntFieldUpdateOperationsInput | number | null
     outputId?: NullableIntFieldUpdateOperationsInput | number | null
+    publicFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOutputStatusFieldUpdateOperationsInput | $Enums.OutputStatus
   }
 
@@ -17066,6 +17107,7 @@ export namespace Prisma {
     filePath?: string | null
     activityId?: number | null
     outputId?: number | null
+    publicFileUrl?: string | null
     status?: $Enums.OutputStatus
   }
 
@@ -17075,6 +17117,7 @@ export namespace Prisma {
     fileSize?: IntFieldUpdateOperationsInput | number
     folderPath?: NullableStringFieldUpdateOperationsInput | string | null
     filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    publicFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOutputStatusFieldUpdateOperationsInput | $Enums.OutputStatus
     relatedToActivity?: ActivityUpdateOneWithoutCriteriaNestedInput
     relatedToOutput?: OutputUpdateOneWithoutListOfFilesNestedInput
@@ -17089,6 +17132,7 @@ export namespace Prisma {
     filePath?: NullableStringFieldUpdateOperationsInput | string | null
     activityId?: NullableIntFieldUpdateOperationsInput | number | null
     outputId?: NullableIntFieldUpdateOperationsInput | number | null
+    publicFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOutputStatusFieldUpdateOperationsInput | $Enums.OutputStatus
   }
 
@@ -17101,6 +17145,7 @@ export namespace Prisma {
     filePath?: NullableStringFieldUpdateOperationsInput | string | null
     activityId?: NullableIntFieldUpdateOperationsInput | number | null
     outputId?: NullableIntFieldUpdateOperationsInput | number | null
+    publicFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOutputStatusFieldUpdateOperationsInput | $Enums.OutputStatus
   }
 
@@ -17113,6 +17158,7 @@ export namespace Prisma {
     filePath?: string | null
     activityId?: number | null
     announceId?: number | null
+    publicFileUrl?: string | null
     status?: $Enums.OutputStatus
   }
 
@@ -17122,6 +17168,7 @@ export namespace Prisma {
     fileSize?: IntFieldUpdateOperationsInput | number
     folderPath?: NullableStringFieldUpdateOperationsInput | string | null
     filePath?: NullableStringFieldUpdateOperationsInput | string | null
+    publicFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOutputStatusFieldUpdateOperationsInput | $Enums.OutputStatus
     relatedToActivity?: ActivityUpdateOneWithoutCriteriaNestedInput
     relatedToAnnouncement?: AnnouncementUpdateOneWithoutListOfFilesNestedInput
@@ -17136,6 +17183,7 @@ export namespace Prisma {
     filePath?: NullableStringFieldUpdateOperationsInput | string | null
     activityId?: NullableIntFieldUpdateOperationsInput | number | null
     announceId?: NullableIntFieldUpdateOperationsInput | number | null
+    publicFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOutputStatusFieldUpdateOperationsInput | $Enums.OutputStatus
   }
 
@@ -17148,6 +17196,7 @@ export namespace Prisma {
     filePath?: NullableStringFieldUpdateOperationsInput | string | null
     activityId?: NullableIntFieldUpdateOperationsInput | number | null
     announceId?: NullableIntFieldUpdateOperationsInput | number | null
+    publicFileUrl?: NullableStringFieldUpdateOperationsInput | string | null
     status?: EnumOutputStatusFieldUpdateOperationsInput | $Enums.OutputStatus
   }
 

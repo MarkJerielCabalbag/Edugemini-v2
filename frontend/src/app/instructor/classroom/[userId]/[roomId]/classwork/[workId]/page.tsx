@@ -27,6 +27,8 @@ const page = () => {
     (student: StudentProps) => student.status === "APPROVED"
   );
 
+  console.log(approvesStudents);
+
   const router = useRouter();
 
   return (

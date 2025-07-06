@@ -181,6 +181,7 @@ exports.Prisma.FilesScalarFieldEnum = {
   activityId: 'activityId',
   announceId: 'announceId',
   outputId: 'outputId',
+  publicFileUrl: 'publicFileUrl',
   status: 'status'
 };
 
@@ -216,7 +217,8 @@ exports.ClassroomStatus = exports.$Enums.ClassroomStatus = {
 
 exports.OutputStatus = exports.$Enums.OutputStatus = {
   PENDING: 'PENDING',
-  SUBMITTED: 'SUBMITTED'
+  SUBMITTED: 'SUBMITTED',
+  LATE: 'LATE'
 };
 
 exports.Prisma.ModelName = {

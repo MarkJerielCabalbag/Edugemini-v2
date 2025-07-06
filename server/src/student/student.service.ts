@@ -177,27 +177,39 @@ export class StudentService {
           );
         }
         if (data) {
-          const output = await this.databaseService.output.create({
-            data: {
-              relatedToStudent: {
-                connect: {
-                  userId: userId,
-                },
+          const createdOutput = await this.databaseService.output.upsert({
+            where: {
+              roomId_activityId_studentId: {
+                roomId: roomId,
+                activityId: workId,
+                studentId: student?.userId as number,
               },
-
-              relatedToClassroom: {
-                connect: {
-                  id: roomId,
-                },
-              },
-
+            },
+            update: {},
+            create: {
               relatedToActivity: {
                 connect: {
                   id: workId,
                 },
               },
+              relatedToStudent: {
+                connect: {
+                  userId: student?.userId,
+                },
+              },
+              relatedToClassroom: {
+                connect: {
+                  id: roomId,
+                },
+              },
             },
           });
+
+          const { data } = await this.supabase.storage
+            .from('edugemini')
+            .getPublicUrl(
+              `classroom/${classroom?.classname}/activity/${classwork?.title}/${student?.firstname}/${file.originalname}`,
+            );
 
           await this.databaseService.files.create({
             data: {
@@ -209,9 +221,10 @@ export class StudentService {
 
               relatedToOutput: {
                 connect: {
-                  id: output.id,
+                  id: createdOutput?.id,
                 },
               },
+              publicFileUrl: data.publicUrl,
             },
           });
         }

@@ -25,6 +25,8 @@ const page = () => {
 
   const router = useRouter();
 
+  console.log("Student Files:", studentFiles);
+
   return (
     <div className="p-8 bg-background max-w-7xl mx-auto">
       <Link
@@ -59,11 +61,18 @@ const page = () => {
             </div>
             <div>
               <p className="text-muted-foreground">Submission Status</p>
-              <p className="font-medium">Pending</p>
+              <p className="font-medium">
+                {studentFiles?.map((file: FileProps) => file.status)}
+              </p>
             </div>
             <div>
               <p className="text-muted-foreground">Score</p>
-              <p className="font-medium">N/A</p>
+              <p className="font-medium">
+                {studentFiles?.map(
+                  (file: FileProps) =>
+                    file?.relatedToOutput?.relatedToScore.score
+                )}
+              </p>
             </div>
           </div>
         </div>
@@ -107,17 +116,33 @@ const page = () => {
                 <div className="flex gap-2">
                   <button
                     className="px-3 py-1 text-sm bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
-                    // onClick={() => window.open(file.outputURL, "_blank")}
+                    onClick={() => window.open(file?.publicFileUrl, "_blank")}
                   >
                     View
                   </button>
                   <button
                     className="px-3 py-1 text-sm border border-input bg-background hover:bg-accent rounded-md"
-                    // onClick={() => window.open(file.outputURL, "_blank")}
+                    onClick={() => window.open(file?.publicFileUrl, "_blank")}
                   >
                     Download
                   </button>
                 </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {studentFiles?.length > 0 && (
+          <div className="space-y-3">
+            <h2 className="text-lg font-semibold">Student Feedback</h2>
+            {studentFiles?.map((file: FileProps) => (
+              <div
+                key={file.outputId}
+                className="p-4 rounded-lg border bg-card"
+              >
+                <pre className="w-full h-full text-pretty text-justify opacity-80 leading-9">
+                  {file.relatedToOutput?.relatedToFeedback.feedback}
+                </pre>
               </div>
             ))}
           </div>

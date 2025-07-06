@@ -51,6 +51,7 @@ export type FileProps = {
   mimetype?: string;
 
   relatedToOutput?: RelatedToOutput;
+  publicFileUrl?: string;
   status?: string;
 };
 

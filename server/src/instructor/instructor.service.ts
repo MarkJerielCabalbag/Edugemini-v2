@@ -2,6 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Activity, Announcement, Prisma } from 'generated/prisma';
 import { DatabaseService } from 'src/database/database.service';
 import { SupabaseClient } from '@supabase/supabase-js';
+import { map } from 'rxjs';
 
 @Injectable()
 export class InstructorService {
@@ -135,6 +136,11 @@ export class InstructorService {
           file.buffer,
         );
       if (data) {
+        const { data } = await this.supabase.storage
+          .from(process.env.SUPABASE_BUCKET as string)
+          .getPublicUrl(
+            `classroom/${isClassroomExist?.classname}/announcement/${newAnnouncement.title}/${file.originalname}`,
+          );
         return await this.databaseService.files.create({
           data: {
             filename: file.originalname,
@@ -147,6 +153,7 @@ export class InstructorService {
                 id: newAnnouncement.id,
               },
             },
+            publicFileUrl: data.publicUrl,
           },
         });
       } else {
@@ -320,6 +327,11 @@ export class InstructorService {
       );
 
     if (data) {
+      const { data } = await this.supabase.storage
+        .from('edugemini')
+        .getPublicUrl(
+          `classroom/${isClassroomExist?.classname}/activity/${newActivity.title}/${file.originalname}`,
+        );
       await this.databaseService.files.create({
         data: {
           filename: file.originalname,
@@ -332,6 +344,7 @@ export class InstructorService {
               id: newActivity.id,
             },
           },
+          publicFileUrl: data.publicUrl,
         },
       });
     } else {
@@ -437,6 +450,11 @@ export class InstructorService {
       }
 
       if (currentFile) {
+        const { data } = await this.supabase.storage
+          .from('edugemini')
+          .getPublicUrl(
+            `classroom/${classroom?.classname}/activity/${updatedActivity.title}/${file.originalname}`,
+          );
         await this.databaseService.files.update({
           where: { id: currentFile.id },
           data: {
@@ -445,6 +463,7 @@ export class InstructorService {
             mimetype: file.mimetype,
             filePath: `classroom/${classroom?.classname}/activity/${updatedActivity.title}/${file.originalname}`,
             folderPath: `classroom/${classroom?.classname}/activity/${updatedActivity.title}`,
+            publicFileUrl: data.publicUrl,
           },
         });
       }
@@ -982,12 +1001,40 @@ export class InstructorService {
         roomId: roomId,
         activityId: workId,
       },
+      include: {
+        relatedToScore: {
+          select: {
+            score: true,
+          },
+        },
+        relatedToFeedback: {
+          select: {
+            feedback: true,
+          },
+        },
+      },
     });
 
     const mappedOutputs = Promise.all(
       outputs.map((file) =>
         this.databaseService.files.findMany({
           where: { outputId: file.id },
+          include: {
+            relatedToOutput: {
+              select: {
+                relatedToScore: {
+                  select: {
+                    score: true,
+                  },
+                },
+                relatedToFeedback: {
+                  select: {
+                    feedback: true,
+                  },
+                },
+              },
+            },
+          },
         }),
       ),
     );
