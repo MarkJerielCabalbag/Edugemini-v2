@@ -9,23 +9,23 @@ import { useParams } from "next/navigation";
 import React, { useState } from "react";
 
 const page = () => {
-  const { roomId } = useParams();
+  const { roomId, workId } = useParams();
 
-  const { data } = useGetPeople(Number(roomId));
+  const { data } = useGetPeople(Number(roomId), Number(workId));
   const [openDeclinedModal, setdeclinedModal] = useState(false);
   const [openApprovedModal, setApprovedModal] = useState(false);
   const [studentId, setStudentId] = useState(0);
 
   const pending = data?.filter(
-    (student: StudentProps) => student.status === "PENDING"
+    (student: StudentProps) => student.relatedToStudent?.status === "PENDING"
   );
 
   const approved = data?.filter(
-    (student: StudentProps) => student.status === "APPROVED"
+    (student: StudentProps) => student?.relatedToStudent?.status === "APPROVED"
   );
 
   const declined = data?.filter(
-    (student: StudentProps) => student.status === "DECLINED"
+    (student: StudentProps) => student?.relatedToStudent?.status === "DECLINED"
   );
 
   return (

@@ -179,10 +179,10 @@ export const usePatchClasswork = (
   });
 };
 
-export const useGetPeople = (roomId: number) => {
+export const useGetPeople = (roomId: number, workId: number) => {
   return useQuery({
     queryKey: ["people"],
-    queryFn: () => instructor.getPeople(roomId),
+    queryFn: () => instructor.getPeople(roomId, workId),
   });
 };
 
@@ -229,5 +229,12 @@ export const useGetStudentFiles = (
   return useQuery({
     queryKey: ["studentFiles"],
     queryFn: () => instructor.getStudentFiles(studentId, workId, roomId),
+  });
+};
+
+export const useGetStudentsScore = (roomId: number) => {
+  return useQuery({
+    queryKey: ["studentsScore"],
+    queryFn: () => instructor.getStudentsScore(roomId),
   });
 };

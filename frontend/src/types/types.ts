@@ -81,7 +81,9 @@ export type StudentProps = {
   lastname: string;
   roomId?: number;
   sex: string;
-  status: string;
+  relatedToStudent?: {
+    status: string;
+  };
 
   relatedToUser?: RelatedToUser;
 };

@@ -845,9 +845,9 @@ export class InstructorService {
     return classroom;
   }
 
-  // @DESC   Get the list of students who join the class by room id
-  // @ROUTE  instructor/people/:roomId
-  async getPeople(roomId: number) {
+  // @DESC   Get the list of students who join the class by room id, activity id and student id
+  // @ROUTE  instructor/people/:roomId/:workId/:studentId
+  async getPeople(roomId: number, workId: number) {
     if (!roomId)
       new HttpException({ error: 'Id does not exist' }, HttpStatus.BAD_REQUEST);
 
@@ -863,10 +863,45 @@ export class InstructorService {
         HttpStatus.BAD_GATEWAY,
       );
 
-    const people = await this.databaseService.student.findMany({
-      orderBy: [{ lastname: 'asc' }],
+    const people = await this.databaseService.output.findMany({
+      orderBy: [
+        {
+          relatedToStudent: {
+            lastname: 'asc',
+          },
+        },
+      ],
       where: {
         roomId: roomId,
+        activityId: workId,
+      },
+      include: {
+        relatedToScore: {
+          select: {
+            score: true,
+          },
+        },
+        relatedToFeedback: {
+          select: {
+            feedback: true,
+          },
+        },
+        relatedToStudent: {
+          select: {
+            status: true,
+            userId: true,
+            lastname: true,
+            firstname: true,
+            middlename: true,
+            sex: true,
+            relatedToUser: {
+              select: {
+                username: true,
+                email: true,
+              },
+            },
+          },
+        },
       },
     });
 
@@ -1040,5 +1075,78 @@ export class InstructorService {
     );
 
     return (await mappedOutputs).flat();
+  }
+
+  //@DESC   Get the list of students score to be exported based on the list of activities
+  //@ROUTE  instructor/getStudentsScore/:roomId
+  async getStudentsScore(roomId: number) {
+    if (!roomId)
+      new HttpException({ error: 'Id does not exist' }, HttpStatus.BAD_REQUEST);
+
+    const classroom = await this.databaseService.classroom.findUnique({
+      where: {
+        id: roomId,
+      },
+    });
+
+    if (!classroom)
+      new HttpException(
+        { error: 'Classroom does not exist' },
+        HttpStatus.BAD_GATEWAY,
+      );
+
+    const scores = await this.databaseService.output.findMany({
+      where: {
+        roomId: roomId,
+      },
+      orderBy: {
+        relatedToStudent: {
+          lastname: 'asc',
+        },
+      },
+
+      include: {
+        relatedToActivity: {
+          select: {
+            title: true,
+          },
+        },
+        relatedToScore: {
+          select: {
+            score: true,
+          },
+        },
+        relatedToStudent: {
+          select: {
+            userId: true,
+            firstname: true,
+            lastname: true,
+            middlename: true,
+          },
+        },
+      },
+    });
+
+    // Group scores by student fullname
+    // Group scores by student userId, and embed activities as object keyed by activity title
+    const studentMap: Record<{
+      firstname: string;
+      lastname: string;
+      middlename: string;
+      activities: Record<string, { score: number }>;
+    }> = {};
+
+    scores.forEach((student) => {
+      const title = student.relatedToActivity?.title ?? '';
+      const score = student.relatedToScore?.score ?? 0;
+      if (title) {
+        studentMap.activities[title] = { score };
+      }
+    });
+
+    const result = studentMap;
+
+    console.log(result, 'list of student activities');
+    return result;
   }
 }

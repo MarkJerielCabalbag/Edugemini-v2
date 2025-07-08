@@ -180,11 +180,15 @@ export class InstructorController {
     return this.instructorService.getClass(roomId);
   }
 
-  // @DESC   Get the list of students who join the class by room id
-  // @ROUTE  instructor/people/:roomId
-  @Get('people/:roomId')
-  async getPeople(@Param('roomId', ParseIntPipe) roomId: number) {
-    return this.instructorService.getPeople(roomId);
+  // @DESC   Get the list of students who join the class by room id, activity id and student id
+  // @ROUTE  instructor/people/:roomId/:workId/:studentId
+  @Get('people/:roomId/:workId')
+  async getPeople(
+    @Param('roomId', ParseIntPipe) roomId: number,
+    @Param('workId', ParseIntPipe) workId: number,
+    // @Param('studentId', ParseIntPipe) studentId: number,
+  ) {
+    return this.instructorService.getPeople(roomId, workId);
   }
 
   // @DESC   Get the list of students by roomId and workId
@@ -216,5 +220,12 @@ export class InstructorController {
     @Param('roomId', ParseIntPipe) roomId: number,
   ) {
     return this.instructorService.getStudentFiles(studentId, workId, roomId);
+  }
+
+  //@DESC   Get the list of students score to be exported based on the list of activities
+  //@ROUTE  instructor/getStudentsScore/:roomId
+  @Get('getStudentsScore/:roomId')
+  async getStudentsScore(@Param('roomId', ParseIntPipe) roomId: number) {
+    return this.instructorService.getStudentsScore(roomId);
   }
 }

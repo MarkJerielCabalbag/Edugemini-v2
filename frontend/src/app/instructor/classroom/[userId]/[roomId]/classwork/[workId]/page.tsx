@@ -21,14 +21,12 @@ const page = () => {
   const [showUpdateClassworkModal, setShowUpdateClassworkModal] =
     React.useState(false);
 
-  const { data: students } = useGetPeople(Number(roomId));
+  const { data: students } = useGetPeople(Number(roomId), Number(workId));
 
   const approvesStudents = students?.filter(
-    (student: StudentProps) => student.status === "APPROVED"
+    (student: StudentProps) => student.relatedToStudent?.status === "APPROVED"
   );
-
-  console.log(approvesStudents);
-
+  console.log(students, "students");
   const router = useRouter();
 
   return (
@@ -107,6 +105,7 @@ const page = () => {
                     variant="ghost"
                     size="sm"
                     className="hover:bg-primary/10"
+                    onClick={() => window.open(file.publicFileUrl, "_blank")}
                   >
                     Download
                   </Button>
@@ -126,7 +125,7 @@ const page = () => {
                 columns={columns}
                 onRowClick={(row: any) =>
                   router.push(
-                    `/instructor/classroom/${userId}/${roomId}/classwork/${workId}/${row.userId}`
+                    `/instructor/classroom/${userId}/${roomId}/classwork/${workId}/${row.studentId}`
                   )
                 }
               />
