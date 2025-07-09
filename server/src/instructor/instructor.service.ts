@@ -1104,7 +1104,6 @@ export class InstructorService {
           lastname: 'asc',
         },
       },
-
       include: {
         relatedToActivity: {
           select: {
@@ -1127,26 +1126,31 @@ export class InstructorService {
       },
     });
 
-    // Group scores by student fullname
-    // Group scores by student userId, and embed activities as object keyed by activity title
-    const studentMap: Record<{
-      firstname: string;
-      lastname: string;
-      middlename: string;
-      activities: Record<string, { score: number }>;
-    }> = {};
+    // Merge activity titles and scores per student
+    const merged: Record<number, any> = {};
 
-    scores.forEach((student) => {
-      const title = student.relatedToActivity?.title ?? '';
-      const score = student.relatedToScore?.score ?? 0;
-      if (title) {
-        studentMap.activities[title] = { score };
+    scores.forEach((item) => {
+      const studentId = item.relatedToStudent?.userId;
+      if (studentId === undefined) {
+        return;
       }
+      if (!merged[studentId]) {
+        merged[studentId] = {
+          userId: studentId,
+          firstname: item.relatedToStudent?.firstname,
+          lastname: item.relatedToStudent?.lastname,
+          middlename: item.relatedToStudent?.middlename,
+          scores: [],
+        };
+      }
+      merged[studentId].scores.push({
+        title: item.relatedToActivity?.title ?? '',
+        score: item.relatedToScore?.score,
+      });
     });
 
-    const result = studentMap;
+    const result = Object.values(merged);
 
-    console.log(result, 'list of student activities');
     return result;
   }
 }

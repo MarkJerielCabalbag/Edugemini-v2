@@ -33,24 +33,3 @@ export const columns = [
     cell: (info) => info.getValue(),
   }),
 ];
-
-export const excelColumns = [
-  columnHelper.accessor("relatedToStudent.lastname", {
-    id: "lastname",
-    header: () => "Lastname",
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor("relatedToStudent.middlename", {
-    id: "middlename",
-    header: () => "Middlename",
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor("relatedToStudent.firstname", {
-    id: "firstname",
-    header: () => "Firstname",
-    cell: (info) => info.getValue(),
-  }),
-  columnHelper.accessor('', {
-    id: 'Title'
-  })
-]
