@@ -4,7 +4,7 @@ import Modal from "@/components/modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { usePostAnnouncement } from "@/hooks/instructor.hooks";
+import { usePostAnnouncement } from "@/hooks/instructor";
 import { AnnouncementProps, ModalProps } from "@/types/types";
 
 import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";

@@ -4,7 +4,7 @@ import { AlertDialogCancel } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { usePatchClasswork } from "@/hooks/instructor.hooks";
+import { usePatchClasswork } from "@/hooks/instructor";
 import { ModalProps } from "@/types/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { FileIcon, Paperclip, XIcon } from "lucide-react";

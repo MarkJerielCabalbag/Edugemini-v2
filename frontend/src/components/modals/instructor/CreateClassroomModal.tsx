@@ -4,7 +4,7 @@ import { AlertDialogCancel } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { usePostClassroom } from "@/hooks/instructor.hooks";
+import { usePostClassroom } from "@/hooks/instructor";
 import { ModalProps } from "@/types/types";
 import { useParams } from "next/navigation";
 import React from "react";

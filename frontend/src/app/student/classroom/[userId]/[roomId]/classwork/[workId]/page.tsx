@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
-import { useGetClasswork } from "@/hooks/instructor.hooks";
+import { useGetClasswork } from "@/hooks/instructor";
 import { FileProps } from "@/types/types";
 import { formatFileSize } from "@/utils/formatFileSizes";
 import { ArrowLeft, Book, Loader, LoaderCircle } from "lucide-react";
@@ -15,7 +15,7 @@ import {
   usePostRemoveFile,
   usePostSelectedFiles,
   usePostSubmit,
-} from "@/hooks/student.hooks";
+} from "@/hooks/student";
 
 import { useQueryClient } from "@tanstack/react-query";
 import { formatToStandardTime } from "@/utils/formatTimeStandard";

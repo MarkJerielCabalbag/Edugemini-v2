@@ -1,5 +1,5 @@
 "use client";
-import { useGetClassroom } from "@/hooks/instructor.hooks";
+import { useGetClassroom } from "@/hooks/instructor";
 import {
   ArrowLeft,
   CopyIcon,

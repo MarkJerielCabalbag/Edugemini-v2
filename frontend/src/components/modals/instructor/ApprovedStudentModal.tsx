@@ -3,7 +3,7 @@
 import Modal from "@/components/modal";
 import { AlertDialogCancel } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { usePostApprovedStudent } from "@/hooks/instructor.hooks";
+import { usePostApprovedStudent } from "@/hooks/instructor";
 import { ModalProps } from "@/types/types";
 import { useParams } from "next/navigation";
 import React from "react";

@@ -1,7 +1,7 @@
 "use client";
 import DeleteAnnouncementModal from "@/components/modals/instructor/DeleteAnnouncementModal";
 import { Button } from "@/components/ui/button";
-import { useGetAnnouncement } from "@/hooks/instructor.hooks";
+import { useGetAnnouncement } from "@/hooks/instructor";
 import { FileProps } from "@/types/types";
 import { formatTimestampToRelativeTime } from "@/utils/formatDate";
 import { formatFileSize } from "@/utils/formatFileSizes";

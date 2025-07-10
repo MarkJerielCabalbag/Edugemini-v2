@@ -1,8 +1,5 @@
 "use client";
-import {
-  useGetStudentFiles,
-  useGetStudentInfo,
-} from "@/hooks/instructor.hooks";
+import { useGetStudentFiles, useGetStudentInfo } from "@/hooks/instructor";
 import { FileProps } from "@/types/types";
 import { formatFileSize } from "@/utils/formatFileSizes";
 import { ArrowLeft, Book } from "lucide-react";

@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowLeft, PlusCircleIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useParams } from "next/navigation";
-import { useGetClassrooms } from "@/hooks/student.hooks";
+import { useGetClassrooms } from "@/hooks/student";
 import { ClassroomProps } from "@/types/types";
 import JoinClassroomModal from "@/components/modals/student/JoinClassroomModal";
 

@@ -3,7 +3,7 @@ import React, { ReactNode, useState } from "react";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Button } from "./ui/button";
-import { useSignIn } from "@/hooks/user.hooks";
+import { useSignIn } from "@/hooks/user";
 
 type SignInProps = {
   showButton: ReactNode;

@@ -1,5 +1,5 @@
 "use client";
-import { useGetClassworks } from "@/hooks/instructor.hooks";
+import { useGetClassworks } from "@/hooks/instructor";
 import { ClassworkProps } from "@/types/types";
 import Link from "next/link";
 import { useParams } from "next/navigation";

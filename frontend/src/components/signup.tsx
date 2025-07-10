@@ -4,7 +4,7 @@ import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 
-import { useSignUp } from "@/hooks/user.hooks";
+import { useSignUp } from "@/hooks/user";
 
 type SignUpProps = {
   showButton: ReactNode;

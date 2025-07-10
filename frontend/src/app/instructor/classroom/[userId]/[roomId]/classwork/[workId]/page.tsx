@@ -2,7 +2,7 @@
 import DeleteClassworkModal from "@/components/modals/instructor/DeleteClassworkModal";
 import UpdateClassworkModal from "@/components/modals/instructor/UpdateClassworkModal";
 import { Button } from "@/components/ui/button";
-import { useGetClasswork, useGetPeople } from "@/hooks/instructor.hooks";
+import { useGetClasswork, useGetPeople } from "@/hooks/instructor";
 import { FileProps, StudentProps } from "@/types/types";
 import { formatFileSize } from "@/utils/formatFileSizes";
 import { ArrowLeft, Book, Trash } from "lucide-react";

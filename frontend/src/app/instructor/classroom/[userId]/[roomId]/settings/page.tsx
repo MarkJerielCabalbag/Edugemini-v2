@@ -1,7 +1,7 @@
 "use client";
 import React from "react";
 import { useParams } from "next/navigation";
-import { useGetStudentsScore } from "@/hooks/instructor.hooks";
+import { useGetStudentsScore } from "@/hooks/instructor";
 import DataTable from "@/components/table/table";
 import { createColumnHelper } from "@tanstack/react-table";
 const page = () => {

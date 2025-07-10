@@ -2,7 +2,7 @@
 import Modal from "@/components/modal";
 import { AlertDialogCancel } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { useDeleteClasswork } from "@/hooks/instructor.hooks";
+import { useDeleteClasswork } from "@/hooks/instructor";
 import { ModalProps } from "@/types/types";
 import { useParams, useRouter } from "next/navigation";
 import React from "react";

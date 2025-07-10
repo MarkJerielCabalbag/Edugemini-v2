@@ -1,7 +1,7 @@
 "use client";
 import CreateClassworkModal from "@/components/modals/instructor/CreateClassworkModal";
 import { Button } from "@/components/ui/button";
-import { useGetClassworks } from "@/hooks/instructor.hooks";
+import { useGetClassworks } from "@/hooks/instructor";
 import { ClassworkProps } from "@/types/types";
 import Link from "next/link";
 import { useParams } from "next/navigation";

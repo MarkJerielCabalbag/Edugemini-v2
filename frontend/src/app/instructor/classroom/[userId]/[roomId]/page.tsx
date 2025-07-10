@@ -2,7 +2,7 @@
 
 import CreateAnnouncementModal from "@/components/modals/instructor/CreateAnnouncementModal";
 import { Button } from "@/components/ui/button";
-import { useGetAnnouncements } from "@/hooks/instructor.hooks";
+import { useGetAnnouncements } from "@/hooks/instructor";
 import { AnnouncementProps } from "@/types/types";
 import { formatTimestampToRelativeTime } from "@/utils/formatDate";
 import Link from "next/link";

@@ -1,5 +1,5 @@
 "use client";
-import { useGetClasses } from "@/hooks/instructor.hooks";
+import { useGetClasses } from "@/hooks/instructor";
 import { School } from "lucide-react";
 import { useParams } from "next/navigation";
 import React from "react";
@@ -81,9 +81,7 @@ const page = () => {
             {data?.map((classItem: ClassProps) => (
               <Link
                 key={classItem.id}
-                href={
-                     `classroom/${userId}/${classItem.id}`
-                }
+                href={`classroom/${userId}/${classItem.id}`}
               >
                 <div className="bg-white border border-gray-200 rounded-xl shadow group hover:shadow-lg hover:border-primary/40 transition-all p-4 sm:p-6 cursor-pointer flex items-center gap-4 min-h-[110px]">
                   {/* Classroom Icon */}

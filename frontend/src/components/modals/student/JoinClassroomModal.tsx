@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { usePostJoinClassroom } from "@/hooks/student.hooks";
+import { usePostJoinClassroom } from "@/hooks/student";
 import { ModalProps } from "@/types/types";
 import { useQueryClient } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
