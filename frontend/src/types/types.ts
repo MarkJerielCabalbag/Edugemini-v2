@@ -1,4 +1,5 @@
-import { AccessorKeyColumnDef, Column } from "@tanstack/react-table";
+'use client'
+import { Column } from "@tanstack/react-table";
 import { ReactNode } from "react";
 
 export type ModalProps = {

@@ -1,3 +1,4 @@
+'use client'
 export const formatFileSize = (bytes: number) => {
   const sizes = ["B", "KB", "MB", "GB"];
   if (bytes === 0) return "0 B";

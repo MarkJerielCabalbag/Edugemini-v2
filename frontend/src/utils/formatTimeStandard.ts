@@ -1,3 +1,4 @@
+'use client'
 export function formatToStandardTime(time: string) {
   const [hours, minutes] = time.split(":").map(Number);
   const period = hours >= 12 ? "PM" : "AM";
