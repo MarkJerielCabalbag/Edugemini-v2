@@ -5,7 +5,7 @@ import { useGetAnnouncement } from "@/hooks/instructor.hooks";
 import { FileProps } from "@/types/types";
 import { formatTimestampToRelativeTime } from "@/utils/formatDate";
 import { formatFileSize } from "@/utils/formatFileSizes";
-import { ArrowLeft, DeleteIcon, Trash } from "lucide-react";
+import { ArrowLeft, Trash } from "lucide-react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 import React from "react";

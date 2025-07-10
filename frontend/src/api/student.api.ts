@@ -1,5 +1,4 @@
 import { baseUrl } from "@/utils/baseUrl";
-import { useQueryClient } from "@tanstack/react-query";
 
 export const student = {
   async getClassrooms(userId: number) {

@@ -1,7 +1,7 @@
 "use client"
 import Navbar from "@/components/navbar";
 import React from "react";
-import { BookOpen, BarChart2, Zap, MessageSquare, Layers, CheckCircle2, FileText, FileBarChart, FileSpreadsheet, FileCode2, Image, Video, Archive, UserCheck, ShieldCheck, Rocket, Users, Clock, Scale, TrendingUp, Megaphone, HelpCircle } from "lucide-react";
+import { BookOpen, BarChart2, Zap, MessageSquare, Layers, CheckCircle2, FileText, FileBarChart, FileSpreadsheet, FileCode2, Image, Video, Archive, UserCheck, Users, Clock, Scale, TrendingUp, Megaphone, HelpCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import CreateClassroomModal from "@/components/modals/instructor/CreateClassroomModal";
 import JoinClassroomModal from "@/components/modals/student/JoinClassroomModal";

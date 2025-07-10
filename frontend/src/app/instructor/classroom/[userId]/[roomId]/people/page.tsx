@@ -3,7 +3,7 @@
 import ApprovedStudentModal from "@/components/modals/instructor/ApprovedStudentModal";
 import DeclinedStudentModal from "@/components/modals/instructor/DeclinedStudentModal";
 import { Button } from "@/components/ui/button";
-import { useGetPeople, useGetStudents } from "@/hooks/instructor.hooks";
+import { useGetStudents } from "@/hooks/instructor.hooks";
 import { StudentProps } from "@/types/types";
 import { useParams } from "next/navigation";
 import React, { useState } from "react";
