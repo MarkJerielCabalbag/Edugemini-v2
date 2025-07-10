@@ -43,6 +43,7 @@ const Layout = ({
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Top Navigation Bar */}
+
       <nav className="bg-white shadow-md sticky top-0 z-50">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
@@ -63,20 +64,24 @@ const Layout = ({
       <div className="bg-primary h-56 w-full relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-primary/90 to-primary"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="pt-12 text-white">
-            <h1 className="text-5xl font-bold mb-4">{data?.classname}</h1>
-            <div className="flex items-center text-white/90">
-              <span className="text-lg font-medium">{data?.section}</span>
-              {data?.subject && <span className="mx-2 text-white/70">•</span>}
-              <span className="text-lg">{data?.subject}</span>
+          <div className="pt-8 md:pt-12 text-white">
+            <h1 className="text-2xl sm:text-4xl md:text-5xl font-bold mb-2 sm:mb-4 truncate">
+              {data?.classname}
+            </h1>
+            <div className="flex flex-wrap items-center text-white/90 text-base sm:text-lg">
+              <span className="font-medium">{data?.section}</span>
+              {data?.subject && (
+                <span className="mx-2 text-white/70 hidden sm:inline">•</span>
+              )}
+              <span className="truncate">{data?.subject}</span>
             </div>
-            <div className="mt-4">
+            <div className="mt-3 sm:mt-4">
               <button
-                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 transition-colors px-4 py-2 rounded-lg cursor-pointer"
+                className="flex items-center gap-2 bg-white/10 hover:bg-white/20 transition-colors px-3 py-2 sm:px-4 sm:py-2 rounded-lg cursor-pointer text-xs sm:text-base"
                 onClick={() => handleCopy(data?.classcode as string)}
               >
                 <CopyIcon className="w-4 h-4" />
-                <span className="font-medium">{data?.classcode}</span>
+                <span className="font-medium truncate">{data?.classcode}</span>
               </button>
             </div>
           </div>
@@ -85,39 +90,40 @@ const Layout = ({
 
       {/* Navigation Tabs */}
       <div className="bg-white shadow-sm">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex space-x-8">
+        <div className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8">
+          <div className="flex flex-wrap space-x-0 sm:space-x-8">
             <Link
               href={`/student/classroom/${userId}/${roomId}`}
-              className={`flex items-center gap-2 px-4 py-4 text-sm font-medium transition-colors
-          ${
-            activeTab === "stream"
-              ? "text-primary border-b-2 border-primary"
-              : "text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary"
-          }`}
+              className={`flex items-center gap-2 px-2 sm:px-4 py-3 sm:py-4 text-xs sm:text-sm font-medium transition-colors
+        ${
+          activeTab === "stream"
+            ? "text-primary border-b-2 border-primary"
+            : "text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary"
+        }`}
               onClick={() => setActiveTab("stream")}
             >
               <Home className="w-4 h-4" />
-              Announcement
+              <span className="hidden xs:inline">Announcement</span>
+              <span className="inline xs:hidden">Stream</span>
             </Link>
             <Link
               href={`/student/classroom/${userId}/${roomId}/classwork`}
-              className={`flex items-center gap-2 px-4 py-4 text-sm font-medium transition-colors
-          ${
-            activeTab === "classwork"
-              ? "text-primary border-b-2 border-primary"
-              : "text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary"
-          }`}
+              className={`flex items-center gap-2 px-2 sm:px-4 py-3 sm:py-4 text-xs sm:text-sm font-medium transition-colors
+        ${
+          activeTab === "classwork"
+            ? "text-primary border-b-2 border-primary"
+            : "text-gray-600 hover:text-primary border-b-2 border-transparent hover:border-primary"
+        }`}
               onClick={() => setActiveTab("classwork")}
             >
               <BookOpen className="w-4 h-4" />
-              Classwork
+              <span>Classwork</span>
             </Link>
           </div>
         </div>
       </div>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="max-w-7xl mx-auto px-2 sm:px-4 lg:px-8 py-4 sm:py-8">
         {children}
       </main>
     </div>

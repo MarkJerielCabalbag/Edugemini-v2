@@ -2,7 +2,7 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Activity, Announcement, Prisma } from 'generated/prisma';
 import { DatabaseService } from 'src/database/database.service';
 import { SupabaseClient } from '@supabase/supabase-js';
-import { map } from 'rxjs';
+import { nanoid } from 'nanoid';
 
 @Injectable()
 export class InstructorService {
@@ -55,6 +55,7 @@ export class InstructorService {
     const newClassroom = await this.databaseService.classroom.create({
       data: {
         ...createClassroomDto,
+        classcode: nanoid(6),
         relatedToUser: {
           connect: {
             id,

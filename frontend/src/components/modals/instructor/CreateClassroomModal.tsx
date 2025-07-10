@@ -55,6 +55,7 @@ const CreateClassroomModal = ({ open, onOpenChange }: ModalProps) => {
               ref={inputRef}
               onChange={handleOnChange}
               autoFocus
+              disabled={isPending}
             />
           </div>
 
@@ -68,10 +69,11 @@ const CreateClassroomModal = ({ open, onOpenChange }: ModalProps) => {
               className={`${
                 isError ? "border-red-500 focus:border-red-500" : "w-full"
               } transition-all`}
+              disabled={isPending}
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="flex flex-row justify-between sm:flex-col gap-3">
             <div className="space-y-3">
               <Label className="text-sm font-medium">Section</Label>
               <Input
@@ -82,6 +84,7 @@ const CreateClassroomModal = ({ open, onOpenChange }: ModalProps) => {
                 className={`${
                   isError ? "border-red-500 focus:border-red-500" : "w-full"
                 } transition-all`}
+                disabled={isPending}
               />
             </div>
 
@@ -95,6 +98,7 @@ const CreateClassroomModal = ({ open, onOpenChange }: ModalProps) => {
                 className={`${
                   isError ? "border-red-500 focus:border-red-500" : "w-full"
                 } transition-all`}
+                disabled={isPending}
               />
             </div>
           </div>

@@ -7,6 +7,7 @@
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
+  binaryTargets = ["native", "debian-openssl-3.0.x"]
 }
 
 datasource db {
@@ -50,7 +51,7 @@ model Classroom {
   subject           String
   room              String
   classcode         String?
-  status            ClassroomStatus       @default(PENDING)
+
   relatedToUser     User                  @relation(fields: [userId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   userId            Int
 

@@ -4233,7 +4233,6 @@ export namespace Prisma {
     subject: string | null
     room: string | null
     classcode: string | null
-    status: $Enums.ClassroomStatus | null
     userId: number | null
   }
 
@@ -4244,7 +4243,6 @@ export namespace Prisma {
     subject: string | null
     room: string | null
     classcode: string | null
-    status: $Enums.ClassroomStatus | null
     userId: number | null
   }
 
@@ -4255,7 +4253,6 @@ export namespace Prisma {
     subject: number
     room: number
     classcode: number
-    status: number
     userId: number
     _all: number
   }
@@ -4278,7 +4275,6 @@ export namespace Prisma {
     subject?: true
     room?: true
     classcode?: true
-    status?: true
     userId?: true
   }
 
@@ -4289,7 +4285,6 @@ export namespace Prisma {
     subject?: true
     room?: true
     classcode?: true
-    status?: true
     userId?: true
   }
 
@@ -4300,7 +4295,6 @@ export namespace Prisma {
     subject?: true
     room?: true
     classcode?: true
-    status?: true
     userId?: true
     _all?: true
   }
@@ -4398,7 +4392,6 @@ export namespace Prisma {
     subject: string
     room: string
     classcode: string | null
-    status: $Enums.ClassroomStatus
     userId: number
     _count: ClassroomCountAggregateOutputType | null
     _avg: ClassroomAvgAggregateOutputType | null
@@ -4428,7 +4421,6 @@ export namespace Prisma {
     subject?: boolean
     room?: boolean
     classcode?: boolean
-    status?: boolean
     userId?: boolean
     relatedToUser?: boolean | UserDefaultArgs<ExtArgs>
     listOfAnnouncements?: boolean | Classroom$listOfAnnouncementsArgs<ExtArgs>
@@ -4445,7 +4437,6 @@ export namespace Prisma {
     subject?: boolean
     room?: boolean
     classcode?: boolean
-    status?: boolean
     userId?: boolean
     relatedToUser?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["classroom"]>
@@ -4457,7 +4448,6 @@ export namespace Prisma {
     subject?: boolean
     room?: boolean
     classcode?: boolean
-    status?: boolean
     userId?: boolean
     relatedToUser?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["classroom"]>
@@ -4469,11 +4459,10 @@ export namespace Prisma {
     subject?: boolean
     room?: boolean
     classcode?: boolean
-    status?: boolean
     userId?: boolean
   }
 
-  export type ClassroomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classname" | "section" | "subject" | "room" | "classcode" | "status" | "userId", ExtArgs["result"]["classroom"]>
+  export type ClassroomOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "classname" | "section" | "subject" | "room" | "classcode" | "userId", ExtArgs["result"]["classroom"]>
   export type ClassroomInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     relatedToUser?: boolean | UserDefaultArgs<ExtArgs>
     listOfAnnouncements?: boolean | Classroom$listOfAnnouncementsArgs<ExtArgs>
@@ -4505,7 +4494,6 @@ export namespace Prisma {
       subject: string
       room: string
       classcode: string | null
-      status: $Enums.ClassroomStatus
       userId: number
     }, ExtArgs["result"]["classroom"]>
     composites: {}
@@ -4941,7 +4929,6 @@ export namespace Prisma {
     readonly subject: FieldRef<"Classroom", 'String'>
     readonly room: FieldRef<"Classroom", 'String'>
     readonly classcode: FieldRef<"Classroom", 'String'>
-    readonly status: FieldRef<"Classroom", 'ClassroomStatus'>
     readonly userId: FieldRef<"Classroom", 'Int'>
   }
     
@@ -12465,7 +12452,6 @@ export namespace Prisma {
     subject: 'subject',
     room: 'room',
     classcode: 'classcode',
-    status: 'status',
     userId: 'userId'
   };
 
@@ -12794,7 +12780,6 @@ export namespace Prisma {
     subject?: StringFilter<"Classroom"> | string
     room?: StringFilter<"Classroom"> | string
     classcode?: StringNullableFilter<"Classroom"> | string | null
-    status?: EnumClassroomStatusFilter<"Classroom"> | $Enums.ClassroomStatus
     userId?: IntFilter<"Classroom"> | number
     relatedToUser?: XOR<UserScalarRelationFilter, UserWhereInput>
     listOfAnnouncements?: AnnouncementListRelationFilter
@@ -12810,7 +12795,6 @@ export namespace Prisma {
     subject?: SortOrder
     room?: SortOrder
     classcode?: SortOrderInput | SortOrder
-    status?: SortOrder
     userId?: SortOrder
     relatedToUser?: UserOrderByWithRelationInput
     listOfAnnouncements?: AnnouncementOrderByRelationAggregateInput
@@ -12829,7 +12813,6 @@ export namespace Prisma {
     subject?: StringFilter<"Classroom"> | string
     room?: StringFilter<"Classroom"> | string
     classcode?: StringNullableFilter<"Classroom"> | string | null
-    status?: EnumClassroomStatusFilter<"Classroom"> | $Enums.ClassroomStatus
     userId?: IntFilter<"Classroom"> | number
     relatedToUser?: XOR<UserScalarRelationFilter, UserWhereInput>
     listOfAnnouncements?: AnnouncementListRelationFilter
@@ -12845,7 +12828,6 @@ export namespace Prisma {
     subject?: SortOrder
     room?: SortOrder
     classcode?: SortOrderInput | SortOrder
-    status?: SortOrder
     userId?: SortOrder
     _count?: ClassroomCountOrderByAggregateInput
     _avg?: ClassroomAvgOrderByAggregateInput
@@ -12864,7 +12846,6 @@ export namespace Prisma {
     subject?: StringWithAggregatesFilter<"Classroom"> | string
     room?: StringWithAggregatesFilter<"Classroom"> | string
     classcode?: StringNullableWithAggregatesFilter<"Classroom"> | string | null
-    status?: EnumClassroomStatusWithAggregatesFilter<"Classroom"> | $Enums.ClassroomStatus
     userId?: IntWithAggregatesFilter<"Classroom"> | number
   }
 
@@ -13383,7 +13364,6 @@ export namespace Prisma {
     subject: string
     room: string
     classcode?: string | null
-    status?: $Enums.ClassroomStatus
     relatedToUser: UserCreateNestedOneWithoutListOfCreatedClassroomInput
     listOfAnnouncements?: AnnouncementCreateNestedManyWithoutRelatedToClassroomInput
     listOfActivity?: ActivityCreateNestedManyWithoutRelatedToClassroomInput
@@ -13398,7 +13378,6 @@ export namespace Prisma {
     subject: string
     room: string
     classcode?: string | null
-    status?: $Enums.ClassroomStatus
     userId: number
     listOfAnnouncements?: AnnouncementUncheckedCreateNestedManyWithoutRelatedToClassroomInput
     listOfActivity?: ActivityUncheckedCreateNestedManyWithoutRelatedToClassroomInput
@@ -13412,7 +13391,6 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     room?: StringFieldUpdateOperationsInput | string
     classcode?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
     relatedToUser?: UserUpdateOneRequiredWithoutListOfCreatedClassroomNestedInput
     listOfAnnouncements?: AnnouncementUpdateManyWithoutRelatedToClassroomNestedInput
     listOfActivity?: ActivityUpdateManyWithoutRelatedToClassroomNestedInput
@@ -13427,7 +13405,6 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     room?: StringFieldUpdateOperationsInput | string
     classcode?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
     userId?: IntFieldUpdateOperationsInput | number
     listOfAnnouncements?: AnnouncementUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
     listOfActivity?: ActivityUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
@@ -13442,7 +13419,6 @@ export namespace Prisma {
     subject: string
     room: string
     classcode?: string | null
-    status?: $Enums.ClassroomStatus
     userId: number
   }
 
@@ -13452,7 +13428,6 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     room?: StringFieldUpdateOperationsInput | string
     classcode?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
   }
 
   export type ClassroomUncheckedUpdateManyInput = {
@@ -13462,7 +13437,6 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     room?: StringFieldUpdateOperationsInput | string
     classcode?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
     userId?: IntFieldUpdateOperationsInput | number
   }
 
@@ -14096,7 +14070,6 @@ export namespace Prisma {
     subject?: SortOrder
     room?: SortOrder
     classcode?: SortOrder
-    status?: SortOrder
     userId?: SortOrder
   }
 
@@ -14112,7 +14085,6 @@ export namespace Prisma {
     subject?: SortOrder
     room?: SortOrder
     classcode?: SortOrder
-    status?: SortOrder
     userId?: SortOrder
   }
 
@@ -14123,7 +14095,6 @@ export namespace Prisma {
     subject?: SortOrder
     room?: SortOrder
     classcode?: SortOrder
-    status?: SortOrder
     userId?: SortOrder
   }
 
@@ -15417,7 +15388,6 @@ export namespace Prisma {
     subject: string
     room: string
     classcode?: string | null
-    status?: $Enums.ClassroomStatus
     listOfAnnouncements?: AnnouncementCreateNestedManyWithoutRelatedToClassroomInput
     listOfActivity?: ActivityCreateNestedManyWithoutRelatedToClassroomInput
     listOfStudents?: StudentCreateNestedManyWithoutRelatedtoClassroomInput
@@ -15431,7 +15401,6 @@ export namespace Prisma {
     subject: string
     room: string
     classcode?: string | null
-    status?: $Enums.ClassroomStatus
     listOfAnnouncements?: AnnouncementUncheckedCreateNestedManyWithoutRelatedToClassroomInput
     listOfActivity?: ActivityUncheckedCreateNestedManyWithoutRelatedToClassroomInput
     listOfStudents?: StudentUncheckedCreateNestedManyWithoutRelatedtoClassroomInput
@@ -15499,7 +15468,6 @@ export namespace Prisma {
     subject?: StringFilter<"Classroom"> | string
     room?: StringFilter<"Classroom"> | string
     classcode?: StringNullableFilter<"Classroom"> | string | null
-    status?: EnumClassroomStatusFilter<"Classroom"> | $Enums.ClassroomStatus
     userId?: IntFilter<"Classroom"> | number
   }
 
@@ -15587,7 +15555,6 @@ export namespace Prisma {
     subject: string
     room: string
     classcode?: string | null
-    status?: $Enums.ClassroomStatus
     relatedToUser: UserCreateNestedOneWithoutListOfCreatedClassroomInput
     listOfAnnouncements?: AnnouncementCreateNestedManyWithoutRelatedToClassroomInput
     listOfActivity?: ActivityCreateNestedManyWithoutRelatedToClassroomInput
@@ -15601,7 +15568,6 @@ export namespace Prisma {
     subject: string
     room: string
     classcode?: string | null
-    status?: $Enums.ClassroomStatus
     userId: number
     listOfAnnouncements?: AnnouncementUncheckedCreateNestedManyWithoutRelatedToClassroomInput
     listOfActivity?: ActivityUncheckedCreateNestedManyWithoutRelatedToClassroomInput
@@ -15684,7 +15650,6 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     room?: StringFieldUpdateOperationsInput | string
     classcode?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
     relatedToUser?: UserUpdateOneRequiredWithoutListOfCreatedClassroomNestedInput
     listOfAnnouncements?: AnnouncementUpdateManyWithoutRelatedToClassroomNestedInput
     listOfActivity?: ActivityUpdateManyWithoutRelatedToClassroomNestedInput
@@ -15698,7 +15663,6 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     room?: StringFieldUpdateOperationsInput | string
     classcode?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
     userId?: IntFieldUpdateOperationsInput | number
     listOfAnnouncements?: AnnouncementUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
     listOfActivity?: ActivityUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
@@ -16030,7 +15994,6 @@ export namespace Prisma {
     subject: string
     room: string
     classcode?: string | null
-    status?: $Enums.ClassroomStatus
     relatedToUser: UserCreateNestedOneWithoutListOfCreatedClassroomInput
     listOfAnnouncements?: AnnouncementCreateNestedManyWithoutRelatedToClassroomInput
     listOfStudents?: StudentCreateNestedManyWithoutRelatedtoClassroomInput
@@ -16044,7 +16007,6 @@ export namespace Prisma {
     subject: string
     room: string
     classcode?: string | null
-    status?: $Enums.ClassroomStatus
     userId: number
     listOfAnnouncements?: AnnouncementUncheckedCreateNestedManyWithoutRelatedToClassroomInput
     listOfStudents?: StudentUncheckedCreateNestedManyWithoutRelatedtoClassroomInput
@@ -16122,7 +16084,6 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     room?: StringFieldUpdateOperationsInput | string
     classcode?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
     relatedToUser?: UserUpdateOneRequiredWithoutListOfCreatedClassroomNestedInput
     listOfAnnouncements?: AnnouncementUpdateManyWithoutRelatedToClassroomNestedInput
     listOfStudents?: StudentUpdateManyWithoutRelatedtoClassroomNestedInput
@@ -16136,7 +16097,6 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     room?: StringFieldUpdateOperationsInput | string
     classcode?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
     userId?: IntFieldUpdateOperationsInput | number
     listOfAnnouncements?: AnnouncementUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
     listOfStudents?: StudentUncheckedUpdateManyWithoutRelatedtoClassroomNestedInput
@@ -16149,7 +16109,6 @@ export namespace Prisma {
     subject: string
     room: string
     classcode?: string | null
-    status?: $Enums.ClassroomStatus
     relatedToUser: UserCreateNestedOneWithoutListOfCreatedClassroomInput
     listOfActivity?: ActivityCreateNestedManyWithoutRelatedToClassroomInput
     listOfStudents?: StudentCreateNestedManyWithoutRelatedtoClassroomInput
@@ -16163,7 +16122,6 @@ export namespace Prisma {
     subject: string
     room: string
     classcode?: string | null
-    status?: $Enums.ClassroomStatus
     userId: number
     listOfActivity?: ActivityUncheckedCreateNestedManyWithoutRelatedToClassroomInput
     listOfStudents?: StudentUncheckedCreateNestedManyWithoutRelatedtoClassroomInput
@@ -16227,7 +16185,6 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     room?: StringFieldUpdateOperationsInput | string
     classcode?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
     relatedToUser?: UserUpdateOneRequiredWithoutListOfCreatedClassroomNestedInput
     listOfActivity?: ActivityUpdateManyWithoutRelatedToClassroomNestedInput
     listOfStudents?: StudentUpdateManyWithoutRelatedtoClassroomNestedInput
@@ -16241,7 +16198,6 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     room?: StringFieldUpdateOperationsInput | string
     classcode?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
     userId?: IntFieldUpdateOperationsInput | number
     listOfActivity?: ActivityUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
     listOfStudents?: StudentUncheckedUpdateManyWithoutRelatedtoClassroomNestedInput
@@ -16330,7 +16286,6 @@ export namespace Prisma {
     subject: string
     room: string
     classcode?: string | null
-    status?: $Enums.ClassroomStatus
     relatedToUser: UserCreateNestedOneWithoutListOfCreatedClassroomInput
     listOfAnnouncements?: AnnouncementCreateNestedManyWithoutRelatedToClassroomInput
     listOfActivity?: ActivityCreateNestedManyWithoutRelatedToClassroomInput
@@ -16344,7 +16299,6 @@ export namespace Prisma {
     subject: string
     room: string
     classcode?: string | null
-    status?: $Enums.ClassroomStatus
     userId: number
     listOfAnnouncements?: AnnouncementUncheckedCreateNestedManyWithoutRelatedToClassroomInput
     listOfActivity?: ActivityUncheckedCreateNestedManyWithoutRelatedToClassroomInput
@@ -16472,7 +16426,6 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     room?: StringFieldUpdateOperationsInput | string
     classcode?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
     relatedToUser?: UserUpdateOneRequiredWithoutListOfCreatedClassroomNestedInput
     listOfAnnouncements?: AnnouncementUpdateManyWithoutRelatedToClassroomNestedInput
     listOfActivity?: ActivityUpdateManyWithoutRelatedToClassroomNestedInput
@@ -16486,7 +16439,6 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     room?: StringFieldUpdateOperationsInput | string
     classcode?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
     userId?: IntFieldUpdateOperationsInput | number
     listOfAnnouncements?: AnnouncementUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
     listOfActivity?: ActivityUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
@@ -16806,7 +16758,6 @@ export namespace Prisma {
     subject: string
     room: string
     classcode?: string | null
-    status?: $Enums.ClassroomStatus
   }
 
   export type ClassroomUpdateWithoutRelatedToUserInput = {
@@ -16815,7 +16766,6 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     room?: StringFieldUpdateOperationsInput | string
     classcode?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
     listOfAnnouncements?: AnnouncementUpdateManyWithoutRelatedToClassroomNestedInput
     listOfActivity?: ActivityUpdateManyWithoutRelatedToClassroomNestedInput
     listOfStudents?: StudentUpdateManyWithoutRelatedtoClassroomNestedInput
@@ -16829,7 +16779,6 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     room?: StringFieldUpdateOperationsInput | string
     classcode?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
     listOfAnnouncements?: AnnouncementUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
     listOfActivity?: ActivityUncheckedUpdateManyWithoutRelatedToClassroomNestedInput
     listOfStudents?: StudentUncheckedUpdateManyWithoutRelatedtoClassroomNestedInput
@@ -16843,7 +16792,6 @@ export namespace Prisma {
     subject?: StringFieldUpdateOperationsInput | string
     room?: StringFieldUpdateOperationsInput | string
     classcode?: NullableStringFieldUpdateOperationsInput | string | null
-    status?: EnumClassroomStatusFieldUpdateOperationsInput | $Enums.ClassroomStatus
   }
 
   export type OutputCreateManyRelatedToStudentInput = {

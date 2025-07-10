@@ -30,7 +30,7 @@ const page = () => {
   const router = useRouter();
 
   return (
-    <div className="p-8 bg-background max-w-7xl mx-auto">
+    <div className="p-4 bg-background max-w-7xl mx-auto">
       <Link
         href={`/instructor/classroom/${userId}/${roomId}/classwork`}
         className="inline-flex items-center text-gray-600 hover:text-primary mb-6 transition-all"
@@ -41,9 +41,9 @@ const page = () => {
 
       <div className="space-y-6">
         {/* Header Section */}
-        <div className="flex justify-between items-start pb-4 border-b">
-          <div>
-            <h1 className="text-2xl font-semibold text-gray-900">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center pb-4 border-b gap-4">
+          <div className="w-full">
+            <h1 className="text-2xl font-semibold text-gray-900 break-words">
               {data?.title}
             </h1>
             {data?.date && (
@@ -52,11 +52,11 @@ const page = () => {
               </p>
             )}
           </div>
-          <div className="flex gap-3">
+          <div className="flex gap-2 w-full sm:w-auto">
             <Button
               variant="outline"
               size="sm"
-              className="hover:bg-gray-50"
+              className="hover:bg-gray-50 flex-1 sm:flex-none"
               onClick={() => setShowUpdateClassworkModal(true)}
             >
               <Book className="w-4 h-4 mr-2" />
@@ -65,7 +65,7 @@ const page = () => {
             <Button
               variant="ghost"
               size="sm"
-              className="text-red-600 hover:bg-red-50"
+              className="text-red-600 hover:bg-red-50 flex-1 sm:flex-none"
               onClick={() => setShowDeleteClassworkModal(true)}
             >
               <Trash className="w-4 h-4 mr-2" />
@@ -76,26 +76,30 @@ const page = () => {
 
         {/* Instructions */}
         {data?.instruction && (
-          <div className="rounded-lg border p-5">
+          <div className="rounded-lg border p-4 sm:p-5">
             <h2 className="text-lg font-medium mb-3">Instructions</h2>
-            <p className="text-gray-700 leading-relaxed">{data.instruction}</p>
+            <p className="text-gray-700 leading-relaxed break-words">
+              {data.instruction}
+            </p>
           </div>
         )}
 
         {/* Criteria Files */}
         {data?.criteria && data.criteria.length > 0 && (
-          <div className="rounded-lg border p-5">
+          <div className="rounded-lg border p-4 sm:p-5">
             <h2 className="text-lg font-medium mb-4">Criteria Files</h2>
             <div className="space-y-3">
               {data.criteria.map((file: FileProps) => (
                 <div
                   key={file.id}
-                  className="flex items-center justify-between p-3 rounded-md border hover:border-primary transition-colors"
+                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 rounded-md border hover:border-primary transition-colors gap-2"
                 >
-                  <div className="flex items-center">
+                  <div className="flex items-center w-full sm:w-auto">
                     <Book className="w-4 h-4 text-gray-400 mr-3" />
                     <div>
-                      <p className="font-medium text-sm">{file.filename}</p>
+                      <p className="font-medium text-sm break-all">
+                        {file.filename}
+                      </p>
                       <p className="text-xs text-gray-500">
                         {formatFileSize(file.fileSize as number)}
                       </p>
@@ -104,7 +108,7 @@ const page = () => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="hover:bg-primary/10"
+                    className="hover:bg-primary/10 w-full sm:w-auto mt-2 sm:mt-0"
                     onClick={() => window.open(file.publicFileUrl, "_blank")}
                   >
                     Download
@@ -117,9 +121,9 @@ const page = () => {
 
         {/* {students submissions part} */}
         {approvesStudents && approvesStudents?.length > 0 && (
-          <div className="rounded-lg border p-5">
+          <div className="rounded-lg border p-4 sm:p-5 overflow-x-auto">
             <h2 className="text-lg font-medium mb-4">Students Submissions</h2>
-            <div className="space-y-3">
+            <div className="w-full overflow-x-auto">
               <DataTable
                 data={approvesStudents}
                 columns={columns}

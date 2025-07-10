@@ -84,6 +84,7 @@ export type StudentProps = {
   relatedToStudent?: {
     status: string;
   };
+  status?: string;
 
   relatedToUser?: RelatedToUser;
 };

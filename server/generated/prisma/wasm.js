@@ -141,7 +141,6 @@ exports.Prisma.ClassroomScalarFieldEnum = {
   subject: 'subject',
   room: 'room',
   classcode: 'classcode',
-  status: 'status',
   userId: 'userId'
 };
 

@@ -24,7 +24,7 @@ const Modal = ({
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle>{modalHeader}</AlertDialogTitle>
-          <div>{modalBody}</div>
+          {modalBody}
         </AlertDialogHeader>
         <AlertDialogFooter>{modalFooter}</AlertDialogFooter>
       </AlertDialogContent>

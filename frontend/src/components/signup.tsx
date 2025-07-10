@@ -19,7 +19,11 @@ const SignUp = ({ showButton }: SignUpProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setUser({ ...user, [e.target.name]: e.target.value });
 
-  const { mutateAsync } = useSignUp(user.username, user.email, user.password);
+  const { mutateAsync, isPending } = useSignUp(
+    user.username,
+    user.email,
+    user.password
+  );
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
@@ -44,6 +48,7 @@ const SignUp = ({ showButton }: SignUpProps) => {
               onChange={handleChange}
               placeholder="Enter your email"
               className="w-full px-3 py-2 border rounded-md"
+              disabled={isPending}
             />
           </div>
 
@@ -61,6 +66,7 @@ const SignUp = ({ showButton }: SignUpProps) => {
               onChange={handleChange}
               placeholder="Enter your username"
               className="w-full px-3 py-2 border rounded-md"
+              disabled={isPending}
             />
           </div>
 
@@ -78,11 +84,13 @@ const SignUp = ({ showButton }: SignUpProps) => {
               onChange={handleChange}
               placeholder="Enter your password"
               className="w-full px-3 py-2 border rounded-md"
+              disabled={isPending}
             />
           </div>
 
           <Button
             className="w-full"
+            disabled={isPending}
             onClick={async () => {
               try {
                 await mutateAsync();
@@ -91,7 +99,7 @@ const SignUp = ({ showButton }: SignUpProps) => {
               }
             }}
           >
-            Sign Up
+            {isPending ? "Signing Up..." : "Sign Up"}
           </Button>
 
           {showButton}

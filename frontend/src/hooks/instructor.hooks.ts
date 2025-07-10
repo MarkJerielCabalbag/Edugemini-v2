@@ -179,6 +179,13 @@ export const usePatchClasswork = (
   });
 };
 
+export const useGetStudents = (roomId: number) => {
+  return useQuery({
+    queryKey: ["students"],
+    queryFn: () => instructor.getStudents(roomId),
+  });
+};
+
 export const useGetPeople = (roomId: number, workId: number) => {
   return useQuery({
     queryKey: ["people"],

@@ -38,7 +38,7 @@ const CreateClassworkModal = ({ open, onOpenChange }: ModalProps) => {
       onOpenChange={onOpenChange}
       modalHeader="Create Classwork"
       modalBody={
-        <div className="space-y-3">
+        <div className="space-y-3 max-h-[70vh] overflow-y-auto px-1 sm:px-0">
           <p className="text-gray-600 text-md leading-relaxed">
             Create a new classwork for your students.
           </p>
@@ -67,8 +67,8 @@ const CreateClassworkModal = ({ open, onOpenChange }: ModalProps) => {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-3">
+          <div className="flex flex-col sm:flex-row gap-3">
+            <div className="space-y-3 w-full">
               <Label className="text-sm font-medium">Due Date</Label>
               <Input
                 type="date"
@@ -80,7 +80,7 @@ const CreateClassworkModal = ({ open, onOpenChange }: ModalProps) => {
               />
             </div>
 
-            <div className="space-y-3">
+            <div className="space-y-3 w-full">
               <Label className="text-sm font-medium">Time</Label>
               <Input
                 type="time"
@@ -89,23 +89,21 @@ const CreateClassworkModal = ({ open, onOpenChange }: ModalProps) => {
                 value={classwork.time}
                 onChange={handleChange}
                 disabled={isPending}
-
-                // className={`${
-                //   isError ? "border-red-500 focus:border-red-500" : "w-full"
-                // } transition-all`}
               />
             </div>
           </div>
 
           <div className="space-y-2">
             <Label className="text-sm font-medium">Attachments</Label>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full">
               <label
                 htmlFor="file-upload"
                 className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-md text-slate-700 transition-colors"
               >
                 <Paperclip size={16} />
-                <span>Select the criteria</span>
+                <span className="truncate max-w-[150px] sm:max-w-none">
+                  Select the criteria
+                </span>
               </label>
               <input
                 disabled={isPending}
@@ -124,10 +122,10 @@ const CreateClassworkModal = ({ open, onOpenChange }: ModalProps) => {
           </div>
 
           {classwork.file && (
-            <div className="flex items-center justify-between px-3 py-2 bg-slate-50 rounded-md">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between px-3 py-2 bg-slate-50 rounded-md gap-2 w-full">
               <div className="flex items-center gap-2">
                 <FileIcon className="h-4 w-4 text-slate-500" />
-                <span className="text-sm text-slate-700">
+                <span className="text-sm text-slate-700 truncate max-w-[180px] sm:max-w-xs">
                   {classwork.file.name}
                 </span>
               </div>

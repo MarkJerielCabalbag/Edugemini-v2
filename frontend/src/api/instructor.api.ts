@@ -266,6 +266,21 @@ export const instructor = {
     }
   },
 
+  async getStudents(roomId: number) {
+    return await fetch(`${baseUrl}/instructor/students/${roomId}`, {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    }).then(async (res) => {
+      const response = await res.json();
+
+      if (!res.ok) {
+        throw new Error(response.message || "An Error Occured");
+      }
+
+      return response;
+    });
+  },
+
   async getPeople(roomId: number, workId: number) {
     return await fetch(`${baseUrl}/instructor/people/${roomId}/${workId}`, {
       method: "GET",

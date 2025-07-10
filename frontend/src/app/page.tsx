@@ -2,13 +2,12 @@
 import SignIn from "@/components/signin";
 import SignUp from "@/components/signup";
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import React from "react";
 
 export default function Home() {
   const [show, setShow] = React.useState(false);
   return (
-    <div>
+    <div className="sm:flex sm:items-center sm:justify-center h-screen md:h-auto">
       {show ? (
         <SignIn
           showButton={

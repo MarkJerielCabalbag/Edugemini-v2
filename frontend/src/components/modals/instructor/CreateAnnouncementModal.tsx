@@ -1,12 +1,12 @@
 "use client";
-import { instructor } from "@/api/instructor.api";
+
 import Modal from "@/components/modal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { usePostAnnouncement } from "@/hooks/instructor.hooks";
 import { AnnouncementProps, FileProps, ModalProps } from "@/types/types";
-import { baseUrl } from "@/utils/baseUrl";
+
 import { AlertDialogCancel } from "@radix-ui/react-alert-dialog";
 import { FileIcon, Paperclip, XIcon } from "lucide-react";
 import { useParams } from "next/navigation";
@@ -40,40 +40,7 @@ const CreateAnnouncementModal = ({ open, onOpenChange }: ModalProps) => {
   const handleOnChange = (e: ChangeEvent<HTMLInputElement>) =>
     setAnnouncement({ ...announcement, [e.target.name]: e.target.value });
 
-  //   async function handleUpload() {
-  //     try {
-  //       const formData = new FormData();
-  //       formData.append("title", announcement?.title as string);
-  //       formData.append("description", announcement?.description as string);
-
-  //       fileData.forEach((file) => {
-  //         formData.append("files", file);
-  //       });
-
-  //       console.log(formData);
-
-  //       const response = await fetch(
-  //         `${baseUrl}/instructor/createAnnouncement/${roomId}`,
-  //         {
-  //           method: "POST",
-  //           body: formData,
-  //         }
-  //       );
-
-  //       if (!response.ok) {
-  //         const errorData = await response.json();
-  //         throw new Error(errorData.message || "An Error Occurred");
-  //       }
-
-  //       const data = await response.json();
-  //       return data;
-  //     } catch (e) {
-  //       console.error(e);
-  //       throw e;
-  //     }
-  //   }
-
-  const { mutateAsync } = usePostAnnouncement(
+  const { mutateAsync, isPending } = usePostAnnouncement(
     Number(roomId),
     announcement?.title as string,
     announcement?.description as string,
@@ -97,6 +64,8 @@ const CreateAnnouncementModal = ({ open, onOpenChange }: ModalProps) => {
               value={announcement.title}
               name="title"
               onChange={handleOnChange}
+              disabled={isPending}
+              className="w-full"
             />
           </div>
 
@@ -107,57 +76,71 @@ const CreateAnnouncementModal = ({ open, onOpenChange }: ModalProps) => {
               value={announcement.description}
               name="description"
               onChange={handleOnChange}
+              disabled={isPending}
+              className="w-full"
             />
           </div>
 
           <div className="space-y-2">
             <Label className="text-sm font-medium">Attachments</Label>
-            <div className="flex items-center gap-2">
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2 w-full">
               <label
                 htmlFor="file-upload"
-                className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-md text-slate-700 transition-colors"
+                className="cursor-pointer inline-flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 rounded-md text-slate-700 transition-colors w-full sm:w-auto justify-center"
               >
                 <Paperclip size={16} />
-                <span>Select Files</span>
+                <span className="truncate">Select Files</span>
               </label>
               <input
                 id="file-upload"
                 type="file"
                 className="hidden"
                 multiple
-                onChange={(e) => handleFileUploadChange(e)}
+                onChange={handleFileUploadChange}
+                disabled={isPending}
                 accept="application/vnd.openxmlformats-officedocument.wordprocessingml.document, application/pdf, image/png, application/pdf, image/jpeg"
               />
             </div>
           </div>
 
-          {fileData &&
-            fileData.length > 0 &&
-            fileData.map((item: any, index: any) => {
-              return (
+          {fileData && fileData.length > 0 && (
+            <div
+              className="space-y-2 max-h-40 overflow-y-auto pr-1"
+              style={{
+                WebkitOverflowScrolling: "touch",
+                scrollbarWidth: "thin",
+              }}
+            >
+              {fileData.map((item: any, index: any) => (
                 <div
                   key={index}
-                  className="flex items-center justify-between px-3 py-2 bg-slate-50 rounded-md"
+                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between px-3 py-2 bg-slate-50 rounded-md gap-2 w-full hover:bg-slate-100 transition-colors"
                 >
-                  <div className="flex items-center gap-2">
-                    <FileIcon className="h-4 w-4 text-slate-500" />
-                    <span className="text-sm text-slate-700">{item.name}</span>
+                  <div className="flex items-center gap-2 break-all max-w-full">
+                    <FileIcon className="h-4 w-4 text-slate-500 flex-shrink-0" />
+                    <span className="text-sm text-slate-700 truncate max-w-[140px] xs:max-w-[180px] sm:max-w-xs md:max-w-sm lg:max-w-md">
+                      {item.name}
+                    </span>
                   </div>
                   <button
                     onClick={() => handleFilterFile(item.name)}
-                    className="p-1 hover:bg-slate-200 rounded-full transition-colors"
+                    className="p-1 hover:bg-slate-200 rounded-full transition-colors self-start sm:self-auto"
+                    aria-label="Remove file"
+                    type="button"
                   >
                     <XIcon className="h-4 w-4 text-slate-500" />
                   </button>
                 </div>
-              );
-            })}
+              ))}
+            </div>
+          )}
         </div>
       }
       modalFooter={
         <>
-          <AlertDialogCancel>Cancel</AlertDialogCancel>
+          <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>
           <Button
+            disabled={isPending}
             onClick={async () => {
               try {
                 await mutateAsync();
@@ -167,7 +150,7 @@ const CreateAnnouncementModal = ({ open, onOpenChange }: ModalProps) => {
               }
             }}
           >
-            Create
+            {isPending ? "Creating..." : "Create"}
           </Button>
         </>
       }

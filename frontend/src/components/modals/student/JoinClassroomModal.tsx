@@ -49,7 +49,7 @@ const JoinClassroomModal = ({ open, onOpenChange }: ModalProps) => {
       onOpenChange={onOpenChange}
       modalHeader="Join Classroom"
       modalBody={
-        <div className="space-y-3">
+        <div className="space-y-3 max-h-[70vh] sm:max-h-[60vh] overflow-y-auto px-1">
           <p className="text-gray-600 text-md leading-relaxed">
             Join a classroom to receive updates, assignments, and announcements.
             Please fill in your information below.
@@ -66,7 +66,7 @@ const JoinClassroomModal = ({ open, onOpenChange }: ModalProps) => {
             />
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2">
             <Label className="text-sm font-medium">Middlename*</Label>
             <Input
               placeholder="Enter your middlename"
@@ -77,7 +77,7 @@ const JoinClassroomModal = ({ open, onOpenChange }: ModalProps) => {
             />
           </div>
 
-          <div className="space-y-3">
+          <div className="space-y-2">
             <Label className="text-sm font-medium">Lastname*</Label>
             <Input
               placeholder="Enter your lastname"
@@ -88,14 +88,15 @@ const JoinClassroomModal = ({ open, onOpenChange }: ModalProps) => {
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <div className="space-y-3">
+          <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex-1 space-y-2">
               <Label className="text-sm font-medium">Sex</Label>
               <Select
                 onValueChange={(value) =>
                   setStudent({ ...student, sex: value })
                 }
                 disabled={isPending}
+                value={student.sex}
               >
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder="Select your sex" />
@@ -107,7 +108,7 @@ const JoinClassroomModal = ({ open, onOpenChange }: ModalProps) => {
               </Select>
             </div>
 
-            <div className="space-y-3">
+            <div className="flex-1 space-y-2">
               <Label className="text-sm font-medium">Classcode</Label>
               <Input
                 placeholder="Enter classcode"

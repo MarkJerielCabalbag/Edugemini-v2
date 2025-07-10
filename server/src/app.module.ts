@@ -4,7 +4,7 @@ import { AppService } from './app.service';
 import { DatabaseModule } from './database/database.module';
 import { UserModule } from './user/user.module';
 import { InstructorModule } from './instructor/instructor.module';
-import { AdminModule } from './admin/admin.module';
+
 import { SupabaseModule } from 'nestjs-supabase-js';
 import { StudentModule } from './student/student.module';
 import { ConfigModule } from '@nestjs/config';
@@ -16,7 +16,7 @@ import { GeminiModule } from './gemini/gemini.module';
     DatabaseModule,
     UserModule,
     InstructorModule,
-    AdminModule,
+
     ConfigModule.forRoot(),
     SupabaseModule.forRoot({
       supabaseKey: process.env.SUPABASE_KEY as string,

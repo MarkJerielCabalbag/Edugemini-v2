@@ -58,9 +58,16 @@ const page = () => {
     ),
   ];
   return (
-    <div className="p-8 bg-background max-w-7xl mx-auto">
-      Settings page
-      <DataTable data={data} columns={excelColumns} />
+    <div className="p-4 bg-background max-w-7xl mx-auto w-full">
+      <div className="mb-6 sm:mb-8">
+        <h2 className="text-2xl sm:text-3xl font-bold break-words">Settings</h2>
+        <p className="text-muted-foreground mt-2 text-sm sm:text-base break-words">
+          Manage students scores and export it trough excel.
+        </p>
+      </div>
+      <div className="w-full overflow-x-auto">
+        <DataTable data={data} columns={excelColumns} />
+      </div>
     </div>
   );
 };

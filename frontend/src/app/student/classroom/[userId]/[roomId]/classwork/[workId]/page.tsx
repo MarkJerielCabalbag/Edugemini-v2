@@ -71,10 +71,10 @@ const page = () => {
   const isOverdueTime = isSameHour(data?.time, time);
   console.log(data);
   return (
-    <div className="p-8 bg-background max-w-7xl mx-auto">
+    <div className="p-4 sm:p-6 md:p-8 bg-background max-w-7xl mx-auto">
       <Link
         href={`/student/classroom/${userId}/${roomId}/classwork`}
-        className="inline-flex items-center text-gray-600 hover:text-primary mb-6 transition-all"
+        className="inline-flex items-center text-gray-600 hover:text-primary mb-4 sm:mb-6 transition-all"
       >
         <ArrowLeft className="w-4 h-4 mr-2" />
         Back
@@ -82,13 +82,13 @@ const page = () => {
 
       <div className="space-y-6">
         {/* Header Section */}
-        <div className="flex justify-between items-start pb-4 border-b">
+        <div className="flex flex-col md:flex-row md:justify-between md:items-start pb-4 border-b gap-2">
           <div>
-            <h1 className="text-2xl font-semibold text-gray-900">
+            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
               {data?.title}
             </h1>
             {data?.date && (
-              <p className="text-sm text-gray-500 mt-1">
+              <p className="text-xs sm:text-sm text-gray-500 mt-1">
                 Due on {format(toDate(data.date), "MMM d, yyyy")}, {data?.time}
               </p>
             )}
@@ -97,26 +97,34 @@ const page = () => {
 
         {/* Instructions */}
         {data?.instruction && (
-          <div className="rounded-lg border p-5">
-            <h2 className="text-lg font-medium mb-3">Instructions</h2>
-            <p className="text-gray-700 leading-relaxed">{data.instruction}</p>
+          <div className="rounded-lg border p-4 sm:p-5">
+            <h2 className="text-base sm:text-lg font-medium mb-2 sm:mb-3">
+              Instructions
+            </h2>
+            <p className="text-gray-700 leading-relaxed text-sm sm:text-base">
+              {data.instruction}
+            </p>
           </div>
         )}
 
         {/* Criteria Files */}
         {data?.criteria && data.criteria.length > 0 && (
-          <div className="rounded-lg border p-5">
-            <h2 className="text-lg font-medium mb-4">Criteria Files</h2>
+          <div className="rounded-lg border p-4 sm:p-5">
+            <h2 className="text-base sm:text-lg font-medium mb-3 sm:mb-4">
+              Criteria Files
+            </h2>
             <div className="space-y-3">
               {data?.criteria.map((file: FileProps) => (
                 <div
                   key={file.id}
-                  className="flex items-center justify-between p-3 rounded-md border hover:border-primary transition-colors"
+                  className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-3 rounded-md border hover:border-primary transition-colors gap-2"
                 >
                   <div className="flex items-center">
                     <Book className="w-4 h-4 text-gray-400 mr-3" />
                     <div>
-                      <p className="font-medium text-sm">{file.filename}</p>
+                      <p className="font-medium text-xs sm:text-sm">
+                        {file.filename}
+                      </p>
                       <p className="text-xs text-gray-500">
                         {formatFileSize(file.fileSize as number)}
                       </p>
@@ -125,7 +133,7 @@ const page = () => {
                   <Button
                     variant="ghost"
                     size="sm"
-                    className="hover:bg-primary/10"
+                    className="hover:bg-primary/10 mt-2 sm:mt-0"
                     onClick={() => window.open(file.publicFileUrl, "_blank")}
                   >
                     Download
@@ -142,9 +150,11 @@ const page = () => {
             <p className="text-gray-500">Loading please wait...</p>
           </div>
         ) : (
-          <div className="rounded-lg border p-6 bg-white shadow-sm">
-            <div className="flex justify-between items-center mb-5">
-              <h2 className="text-lg font-semibold mb-4">Submitted Files</h2>
+          <div className="rounded-lg border p-4 sm:p-6 bg-white shadow-sm">
+            <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-3 sm:mb-5 gap-2">
+              <h2 className="text-base sm:text-lg font-semibold mb-2 sm:mb-0">
+                Submitted Files
+              </h2>
               <Button
                 size="sm"
                 disabled={
@@ -160,7 +170,7 @@ const page = () => {
                 ) : (
                   <div className="flex gap-2 items-center">
                     <Loader />
-                    reload
+                    Reload
                   </div>
                 )}
               </Button>
@@ -171,17 +181,17 @@ const page = () => {
                   {files?.map((file: FileProps) => (
                     <div
                       key={file.outputId}
-                      className="flex items-center justify-between p-4 rounded-lg border bg-gray-50 hover:bg-gray-100 transition-all duration-200"
+                      className="flex flex-col sm:flex-row items-start sm:items-center justify-between p-4 rounded-lg border bg-gray-50 hover:bg-gray-100 transition-all duration-200 gap-2"
                     >
                       <div className="flex items-center space-x-4">
                         <div className="p-2 rounded-full bg-primary/10">
                           <Book className="w-5 h-5 text-primary" />
                         </div>
                         <div>
-                          <p className="font-medium text-gray-900">
+                          <p className="font-medium text-gray-900 text-sm">
                             {file.filename}
                           </p>
-                          <p className="text-sm text-gray-500">
+                          <p className="text-xs text-gray-500">
                             {formatFileSize(file.fileSize as number)}
                           </p>
                         </div>
@@ -189,7 +199,7 @@ const page = () => {
                       <Button
                         variant="ghost"
                         size="sm"
-                        className="hover:bg-red-50 hover:text-red-600 transition-colors"
+                        className="hover:bg-red-50 hover:text-red-600 transition-colors mt-2 sm:mt-0 "
                         disabled={
                           isPendingRemovingFile ||
                           (date === data?.date && time === data?.time) ||
@@ -221,7 +231,7 @@ const page = () => {
                 <p className="text-gray-500 font-medium">
                   No files attached yet
                 </p>
-                <p className="text-sm text-gray-400">
+                <p className="text-xs sm:text-sm text-gray-400">
                   Upload files to submit your work
                 </p>
               </div>
@@ -231,7 +241,7 @@ const page = () => {
 
         <label
           htmlFor="file-upload"
-          className="flex gap-2 items-center justify-center bg-primary text-white p-2 rounded-sm"
+          className="flex gap-2 items-center justify-center bg-primary text-white p-2 rounded-sm cursor-pointer w-full mx-auto"
         >
           <input
             id="file-upload"
@@ -249,13 +259,13 @@ const page = () => {
               } catch (error) {}
             }}
           />
-          <p className="font-medium text-sm">Select Files</p>
+          <p className="font-medium text-xs sm:text-sm">Select Files</p>
         </label>
 
         {files?.length !== 0 && (
-          <div className="flex w-full gap-2 items-center">
+          <div className="flex flex-col sm:flex-row w-full gap-2 items-center">
             <Button
-              className="w-1/2 rounded-sm bg-transparent border border-primary text-primary hover:bg-primary/10"
+              className="w-full sm:w-1/2 rounded-sm bg-transparent border border-primary text-primary hover:bg-primary/10"
               disabled={
                 isOverdueDate ||
                 (time === data?.time && isOverdueDate) ||
@@ -275,7 +285,7 @@ const page = () => {
               {isPendingSubmit ? "Submitting..." : "Submit"}
             </Button>
             <Button
-              className="w-1/2"
+              className="w-full sm:w-1/2"
               variant={"destructive"}
               disabled={
                 isOverdueDate ||
@@ -301,10 +311,12 @@ const page = () => {
         {files?.map((feedback: FileProps) => (
           <div key={feedback.outputId}>
             {feedback.relatedToOutput?.relatedToScore?.score ? (
-              <div className="rounded-lg border p-6 bg-white shadow-sm">
-                <h2 className="text-lg font-semibold mb-4">Score</h2>
+              <div className="rounded-lg border p-4 sm:p-6 bg-white shadow-sm">
+                <h2 className="text-base sm:text-lg font-semibold mb-2 sm:mb-4">
+                  Score
+                </h2>
                 <div>
-                  <h2 className="text-lg font-semibold mb-4">
+                  <h2 className="text-base sm:text-lg font-semibold mb-2 sm:mb-4">
                     {feedback.relatedToOutput?.relatedToScore?.score}
                   </h2>
                 </div>
@@ -316,10 +328,12 @@ const page = () => {
         {files?.map((feedback: FileProps) => (
           <div key={feedback.outputId}>
             {feedback.relatedToOutput?.relatedToFeedback?.feedback ? (
-              <div className="rounded-lg border p-6 bg-white shadow-sm">
-                <h2 className="text-lg font-semibold mb-4">Feedback</h2>
+              <div className="rounded-lg border p-4 sm:p-6 bg-white shadow-sm">
+                <h2 className="text-base sm:text-lg font-semibold mb-2 sm:mb-4">
+                  Feedback
+                </h2>
                 <div>
-                  <pre className="w-full h-full  text-pretty text-justify opacity-80 leading-9">
+                  <pre className="w-full h-full text-pretty text-justify opacity-80 leading-7 sm:leading-9 text-xs sm:text-base">
                     {feedback.relatedToOutput?.relatedToFeedback?.feedback}
                   </pre>
                 </div>
