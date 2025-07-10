@@ -1,5 +1,5 @@
 import { student } from "@/api/student.api";
-import { FileProps } from "@/types/types";
+
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 

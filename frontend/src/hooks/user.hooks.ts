@@ -1,5 +1,5 @@
 import { user } from "@/api/user.api";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 
 import { useRouter } from "next/navigation";
 export const useSignUp = (

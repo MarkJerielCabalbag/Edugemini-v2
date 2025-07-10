@@ -15,7 +15,7 @@ import {
 import { usePostJoinClassroom } from "@/hooks/student.hooks";
 import { ModalProps } from "@/types/types";
 import { useQueryClient } from "@tanstack/react-query";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import React from "react";
 
 const JoinClassroomModal = ({ open, onOpenChange }: ModalProps) => {

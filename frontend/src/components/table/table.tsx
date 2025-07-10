@@ -7,7 +7,6 @@ import {
   getPaginationRowModel,
   ColumnDef,
 } from "@tanstack/react-table";
-import { TableProps } from "../../types/types";
 
 import {
   ChevronLeft,
@@ -17,8 +16,8 @@ import {
   LucideArrowUpDown,
 } from "lucide-react";
 import { Button } from "../ui/button";
-import { Select, SelectContent, SelectItem } from "../ui/select";
-import { Card, CardDescription, CardFooter, CardHeader } from "../ui/card";
+
+import { Card, CardDescription, CardFooter } from "../ui/card";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
